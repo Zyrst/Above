@@ -54,6 +54,9 @@ Above/Intermediate/*
 # Cache files for the editor to use
 Above/DerivedDataCache/*
 
+Above/Content/Maps/*
+
+
 # Mac Artifacts
 .DS_Store
 # Vim Artifacts
