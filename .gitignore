@@ -63,4 +63,4 @@ Above/DerivedDataCache/*
 
 # Visual Studio
 Above/Above.v12
-#!Above/Intermediate/ProjectFiles
+!Above/Intermediate/ProjectFiles/Above.vcxproj.filters
