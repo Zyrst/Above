@@ -16,7 +16,6 @@ AStefun::AStefun()
 void AStefun::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
