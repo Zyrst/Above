@@ -29,7 +29,30 @@ void AStefun::Tick( float DeltaTime )
 // Called to bind functionality to input
 void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
-	Super::SetupPlayerInputComponent(InputComponent);
+	InputComponent->BindAxis("MoveForward", this, &AStefun::MoveForward);
+	InputComponent->BindAxis("MoveRight", this, &AStefun::MoveRight);
+	//Super::SetupPlayerInputComponent(InputComponent);
 
 }
 
+void AStefun::MoveForward(float val){
+	if ((Controller != NULL) && (val != 0.0f)){
+		//Find which way is forward
+		FRotator rotation = Controller->GetControlRotation();
+		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
+			rotation.Pitch = 0.0f;
+		}
+		//Add movement in that direction
+		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
+		AddMovementInput(direction, val);
+	}
+}
+
+void AStefun::MoveRight(float val){
+	if ((Controller != NULL) && (val != 0.0f)){
+		const FRotator rotation = Controller->GetControlRotation();
+		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
+
+		AddMovementInput(direction, val);
+	}
+}

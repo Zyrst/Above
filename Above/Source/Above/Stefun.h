@@ -23,6 +23,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	
+	//Makes char go forward and backward
+	UFUNCTION()
+	void MoveForward(float val);
+	//Makes char move right and lefts
+	UFUNCTION()
+	void MoveRight(float val);
 	
 };
