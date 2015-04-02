@@ -28,7 +28,12 @@
 *.app
 
 # Unreal
-/Binaries
-/DerivedDataCache
-/Intermediate
-/Saved
+
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Above.opensdf
+Above.sdf
+Above.sln
+Above.v12.suo
