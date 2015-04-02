@@ -12,8 +12,8 @@ UCLASS()
 class ABOVE_API AAboveGameMode : public AGameMode
 {
 	GENERATED_BODY()
-	
-	
-	
+
+public:
+	AAboveGameMode(const class FObjectInitializer& ObjectInitializer);
 	
 };
