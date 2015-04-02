@@ -62,8 +62,3 @@ Above/DerivedDataCache/*
 *.swp
 *.swo
 .ctrlp_cache/
-
-Above.opensdf
-Above.sdf
-Above.sln
-Above.v12.suo
