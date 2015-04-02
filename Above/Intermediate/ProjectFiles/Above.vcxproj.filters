@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="..\..\Above.uproject" />
+		<Filter Include="Source">
+			<UniqueIdentifier>{186511C1-B164-492F-988F-90526299FACC}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Above.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<None Include="..\..\Source\AboveEditor.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<Filter Include="Config">
+			<UniqueIdentifier>{D87C0E51-24C3-4931-975A-E5978E2BB884}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\DefaultEditor.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEngine.ini">
+			<Filter>Config</Filter>
+		</None >
+		<Filter Include="Source\Above">
+			<UniqueIdentifier>{5106F743-A318-4D99-8475-E7E5D048812C}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Above\Above.Build.cs">
+			<Filter>Source\Above</Filter>
+		</None >
+		<ClCompile Include="..\..\Source\Above\Above.cpp">
+			<Filter>Source\Above</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\Above\Above.h">
+			<Filter>Source\Above</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\Above\AboveGameMode.cpp">
+			<Filter>Source\Above</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\Above\AboveGameMode.h">
+			<Filter>Source\Above</Filter>
+		</ClInclude >
+		<Filter Include="Source\Above\Resources">
+			<UniqueIdentifier>{ADBB3AE2-DB3C-4659-8485-E0EFCDE40C78}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="Source\Above\Resources\Windows">
+			<UniqueIdentifier>{5AD03408-DD06-49C2-B0ED-B9F1D7942A36}</UniqueIdentifier>
+		</Filter>
+		<ResourceCompile Include="..\..\Source\Above\Resources\Windows\Above.rc">
+			<Filter>Source\Above\Resources\Windows</Filter>
+		</ResourceCompile >
+	</ItemGroup>
+</Project>
