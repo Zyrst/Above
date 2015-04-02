@@ -62,3 +62,6 @@ Above/DerivedDataCache/*
 *.swp
 *.swo
 .ctrlp_cache/
+
+# Visual Studio
+Above/Above.v12
