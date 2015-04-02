@@ -31,6 +31,8 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	InputComponent->BindAxis("MoveForward", this, &AStefun::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AStefun::MoveRight);
+	InputComponent->BindAxis("Turn", this, &AStefun::AddControllerYawInput);
+	InputComponent->BindAxis("LookUp", this, &AStefun::AddControllerPitchInput);
 	//Super::SetupPlayerInputComponent(InputComponent);
 
 }

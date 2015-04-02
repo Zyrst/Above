@@ -29,5 +29,7 @@ public:
 	//Makes char move right and lefts
 	UFUNCTION()
 	void MoveRight(float val);
+
+	
 	
 };
