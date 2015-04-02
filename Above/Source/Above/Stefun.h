@@ -29,4 +29,10 @@ public:
 	//Makes char move right and lefts
 	UFUNCTION()
 	void MoveRight(float val);
+	
+	//Makes the char jump
+	UFUNCTION()
+	void OnStartJump();
+	UFUNCTION()
+	void OnStopJump();
 };

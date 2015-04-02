@@ -2,6 +2,8 @@
 
 #include "Above.h"
 #include "Stefun.h"
+#include <time.h>
+#include <stdio.h>
 
 
 // Sets default values
@@ -32,6 +34,8 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 	InputComponent->BindAxis("MoveRight", this, &AStefun::MoveRight);
 	InputComponent->BindAxis("Turn", this, &AStefun::AddControllerYawInput);
 	InputComponent->BindAxis("LookUp", this, &AStefun::AddControllerPitchInput);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &AStefun::OnStartJump);
+	InputComponent->BindAction("Jump", IE_Released, this, &AStefun::OnStopJump);
 	//Super::SetupPlayerInputComponent(InputComponent);
 
 }
@@ -56,4 +60,16 @@ void AStefun::MoveRight(float val){
 
 		AddMovementInput(direction, val);
 	}
+}
+
+void AStefun::OnStartJump(){
+	if (GetCharacterMovement()->IsMovingOnGround()){ 
+		bPressedJump = true; 
+	}
+	clock_t time = clock();
+	
+}
+
+void AStefun::OnStopJump(){
+	bPressedJump = false;
 }
