@@ -25,14 +25,14 @@ public:
 
 	//Makes char go forward and backward
 	UFUNCTION()
-	void MoveForward(float val);
+		void MoveForward(float val);
 	//Makes char move right and lefts
 	UFUNCTION()
-	void MoveRight(float val);
+		void MoveRight(float val);
 	
 	//Makes the char jump
 	UFUNCTION()
-	void OnStartJump();
+		void OnStartJump();
 	UFUNCTION()
 	void OnStopJump();
 
@@ -44,4 +44,25 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterCamera)
 		UCameraComponent* mFaceCam;
+
+	//Sprint
+	UFUNCTION()
+		void EnableSprint();
+	UFUNCTION()
+		void DisableSprint();
+	
+	UFUNCTION()
+		void ToggleCrouch();
+	
+	/** The normal walking speed of the character*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
+		int32 mWalkSpeed;
+
+	/** Sprint speed of the character */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
+	int32 mSprintSpeed;
+
+	/** Walk speed while crouching*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
+		int32 mCrouchSpeed;
 };

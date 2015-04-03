@@ -18,7 +18,10 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 }
 
 // Called when the game starts or when spawned
-void AStefun::BeginPlay(){
+void AStefun::BeginPlay()
+{
+	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
+	DisableSprint();
 	Super::BeginPlay();
 }
 
@@ -38,6 +41,9 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Jump", IE_Released, this, &AStefun::OnStopJump);
 	InputComponent->BindAction("Zoom", IE_Pressed, this, &AStefun::SetZoom);
 	InputComponent->BindAction("Zoom", IE_Released, this, &AStefun::UnSetZoom);
+	InputComponent->BindAction("Sprint", IE_Pressed, this, &AStefun::EnableSprint);
+	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
+	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
 
 }
 
@@ -81,4 +87,20 @@ void AStefun::SetZoom(){
 
 void AStefun::UnSetZoom(){
 	mFaceCam->FieldOfView = 90;
+void AStefun::EnableSprint(){
+	CharacterMovement->MaxWalkSpeed = mSprintSpeed;
+}
+
+void AStefun::DisableSprint(){
+	CharacterMovement->MaxWalkSpeed = mWalkSpeed;
+}
+
+void AStefun::ToggleCrouch(){
+	if (CanCrouch() == true){
+		Crouch();
+		CharacterMovement->MaxWalkSpeedCrouched = mCrouchSpeed;
+	}
+	else{
+		UnCrouch();
+	}
 }
