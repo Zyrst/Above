@@ -12,7 +12,7 @@ class ABOVE_API AStefun : public ACharacter
 
 public:
 	// Sets default values for this character's properties
-	AStefun();
+	AStefun(const FObjectInitializer& ObjectInitializer);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,4 +35,13 @@ public:
 	void OnStartJump();
 	UFUNCTION()
 	void OnStopJump();
+
+	UFUNCTION()
+		void SetZoom();
+
+	UFUNCTION()
+		void UnSetZoom();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterCamera)
+		UCameraComponent* mFaceCam;
 };
