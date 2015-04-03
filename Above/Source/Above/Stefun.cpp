@@ -87,6 +87,8 @@ void AStefun::SetZoom(){
 
 void AStefun::UnSetZoom(){
 	mFaceCam->FieldOfView = 90;
+}
+
 void AStefun::EnableSprint(){
 	CharacterMovement->MaxWalkSpeed = mSprintSpeed;
 }
