@@ -20,5 +20,9 @@ Kodstandard
 			if(något)
 			  gör något annat;
 		}
+		
+		//Indenta ufunction, uproperty etc.
+		UFUNCTION()
+			void EnableSprin();
 	
 	}
