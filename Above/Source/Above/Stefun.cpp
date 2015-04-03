@@ -66,7 +66,7 @@ void AStefun::OnStartJump(){
 	if (GetCharacterMovement()->IsMovingOnGround()){ 
 		bPressedJump = true; 
 	}
-	clock_t time = clock();
+	float time = GetWorld()->GetTimeSeconds();
 	
 }
 
