@@ -2,8 +2,7 @@
 
 #include "Above.h"
 #include "Stefun.h"
-#include <time.h>
-#include <stdio.h>
+#include "AboveGameMode.h"
 
 
 // Sets default values
@@ -15,6 +14,8 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mFaceCam->AttachParent = CapsuleComponent;
 	mFaceCam->Activate();
 	mFaceCam->bUsePawnControlRotation = true;
+	CharacterMovement->MaxWalkSpeedCrouched = mCrouchSpeed;
+	mIsPaused = false;
 }
 
 // Called when the game starts or when spawned
@@ -22,6 +23,7 @@ void AStefun::BeginPlay()
 {
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	DisableSprint();
+	
 	Super::BeginPlay();
 }
 
@@ -44,6 +46,7 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Sprint", IE_Pressed, this, &AStefun::EnableSprint);
 	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
+	InputComponent->BindAction("Pause", IE_Pressed, this, &AStefun::TogglePause).bExecuteWhenPaused = true;
 
 }
 
@@ -72,9 +75,7 @@ void AStefun::MoveRight(float val){
 void AStefun::OnStartJump(){
 	if (GetCharacterMovement()->IsMovingOnGround()){ 
 		bPressedJump = true; 
-	}
-	float time = GetWorld()->GetTimeSeconds();
-	
+	}	
 }
 
 void AStefun::OnStopJump(){
@@ -87,6 +88,8 @@ void AStefun::SetZoom(){
 
 void AStefun::UnSetZoom(){
 	mFaceCam->FieldOfView = 90;
+}
+
 void AStefun::EnableSprint(){
 	CharacterMovement->MaxWalkSpeed = mSprintSpeed;
 }
@@ -98,9 +101,24 @@ void AStefun::DisableSprint(){
 void AStefun::ToggleCrouch(){
 	if (CanCrouch() == true){
 		Crouch();
-		CharacterMovement->MaxWalkSpeedCrouched = mCrouchSpeed;
 	}
 	else{
 		UnCrouch();
 	}
+}
+
+void AStefun::TogglePause(){
+	
+	if (mIsPaused == false){
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		/*textRenderer->SetText("PAUSED!");
+		textRenderer->Activate();*/
+		mIsPaused = true;
+	}
+	else if (mIsPaused == true){
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		//textRenderer->Deactivate();
+		mIsPaused = false;
+	}
+	
 }

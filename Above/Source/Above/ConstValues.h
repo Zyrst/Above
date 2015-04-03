@@ -10,4 +10,12 @@ class ABOVE_API ConstValues
 public:
 	ConstValues();
 	~ConstValues();
+
+	int32 getStandardFov();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Utility)
+		int32 StandardFoV;
+private:
+	int32 mStandardFov;
+
 };

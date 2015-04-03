@@ -15,5 +15,13 @@ class ABOVE_API AAboveGameMode : public AGameMode
 
 public:
 	AAboveGameMode(const class FObjectInitializer& ObjectInitializer);
+
+	int32 getStandardFoV();
 	
+	/** Sets the default FoV for the player*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Utility)
+		int32 StandardFoV;
+
+private:
+	int32 mStandardFoV;
 };

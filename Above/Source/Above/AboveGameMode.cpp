@@ -9,4 +9,12 @@ AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer
 	if (PlayerPawnObject.Class != NULL){
 		DefaultPawnClass = PlayerPawnObject.Class;
 	}
+	mStandardFoV = StandardFoV;
+	if ((GEngine != NULL) && (GEngine->GameViewport != NULL)){
+		GEngine->GameViewport->SetSuppressTransitionMessage(true);
+	}
+}
+
+int32 AAboveGameMode::getStandardFoV(){
+	return mStandardFoV;
 }

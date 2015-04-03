@@ -5,8 +5,14 @@
 
 ConstValues::ConstValues()
 {
+	mStandardFov = StandardFoV;
+	
 }
 
 ConstValues::~ConstValues()
 {
+}
+
+int32 ConstValues::getStandardFov(){
+	return mStandardFov;
 }
