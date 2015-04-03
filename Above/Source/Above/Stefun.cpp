@@ -11,12 +11,13 @@ AStefun::AStefun()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 }
 
 // Called when the game starts or when spawned
 void AStefun::BeginPlay()
 {
+	DisableSprint();
 	Super::BeginPlay();
 }
 
@@ -36,7 +37,9 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 	InputComponent->BindAxis("LookUp", this, &AStefun::AddControllerPitchInput);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AStefun::OnStartJump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AStefun::OnStopJump);
-	//Super::SetupPlayerInputComponent(InputComponent);
+	InputComponent->BindAction("Sprint", IE_Pressed, this, &AStefun::EnableSprint);
+	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
+	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
 
 }
 
@@ -72,4 +75,23 @@ void AStefun::OnStartJump(){
 
 void AStefun::OnStopJump(){
 	bPressedJump = false;
+}
+
+void AStefun::EnableSprint(){
+	CharacterMovement->MaxWalkSpeed = mSprintSpeed;
+}
+
+void AStefun::DisableSprint(){
+	CharacterMovement->MaxWalkSpeed = mWalkSpeed;
+}
+
+void AStefun::ToggleCrouch(){
+	if (CanCrouch() == true){
+		Crouch();
+		CharacterMovement->MaxWalkSpeedCrouched = mCrouchSpeed;
+	}
+	else{
+		UnCrouch();
+	}
+		
 }
