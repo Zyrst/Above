@@ -36,13 +36,15 @@ public:
 	UFUNCTION()
 	void OnStopJump();
 
+	/** Zooms in */
 	UFUNCTION()
 		void SetZoom();
 
+	/** Zooms out */
 	UFUNCTION()
 		void UnSetZoom();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterCamera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterCamera)
 		UCameraComponent* mFaceCam;
 
 	//Sprint
@@ -65,4 +67,7 @@ public:
 	/** Walk speed while crouching*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
 		int32 mCrouchSpeed;
+
+	// Fondle
+	void Interact();
 };

@@ -12,7 +12,7 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	mFaceCam = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FaceCam"));
-	mFaceCam->AttachParent = CapsuleComponent;
+	mFaceCam->AttachParent = GetCapsuleComponent();
 	mFaceCam->Activate();
 	mFaceCam->bUsePawnControlRotation = true;
 }
@@ -44,6 +44,7 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Sprint", IE_Pressed, this, &AStefun::EnableSprint);
 	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
+	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::Interact);
 
 }
 
@@ -87,6 +88,8 @@ void AStefun::SetZoom(){
 
 void AStefun::UnSetZoom(){
 	mFaceCam->FieldOfView = 90;
+}
+
 void AStefun::EnableSprint(){
 	CharacterMovement->MaxWalkSpeed = mSprintSpeed;
 }
@@ -103,4 +106,32 @@ void AStefun::ToggleCrouch(){
 	else{
 		UnCrouch();
 	}
+}
+
+void AStefun::Interact(){
+	FHitResult traceHitResult;
+	TObjectIterator<AStefun> Player;
+
+	FVector traceStart = mFaceCam->GetComponentLocation();
+	FVector traceEnd = traceStart + mFaceCam->GetComponentRotation().Vector() * 512;
+
+	ECollisionChannel collisionChannel = ECC_Pawn;
+
+	FCollisionQueryParams traceParamaters(FName(TEXT("RV_Trace")), true, this);
+
+	Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
+
+	if (traceHitResult.bBlockingHit == true)
+	{
+		DrawDebugLine(GetWorld(), traceStart, traceHitResult.ImpactPoint, FColor(255, 0, 0), false, 5, 0, 5);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trace: Hit: %s"), *traceHitResult.GetComponent()->GetName()));
+	}
+
+	else
+	{
+		DrawDebugLine(GetWorld(), traceStart, traceEnd, FColor(255, 0, 0), false, 5, 0, 5);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Trace: Missed all"));
+	}
+
+	
 }
