@@ -31,13 +31,13 @@ public:
 
 	// The amount of flickering
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 flickerAmount;
+		int32 flickerAmount;
 	
 	// Lerping light position based on this value
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float flickerIntensity;
+		float flickerIntensity;
 
 	// Modify this to change how much the lamp "blinks"
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float blinkFactor;
+		float blinkFactor;
 };
