@@ -5,7 +5,7 @@
 
 
 // Sets default values
-ALamp::ALamp(){
+ALamp::ALamp(const FObjectInitializer& ObjectInitializer){
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -65,4 +65,12 @@ void ALamp::Tick( float DeltaTime ){
 
 }
 
+
+void ALamp::ActivateFirst() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Lamp first action")));
+}
+
+void ALamp::ActivateSecond() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Lamp second action")));
+}
 

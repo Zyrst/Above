@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "AboveButton.h"
 #include <vector>
 #include "GameFramework/Actor.h"
 #include "Lamp.generated.h"
@@ -13,7 +14,7 @@ class ABOVE_API ALamp : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ALamp();
+	ALamp(const FObjectInitializer& ObjectInitializer);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,4 +41,11 @@ public:
 	// Modify this to change how much the lamp "blinks"
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float blinkFactor;
+
+	// First activate action
+	UFUNCTION(BlueprintCallable, Category = "LampActions")
+		void ActivateFirst();
+	// Second activate action
+	UFUNCTION(BlueprintCallable, Category = "LampActions")
+		void ActivateSecond();
 };
