@@ -3,6 +3,7 @@
 #include "Above.h"
 #include "Stefun.h"
 #include "AboveGameMode.h"
+#include "Door.h"
 
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
@@ -28,18 +29,7 @@ void AStefun::BeginPlay()
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
-	/*if (GetCharacterMovement()->IsFalling()){
-		if (mTestFall == 0){
-			float time = GetWorld()->TimeSeconds;
-			auto sumthing = WhileFalling(time);
-			mTestFall =  sumthing.Run();
-			//fall->Run();
-				//WhileFalling(GetWorld()->TimeSeconds);
-			
-		}
-		else
-			mTestFall++;
-	}*/
+	
 }
 
 // Called to bind functionality to input
@@ -92,11 +82,18 @@ void AStefun::OnStopJump(){
 }
 
 void AStefun::SetZoom(){
-	mFaceCam->FieldOfView = 40;
+	AAboveGameMode* mode;
+	mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	float FoV = mode->getZoomFoV();
+	mFaceCam->FieldOfView = FoV;
 }
 
 void AStefun::UnSetZoom(){
-	mFaceCam->FieldOfView = 90;
+	AAboveGameMode* mode; 
+	mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	float FoV = mode->getStandardFoV();
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("FoV value %f"),FoV));
+	mFaceCam->FieldOfView = FoV;
 }
 
 void AStefun::EnableSprint(){
