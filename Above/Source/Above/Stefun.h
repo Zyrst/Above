@@ -57,9 +57,6 @@ public:
 	UFUNCTION()
 		void TogglePause();
 	
-	UFUNCTION()
-		void FellOutOfWorld();
-	
 	/** The normal walking speed of the character*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
 		int32 mWalkSpeed;

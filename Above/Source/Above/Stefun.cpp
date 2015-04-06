@@ -3,7 +3,6 @@
 #include "Above.h"
 #include "Stefun.h"
 #include "AboveGameMode.h"
-#include "WhileFalling.h"
 
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
@@ -129,8 +128,4 @@ void AStefun::TogglePause(){
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 		mIsPaused = false;
 	}
-}
-
-void AStefun::FellOutOfWorld(){
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Cyan, TEXT("I'm out of here!"));
 }
