@@ -117,7 +117,7 @@ void AStefun::Interact(){
 	}
 
 	else{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("No target selected"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("No trigger selected"));
 	}
 }
 
@@ -137,18 +137,18 @@ void AStefun::HoverOverObject(){
 	if (traceHitResult.bBlockingHit == true){
 		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
 
-		// Hit a trigger
-		if (tmpTrigger != nullptr && traceHitResult.GetComponent()->GetName() != tmpTrigger->GetName()) {
-			mTrigger = tmpTrigger;
-			mTrigger->StartHover();
-		}
+		if (tmpTrigger != nullptr) {
+			if (mTrigger == nullptr) {
+				mTrigger = tmpTrigger;
+				mTrigger->StartHover();
+			}
 
-		// Hit something else
-		else{
-			if (mTrigger != nullptr) {
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, FString::Printf(TEXT("Stoped fondeling cunt")));
-				mTrigger->EndHover();
-				mTrigger = nullptr;
+			else {
+				if (mTrigger != tmpTrigger) {
+					mTrigger->EndHover();
+					mTrigger = tmpTrigger;
+					mTrigger->StartHover();
+				}
 			}
 		}
 	}

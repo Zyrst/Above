@@ -36,4 +36,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
 		FString mHoverTextValue;
+
+	UBoxComponent* mRootComponent;
 };

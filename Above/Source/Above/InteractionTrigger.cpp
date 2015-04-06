@@ -11,13 +11,16 @@ AInteractionTrigger::AInteractionTrigger(const FObjectInitializer& ObjectInitial
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	mRootComponent = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("RootCompenent"));
+	RootComponent = mRootComponent;
+
 	mHoverTextValue = "Cunt";
 
 	// Initialize hover text
 	mHoverText = ObjectInitializer.CreateDefaultSubobject<UTextRenderComponent>(this, TEXT("HoverText"));
-	mHoverText->AttachParent = GetRootComponent();
+	mHoverText->AttachParent = mRootComponent;
 	mHoverText->SetTextRenderColor(FColor(255, 0, 0));
-	mHoverText->SetVisibility(false);
+	mHoverText->SetHiddenInGame(true);
 	mHoverText->SetText(mHoverTextValue);
 }
 
@@ -25,26 +28,22 @@ AInteractionTrigger::AInteractionTrigger(const FObjectInitializer& ObjectInitial
 void AInteractionTrigger::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AInteractionTrigger::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
 void AInteractionTrigger::Interact(){
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta , FString::Printf(TEXT("Interaction called: %s"), *this->GetName()));
-
-
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green , FString::Printf(TEXT("Interaction called: %s"), *this->GetName()));
 }
 
 void AInteractionTrigger::StartHover() {
-	mHoverText->SetVisibility(true);
+	mHoverText->SetHiddenInGame(false);
 }
 
 void AInteractionTrigger::EndHover() {
-	mHoverText->SetVisibility(false);
+	mHoverText->SetHiddenInGame(true);
 }
