@@ -15,6 +15,8 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mFaceCam->AttachParent = GetCapsuleComponent();
 	mFaceCam->Activate();
 	mFaceCam->bUsePawnControlRotation = true;
+
+	mTrigger = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -28,7 +30,8 @@ void AStefun::BeginPlay()
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
-	
+
+	HoverOverObject();
 }
 
 // Called to bind functionality to input
@@ -109,29 +112,52 @@ void AStefun::ToggleCrouch(){
 }
 
 void AStefun::Interact(){
+	if (mTrigger != nullptr){
+		mTrigger->Interact();
+	}
+
+	else{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("No target selected"));
+	}
+}
+
+void AStefun::HoverOverObject(){
+	// Setup trace
 	FHitResult traceHitResult;
 	TObjectIterator<AStefun> Player;
-
 	FVector traceStart = mFaceCam->GetComponentLocation();
-	FVector traceEnd = traceStart + mFaceCam->GetComponentRotation().Vector() * 512;
-
+	FVector traceEnd = traceStart + mFaceCam->GetComponentRotation().Vector() * 128;
 	ECollisionChannel collisionChannel = ECC_Pawn;
+	FCollisionQueryParams traceParamaters(FName(TEXT("InteractionTrace")), true, this);
 
-	FCollisionQueryParams traceParamaters(FName(TEXT("RV_Trace")), true, this);
-
+	// Trace
 	Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
 
-	if (traceHitResult.bBlockingHit == true)
-	{
-		DrawDebugLine(GetWorld(), traceStart, traceHitResult.ImpactPoint, FColor(255, 0, 0), false, 5, 0, 5);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trace: Hit: %s"), *traceHitResult.GetComponent()->GetName()));
+	// Hit something
+	if (traceHitResult.bBlockingHit == true){
+		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
+
+		// Hit a trigger
+		if (tmpTrigger != nullptr && traceHitResult.GetComponent()->GetName() != tmpTrigger->GetName()) {
+			mTrigger = tmpTrigger;
+			mTrigger->StartHover();
+		}
+
+		// Hit something else
+		else{
+			if (mTrigger != nullptr) {
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, FString::Printf(TEXT("Stoped fondeling cunt")));
+				mTrigger->EndHover();
+				mTrigger = nullptr;
+			}
+		}
 	}
 
-	else
-	{
-		DrawDebugLine(GetWorld(), traceStart, traceEnd, FColor(255, 0, 0), false, 5, 0, 5);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Trace: Missed all"));
+	// Hit nothing
+	else{
+		if (mTrigger != nullptr) {
+			mTrigger->EndHover();
+			mTrigger = nullptr;
+		}
 	}
-
-	
 }

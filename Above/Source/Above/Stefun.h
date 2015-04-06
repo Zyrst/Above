@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "InteractionTrigger.h"
 #include "GameFramework/Character.h"
 #include "Stefun.generated.h"
 
@@ -68,6 +69,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
 		int32 mCrouchSpeed;
 
-	// Fondle
+	/** Fondle - Calls Interact() on InteractionTrigger of looked at obeject */
+	UFUNCTION(BlueprintCallable, Category = CharacterInteraction)
 	void Interact();
+
+	UFUNCTION(BlueprintCallable, Category = CharacterInteraction)
+		void HoverOverObject();
+
+	AInteractionTrigger* mTrigger;
 };
