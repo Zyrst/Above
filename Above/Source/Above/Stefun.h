@@ -57,6 +57,8 @@ public:
 	UFUNCTION()
 		void TogglePause();
 	
+	UFUNCTION()
+		void FellOutOfWorld();
 	
 	/** The normal walking speed of the character*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
@@ -71,4 +73,7 @@ public:
 		int32 mCrouchSpeed;
 private: 
 	bool mIsPaused;
+	float mPrevTime = 0;
+	int mTestFall = 0;
+	FRunnableThread* mThread;
 };

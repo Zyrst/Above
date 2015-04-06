@@ -3,7 +3,7 @@
 #include "Above.h"
 #include "Stefun.h"
 #include "AboveGameMode.h"
-
+#include "WhileFalling.h"
 
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
@@ -11,10 +11,10 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	mFaceCam = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FaceCam"));
-	mFaceCam->AttachParent = CapsuleComponent;
+	mFaceCam->AttachParent = GetCapsuleComponent();
 	mFaceCam->Activate();
 	mFaceCam->bUsePawnControlRotation = true;
-	CharacterMovement->MaxWalkSpeedCrouched = mCrouchSpeed;
+	GetCharacterMovement()->MaxWalkSpeedCrouched = mCrouchSpeed;
 	mIsPaused = false;
 }
 
@@ -23,14 +23,24 @@ void AStefun::BeginPlay()
 {
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	DisableSprint();
-	
 	Super::BeginPlay();
 }
 
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
-	
+	/*if (GetCharacterMovement()->IsFalling()){
+		if (mTestFall == 0){
+			float time = GetWorld()->TimeSeconds;
+			auto sumthing = WhileFalling(time);
+			mTestFall =  sumthing.Run();
+			//fall->Run();
+				//WhileFalling(GetWorld()->TimeSeconds);
+			
+		}
+		else
+			mTestFall++;
+	}*/
 }
 
 // Called to bind functionality to input
@@ -46,6 +56,7 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Sprint", IE_Pressed, this, &AStefun::EnableSprint);
 	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
+	//Be able to unpause
 	InputComponent->BindAction("Pause", IE_Pressed, this, &AStefun::TogglePause).bExecuteWhenPaused = true;
 
 }
@@ -67,7 +78,6 @@ void AStefun::MoveRight(float val){
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
-
 		AddMovementInput(direction, val);
 	}
 }
@@ -91,11 +101,12 @@ void AStefun::UnSetZoom(){
 }
 
 void AStefun::EnableSprint(){
-	CharacterMovement->MaxWalkSpeed = mSprintSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = mSprintSpeed;
 }
 
 void AStefun::DisableSprint(){
-	CharacterMovement->MaxWalkSpeed = mWalkSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
+	
 }
 
 void AStefun::ToggleCrouch(){
@@ -111,14 +122,15 @@ void AStefun::TogglePause(){
 	
 	if (mIsPaused == false){
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		/*textRenderer->SetText("PAUSED!");
-		textRenderer->Activate();*/
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));
 		mIsPaused = true;
 	}
 	else if (mIsPaused == true){
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
-		//textRenderer->Deactivate();
 		mIsPaused = false;
 	}
-	
+}
+
+void AStefun::FellOutOfWorld(){
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Cyan, TEXT("I'm out of here!"));
 }
