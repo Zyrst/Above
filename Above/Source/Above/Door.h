@@ -20,19 +20,26 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	/**Activate the door rotation*/
 	UFUNCTION(BlueprintCallable, Category = Activation)
 		void Activate(); 
 
 	void Reset();
 
+	/**The degree which it shall be rotated, normal is 90*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Rotation)
 		float RotationDegree;
 private:
-	int mRot = 0;
-	bool shouldRotate = false;
-	UStaticMesh* mDoorMesh;
+	//Enables and disables rotation
+	bool mShouldRotate = false;
+	//Arc lenght that gets calculated 
 	float mTarget; 
+	//Calculate the "base" which is used to calculate the arc lenght
 	float mBase;
+	//Current arc lenght
 	float mCurrent = 0;
+	//Door mesh
+	UStaticMesh* mDoorMesh;
+	//Door mesh component
 	UStaticMeshComponent* mDoor;
 };
