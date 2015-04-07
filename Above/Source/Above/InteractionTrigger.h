@@ -22,7 +22,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	/** Called on hit by line trace*/
-	UFUNCTION(BlueprintCallable, Category = Interaction)
+	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		void Interact();
 
 	UFUNCTION(BlueprintCallable, Category = Interaction)
@@ -35,7 +35,7 @@ public:
 		UTextRenderComponent* mHoverText;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
-		FString mHoverTextValue;
+		FString mHoverTextDefaultValue;
 
 	UBoxComponent* mRootComponent;
 };

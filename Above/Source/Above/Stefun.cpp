@@ -48,6 +48,7 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::Interact);
+	InputComponent->BindAction("Interact", IE_Repeat, this, &AStefun::Interact);
 
 }
 

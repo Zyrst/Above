@@ -14,14 +14,14 @@ AInteractionTrigger::AInteractionTrigger(const FObjectInitializer& ObjectInitial
 	mRootComponent = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("RootCompenent"));
 	RootComponent = mRootComponent;
 
-	mHoverTextValue = "Cunt";
+	mHoverTextDefaultValue = "Interact";
 
 	// Initialize hover text
 	mHoverText = ObjectInitializer.CreateDefaultSubobject<UTextRenderComponent>(this, TEXT("HoverText"));
 	mHoverText->AttachParent = mRootComponent;
 	mHoverText->SetTextRenderColor(FColor(255, 0, 0));
 	mHoverText->SetHiddenInGame(true);
-	mHoverText->SetText(mHoverTextValue);
+	mHoverText->SetText(mHoverTextDefaultValue);
 }
 
 // Called when the game starts or when spawned
@@ -36,7 +36,7 @@ void AInteractionTrigger::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 }
 
-void AInteractionTrigger::Interact(){
+void AInteractionTrigger::Interact_Implementation() {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green , FString::Printf(TEXT("Interaction called: %s"), *this->GetName()));
 }
 
