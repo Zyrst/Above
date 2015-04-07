@@ -19,6 +19,7 @@ ALamp::ALamp(const FObjectInitializer& ObjectInitializer) :
 	mBlinkFactor(1){
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -39,6 +40,15 @@ void ALamp::BeginPlay(){
 			mLightDefaultIntensity.Add(0);
 			mLightDefaultAttenuation.Add(0);
 			mLightDefaultPosition.Add(FVector(0, 0, 0));
+		}
+	}
+
+	TArray<UActorComponent*> components;
+	this->GetComponents(components);
+	for (int32 i = 0; i < components.Max(); i++) {
+		if (components[i]->GetName() == TEXT("Fireflies")) {
+			mFireflyParticles = components[i];
+			break;
 		}
 	}
 }
@@ -96,16 +106,22 @@ void ALamp::Tick( float DeltaTime ){
 	if (mKillTimer >= 0) {
 		mKillTimer -= DeltaTime;
 	}
-	else if (mAction) {
+	// Only reset if save
+	else if (mAction && !mActionKill) {
 		mAction		= false;
 		mActionKill = false;
+		mFireflyParticles->Deactivate();
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Resetting lamp")));
 	}
 }
 
 
 void ALamp::ActivateFirst() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Playing sound. Killing fireflies")));
+	// Do not allow press when action. R.I.P English
+	if (mAction)
+		return;
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Playing sounds of fireflies screaming in agony")));
 	
 	mAction		= true;
 	mActionKill = true;
@@ -113,8 +129,13 @@ void ALamp::ActivateFirst() {
 }
 
 void ALamp::ActivateSecond() {
+	// Do not allow press when action
+	if (mAction)
+		return;
+
 	mAction		= true;
 	mActionKill = false;
 	mKillTimer	= mKillingDuration;
+	mFireflyParticles->Activate();
 }
 

@@ -31,24 +31,24 @@ public:
 
 	// Time it takes to kill fireflies
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 mKillingDuration;
+		float mKillingDuration;
 
 	// The amount of brightness increase when killing fireflies
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 mKillingBrightnessIncreaseFactor;
+		float mKillingBrightnessIncreaseFactor;
 
 	// The amount of decrease in light when saving fireflies
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 mSavingBrightnessDecreaseFactor;
+		float mSavingBrightnessDecreaseFactor;
 
 
 	// The amount of attenuation increase when killing fireflies
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 mKillingAttenuationIncreaseFactor;
+		float mKillingAttenuationIncreaseFactor;
 
 	// The amount of decrease in attenuation when saving fireflies
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 mSavingAttenuationDecreaseFactor;
+		float mSavingAttenuationDecreaseFactor;
 
 	// Interpolation speed when buttons are pressed
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -77,4 +77,6 @@ public:
 private:
 	bool mAction, mActionKill;
 	float mKillTimer;
+
+	UActorComponent* mFireflyParticles;
 };
