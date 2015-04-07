@@ -26,10 +26,14 @@ public:
 	void Reset();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Rotation)
-		int32 RotationDegree;
+		float RotationDegree;
 private:
 	int mRot = 0;
 	bool shouldRotate = false;
 	FRotator rotation;
 	float degree;
+	UStaticMesh* mDoorMesh;
+	float mTarget; 
+	float mBase;
+	float mCurrent = 0;
 };

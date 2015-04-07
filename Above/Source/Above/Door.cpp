@@ -16,6 +16,16 @@ ADoor::ADoor()
 void ADoor::BeginPlay()
 {
 	Super::BeginPlay();
+	TArray<UStaticMeshComponent*> Components;
+	this->GetComponents<UStaticMeshComponent>(Components);
+	for (int32 i = 0; i < Components.Num(); i++){
+		UStaticMeshComponent* mesh = Components[i];
+		if (mesh->GetName() == "Door"){
+			mDoorMesh = mesh->StaticMesh;
+			GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Green, TEXT("Able to find mesh"));
+		}
+		
+	}
 	Activate();
 	
 }
@@ -23,21 +33,18 @@ void ADoor::BeginPlay()
 // Called every frame
 void ADoor::Tick( float DeltaTime )
 {
+	
 	Super::Tick( DeltaTime );
 	if (shouldRotate){
-		if ((this->GetActorRotation().Vector().Y - rotation.Vector().Y)  < degree ){
-			//FMath::Atan(this->GetActorRotation().Vector().Y - rotation.Vector().Y);
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, FString::Printf(TEXT("Degree %f"),(this->GetActorRotation().Vector().Y - rotation.Vector().Y)));
+		if ((mBase * (mCurrent / 360)) <= mTarget){
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Blue, FString::Printf(TEXT("Degree %f"), ((mBase * (mCurrent / 360)))));
 			this->AddActorLocalRotation(FRotator::FRotator(0, 1, 0), false, nullptr);
-			mRot++;
+			mCurrent += 1.0;
 		}
-		if ((this->GetActorRotation().Vector().Y - rotation.Vector().Y) >= degree){
+		if (mBase * (mCurrent / 360) >= mTarget){
 			shouldRotate = false;
 		}
 	}
-	
-	
-	
 }
 
 void ADoor::Activate(){
@@ -45,11 +52,16 @@ void ADoor::Activate(){
 	//this->AddActorLocalRotation(FRotator::FRotator(0, 1, 0), false, nullptr);
 	shouldRotate = true;
 	rotation = this->GetActorRotation();
+	mBase = ((2 * 3.14) * mDoorMesh->GetBounds().SphereRadius);
+	float mellow = (RotationDegree / 360);
+	mTarget = mBase * mellow;
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Black, FString::Printf(TEXT("Size %f"), mTarget));
 	degree = 0.01 * RotationDegree;
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, FString::Printf(TEXT("BlueprintDegree %d"), RotationDegree));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, FString::Printf(TEXT("BlueprintDegree %f"), RotationDegree));
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, FString::Printf(TEXT("RotDegree %f"), degree));
 }
 
 void ADoor::Reset(){
 	mRot = 0;
+
 }
