@@ -56,6 +56,9 @@ public:
 	
 	UFUNCTION()
 		void ToggleCrouch();
+
+	UFUNCTION()
+		void TogglePause();
 	
 	/** The normal walking speed of the character*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
@@ -77,4 +80,10 @@ public:
 		void HoverOverObject();
 
 	AInteractionTrigger* mTrigger;
+
+private: 
+	bool mIsPaused;
+	float mPrevTime = 0;
+	int mTestFall = 0;
+	FRunnableThread* mThread;
 };

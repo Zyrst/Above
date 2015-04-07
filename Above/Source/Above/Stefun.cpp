@@ -2,9 +2,8 @@
 
 #include "Above.h"
 #include "Stefun.h"
-#include <time.h>
-#include <stdio.h>
-
+#include "AboveGameMode.h"
+#include "Door.h"
 
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
@@ -17,6 +16,9 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mFaceCam->bUsePawnControlRotation = true;
 
 	mTrigger = nullptr;
+
+	GetCharacterMovement()->MaxWalkSpeedCrouched = mCrouchSpeed;
+	mIsPaused = false;
 }
 
 // Called when the game starts or when spawned
@@ -49,6 +51,8 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::Interact);
 	InputComponent->BindAction("Interact", IE_Repeat, this, &AStefun::Interact);
+	//Be able to unpause
+	InputComponent->BindAction("Pause", IE_Pressed, this, &AStefun::TogglePause).bExecuteWhenPaused = true;
 
 }
 
@@ -69,7 +73,6 @@ void AStefun::MoveRight(float val){
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
-
 		AddMovementInput(direction, val);
 	}
 }
@@ -77,9 +80,7 @@ void AStefun::MoveRight(float val){
 void AStefun::OnStartJump(){
 	if (GetCharacterMovement()->IsMovingOnGround()){ 
 		bPressedJump = true; 
-	}
-	float time = GetWorld()->GetTimeSeconds();
-	
+	}	
 }
 
 void AStefun::OnStopJump(){
@@ -87,25 +88,32 @@ void AStefun::OnStopJump(){
 }
 
 void AStefun::SetZoom(){
-	mFaceCam->FieldOfView = 40;
+	AAboveGameMode* mode;
+	mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	float FoV = mode->getZoomFoV();
+	mFaceCam->FieldOfView = FoV;
 }
 
 void AStefun::UnSetZoom(){
-	mFaceCam->FieldOfView = 90;
+	AAboveGameMode* mode; 
+	mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	float FoV = mode->getStandardFoV();
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("FoV value %f"),FoV));
+	mFaceCam->FieldOfView = FoV;
 }
 
 void AStefun::EnableSprint(){
-	CharacterMovement->MaxWalkSpeed = mSprintSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = mSprintSpeed;
 }
 
 void AStefun::DisableSprint(){
-	CharacterMovement->MaxWalkSpeed = mWalkSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
+	
 }
 
 void AStefun::ToggleCrouch(){
 	if (CanCrouch() == true){
 		Crouch();
-		CharacterMovement->MaxWalkSpeedCrouched = mCrouchSpeed;
 	}
 	else{
 		UnCrouch();
@@ -122,7 +130,7 @@ void AStefun::Interact(){
 	}
 }
 
-void AStefun::HoverOverObject(){
+void AStefun::HoverOverObject() {
 	// Setup trace
 	FHitResult traceHitResult;
 	TObjectIterator<AStefun> Player;
@@ -135,7 +143,7 @@ void AStefun::HoverOverObject(){
 	Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
 
 	// Hit something
-	if (traceHitResult.bBlockingHit == true){
+	if (traceHitResult.bBlockingHit == true) {
 		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
 
 		if (tmpTrigger != nullptr) {
@@ -155,10 +163,23 @@ void AStefun::HoverOverObject(){
 	}
 
 	// Hit nothing
-	else{
+	else {
 		if (mTrigger != nullptr) {
 			mTrigger->EndHover();
 			mTrigger = nullptr;
 		}
+	}
+}
+
+void AStefun::TogglePause(){
+	
+	if (mIsPaused == false){
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));
+		mIsPaused = true;
+	}
+	else if (mIsPaused == true){
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		mIsPaused = false;
 	}
 }

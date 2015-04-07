@@ -9,4 +9,16 @@ AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer
 	if (PlayerPawnObject.Class != NULL){
 		DefaultPawnClass = PlayerPawnObject.Class;
 	}
+	if ((GEngine != NULL) && (GEngine->GameViewport != NULL)){
+		GEngine->GameViewport->SetSuppressTransitionMessage(true);
+	}
+
+}
+
+float AAboveGameMode::getStandardFoV(){
+	return StandardF_O_V;
+}
+
+float AAboveGameMode::getZoomFoV(){
+	return ZoomF_O_V;
 }

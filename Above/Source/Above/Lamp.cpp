@@ -5,7 +5,7 @@
 
 
 // Sets default values
-ALamp::ALamp(){
+ALamp::ALamp(const FObjectInitializer& ObjectInitializer){
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -20,14 +20,14 @@ void ALamp::BeginPlay(){
 	// Add default intensities
 	for (int i = 0; i < mLights.Num(); i++) {
 		if (mLights[i] != NULL) {
-			mLightDefaultIntensity.push_back(mLights[i]->Intensity);
-			mLightDefaultAttenuation.push_back(mLights[i]->AttenuationRadius);
-			mLightDefaultPosition.push_back(mLights[i]->GetComponentLocation());
+			mLightDefaultIntensity.Add(mLights[i]->Intensity);
+			mLightDefaultAttenuation.Add(mLights[i]->AttenuationRadius);
+			mLightDefaultPosition.Add(mLights[i]->GetComponentLocation());
 		}
 		else {
-			mLightDefaultIntensity.push_back(0);
-			mLightDefaultAttenuation.push_back(0);
-			mLightDefaultPosition.push_back(FVector(0, 0, 0));
+			mLightDefaultIntensity.Add(0);
+			mLightDefaultAttenuation.Add(0);
+			mLightDefaultPosition.Add(FVector(0, 0, 0));
 		}
 	}
 }
@@ -65,4 +65,12 @@ void ALamp::Tick( float DeltaTime ){
 
 }
 
+
+void ALamp::ActivateFirst() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Lamp first action")));
+}
+
+void ALamp::ActivateSecond() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Lamp second action")));
+}
 
