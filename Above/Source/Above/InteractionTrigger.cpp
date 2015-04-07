@@ -49,3 +49,8 @@ void AInteractionTrigger::StartHover() {
 void AInteractionTrigger::EndHover() {
 	mHoverText->SetHiddenInGame(true);
 }
+
+// End of hold
+void AInteractionTrigger::EndHold() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("End hold"));
+}

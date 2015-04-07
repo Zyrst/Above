@@ -16,9 +16,12 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mFaceCam->bUsePawnControlRotation = true;
 
 	mTrigger = nullptr;
+	mHoldTrigger = nullptr;
 
 	GetCharacterMovement()->MaxWalkSpeedCrouched = mCrouchSpeed;
 	mIsPaused = false;
+
+	mInteractButtonIsPressed = false;
 }
 
 // Called when the game starts or when spawned
@@ -49,8 +52,8 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Sprint", IE_Pressed, this, &AStefun::EnableSprint);
 	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
-	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::Interact);
-	InputComponent->BindAction("Interact", IE_Repeat, this, &AStefun::Interact);
+	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::InteractButtonPressed);
+	InputComponent->BindAction("Interact", IE_Released, this, &AStefun::InteractButtonRelesased);
 	//Be able to unpause
 	InputComponent->BindAction("Pause", IE_Pressed, this, &AStefun::TogglePause).bExecuteWhenPaused = true;
 
@@ -150,6 +153,14 @@ void AStefun::HoverOverObject() {
 			if (mTrigger == nullptr) {
 				mTrigger = tmpTrigger;
 				mTrigger->StartHover();
+
+				if (mHoldTrigger == nullptr) {
+					mHoldTrigger = mTrigger;
+				}
+
+				if (mInteractButtonIsPressed == true) {
+					Interact();
+				}
 			}
 
 			else {
@@ -157,6 +168,14 @@ void AStefun::HoverOverObject() {
 					mTrigger->EndHover();
 					mTrigger = tmpTrigger;
 					mTrigger->StartHover();
+
+					if (mHoldTrigger == nullptr) {
+						mHoldTrigger = mTrigger;
+					}
+
+					if (mInteractButtonIsPressed == true) {
+						Interact();
+					}
 				}
 			}
 		}
@@ -168,6 +187,19 @@ void AStefun::HoverOverObject() {
 			mTrigger->EndHover();
 			mTrigger = nullptr;
 		}
+	}
+}
+
+void AStefun::InteractButtonPressed() {
+	mInteractButtonIsPressed = true;
+	Interact();
+}
+
+void AStefun::InteractButtonRelesased() {
+	mInteractButtonIsPressed = false;
+	if (mHoldTrigger != nullptr) {
+		mHoldTrigger->EndHold();
+		mHoldTrigger = nullptr;
 	}
 }
 

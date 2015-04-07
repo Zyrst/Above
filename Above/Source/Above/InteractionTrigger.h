@@ -33,6 +33,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void EndHover();
 
+	/** Called when button is no longer held */
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void EndHold();
+
 	/** Textcomponent */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
 		UTextRenderComponent* mHoverText;
