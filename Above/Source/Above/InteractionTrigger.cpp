@@ -36,14 +36,16 @@ void AInteractionTrigger::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 }
 
+// Function overridden in blueprints
 void AInteractionTrigger::Interact_Implementation() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green , FString::Printf(TEXT("Interaction called: %s"), *this->GetName()));
 }
 
+// Show text on start of hover
 void AInteractionTrigger::StartHover() {
 	mHoverText->SetHiddenInGame(false);
 }
 
+// Hide text on end of hover
 void AInteractionTrigger::EndHover() {
 	mHoverText->SetHiddenInGame(true);
 }

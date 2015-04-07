@@ -21,21 +21,27 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	/** Called on hit by line trace*/
+	/** Called if both hit by line trace and mb1 is clicked */
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		void Interact();
 
+	/** Called on hit by line trace */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void StartHover();
 
+	/** Called when no longer hit by line trace */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void EndHover();
 
+	/** Textcomponent */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
 		UTextRenderComponent* mHoverText;
 
+	/** Text value set in constructor */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
 		FString mHoverTextDefaultValue;
 
-	UBoxComponent* mRootComponent;
+	/** Root component with no other function */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
+		UBoxComponent* mRootComponent;
 };

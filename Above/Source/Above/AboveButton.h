@@ -23,7 +23,7 @@ public:
 	/* Call this from code when activating button. 
 	 * This function does some internal things and then sends an event to BP
 	 */
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = "ButtonActions")
 		void Activate();
 
 	// This event is called when player interacts with button
