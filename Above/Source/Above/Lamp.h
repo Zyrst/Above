@@ -3,7 +3,6 @@
 #pragma once
 
 #include "AboveButton.h"
-#include <vector>
 #include "GameFramework/Actor.h"
 #include "Lamp.generated.h"
 
@@ -26,9 +25,9 @@ public:
 	TArray<UPointLightComponent*> mLights;
 
 	// Default values for light. Pls don't sort
-	std::vector<float> mLightDefaultIntensity;
-	std::vector<float> mLightDefaultAttenuation;
-	std::vector<FVector> mLightDefaultPosition;
+	TArray<float> mLightDefaultIntensity;
+	TArray<float> mLightDefaultAttenuation;
+	TArray<FVector> mLightDefaultPosition;
 
 	// The amount of flickering
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

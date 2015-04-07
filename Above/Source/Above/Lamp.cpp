@@ -20,14 +20,14 @@ void ALamp::BeginPlay(){
 	// Add default intensities
 	for (int i = 0; i < mLights.Num(); i++) {
 		if (mLights[i] != NULL) {
-			mLightDefaultIntensity.push_back(mLights[i]->Intensity);
-			mLightDefaultAttenuation.push_back(mLights[i]->AttenuationRadius);
-			mLightDefaultPosition.push_back(mLights[i]->GetComponentLocation());
+			mLightDefaultIntensity.Add(mLights[i]->Intensity);
+			mLightDefaultAttenuation.Add(mLights[i]->AttenuationRadius);
+			mLightDefaultPosition.Add(mLights[i]->GetComponentLocation());
 		}
 		else {
-			mLightDefaultIntensity.push_back(0);
-			mLightDefaultAttenuation.push_back(0);
-			mLightDefaultPosition.push_back(FVector(0, 0, 0));
+			mLightDefaultIntensity.Add(0);
+			mLightDefaultAttenuation.Add(0);
+			mLightDefaultPosition.Add(FVector(0, 0, 0));
 		}
 	}
 }
