@@ -149,34 +149,50 @@ void AStefun::HoverOverObject() {
 	if (traceHitResult.bBlockingHit == true) {
 		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
 
+		// Hit a trigger
 		if (tmpTrigger != nullptr) {
+			// No selected trigger
 			if (mTrigger == nullptr) {
 				mTrigger = tmpTrigger;
 				mTrigger->StartHover();
 
+				// Assign held trigger
 				if (mHoldTrigger == nullptr) {
 					mHoldTrigger = mTrigger;
 				}
 
+				// Interact if button was pressed before hovering over trigger
 				if (mInteractButtonIsPressed == true) {
 					Interact();
 				}
 			}
 
+			// Selected trigger
 			else {
+				// New trigger is different
 				if (mTrigger != tmpTrigger) {
 					mTrigger->EndHover();
 					mTrigger = tmpTrigger;
 					mTrigger->StartHover();
 
-					if (mHoldTrigger == nullptr) {
-						mHoldTrigger = mTrigger;
-					}
-
+					// Interact if button was pressed before hovering over trigger
 					if (mInteractButtonIsPressed == true) {
 						Interact();
 					}
 				}
+
+				// Assign held trigger
+				if (mHoldTrigger == nullptr) {
+					mHoldTrigger = mTrigger;
+				}
+			}
+		}
+
+		// Hit something other than a trigger
+		else {
+			if (mTrigger != nullptr) {
+				mTrigger->EndHover();
+				mTrigger = nullptr;
 			}
 		}
 	}

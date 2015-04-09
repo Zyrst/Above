@@ -51,6 +51,5 @@ void AInteractionTrigger::EndHover() {
 }
 
 // End of hold
-void AInteractionTrigger::EndHold() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("End hold"));
+void AInteractionTrigger::EndHold_Implementation() {
 }

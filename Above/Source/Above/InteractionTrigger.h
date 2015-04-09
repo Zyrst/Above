@@ -34,7 +34,7 @@ public:
 		void EndHover();
 
 	/** Called when button is no longer held */
-	UFUNCTION(BlueprintCallable, Category = Interaction)
+	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		void EndHold();
 
 	/** Textcomponent */
