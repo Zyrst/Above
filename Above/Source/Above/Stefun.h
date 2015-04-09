@@ -88,6 +88,8 @@ public:
 	AInteractionTrigger* mTrigger;
 	AInteractionTrigger* mHoldTrigger;
 
+	FVector mTargetPos;
+
 private: 
 	bool mIsPaused;
 	float mPrevTime = 0;

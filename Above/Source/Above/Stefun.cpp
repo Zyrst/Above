@@ -125,6 +125,7 @@ void AStefun::ToggleCrouch(){
 
 void AStefun::Interact(){
 	if (mTrigger != nullptr){
+		mTrigger->SetPointerTarget(mTargetPos);
 		mTrigger->Interact();
 	}
 

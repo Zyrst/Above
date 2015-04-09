@@ -25,6 +25,12 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		void Interact();
 
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void SetPointerTarget(FVector vectorPointer);
+
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		FVector GetPointerTarget();
+
 	/** Called on hit by line trace */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void StartHover();
@@ -48,4 +54,6 @@ public:
 	/** Root component with no other function */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
 		UBoxComponent* mRootComponent;
+
+	FVector mPointerTarget;
 };
