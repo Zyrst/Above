@@ -3,13 +3,13 @@ Kodstandard
 
 	class Player {
 		//Kod i header fil med en beskrivning av funktionen
-		void onCollision(int member){
+		void OnCollision(int member){
 		
 			//Medlemsvariabler, med bra namnval
 			int mMember; 
 			
 			//Lokala
-			int yoloSwag; 
+			int tempVar; 
 			
 			//Kommentarer ovanför kodsnuttar
 			player->die()
@@ -18,7 +18,12 @@ Kodstandard
 		
 		void Player* die(const string & name){
 			if(något)
-			  gör något annat;
+			  gör något;
+			  else{
+			  	//Kommentar som beskriver om det behövs i koden
+			  	gör något annat;
+			  	som påverkar saker;
+			  }
 		}
 		
 		//Indenta ufunction, uproperty etc.

@@ -10,7 +10,7 @@ UCLASS()
 class ABOVE_API ALamp : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:	
 	// Sets default values for this actor's properties
 	ALamp(const FObjectInitializer& ObjectInitializer);
@@ -29,17 +29,43 @@ public:
 	TArray<float> mLightDefaultAttenuation;
 	TArray<FVector> mLightDefaultPosition;
 
+	// Time it takes to kill fireflies
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float mKillingDuration;
+
+	// The amount of brightness increase when killing fireflies
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float mKillingBrightnessIncreaseFactor;
+
+	// The amount of decrease in light when saving fireflies
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float mSavingBrightnessDecreaseFactor;
+
+
+	// The amount of attenuation increase when killing fireflies
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float mKillingAttenuationIncreaseFactor;
+
+	// The amount of decrease in attenuation when saving fireflies
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float mSavingAttenuationDecreaseFactor;
+
+	// Interpolation speed when buttons are pressed
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float mTransitionSpeed;
+
+
 	// The amount of flickering
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 flickerAmount;
+		int32 mFlickerAmount;
 	
 	// Lerping light position based on this value
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float flickerIntensity;
+		float mFlickerIntensity;
 
 	// Modify this to change how much the lamp "blinks"
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float blinkFactor;
+		float mBlinkFactor;
 
 	// First activate action
 	UFUNCTION(BlueprintCallable, Category = "LampActions")
@@ -47,4 +73,10 @@ public:
 	// Second activate action
 	UFUNCTION(BlueprintCallable, Category = "LampActions")
 		void ActivateSecond();
+
+private:
+	bool mAction, mActionKill;
+	float mKillTimer;
+
+	UActorComponent* mFireflyParticles;
 };
