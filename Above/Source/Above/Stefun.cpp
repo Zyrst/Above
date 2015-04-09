@@ -16,9 +16,12 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mFaceCam->bUsePawnControlRotation = true;
 
 	mTrigger = nullptr;
+	mHoldTrigger = nullptr;
 
 	GetCharacterMovement()->MaxWalkSpeedCrouched = mCrouchSpeed;
 	mIsPaused = false;
+
+	mInteractButtonIsPressed = false;
 }
 
 // Called when the game starts or when spawned
@@ -49,8 +52,8 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Sprint", IE_Pressed, this, &AStefun::EnableSprint);
 	InputComponent->BindAction("Sprint", IE_Released, this, &AStefun::DisableSprint);
 	InputComponent->BindAction("Crouch", IE_Pressed, this, &AStefun::ToggleCrouch);
-	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::Interact);
-	InputComponent->BindAction("Interact", IE_Repeat, this, &AStefun::Interact);
+	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::InteractButtonPressed);
+	InputComponent->BindAction("Interact", IE_Released, this, &AStefun::InteractButtonRelesased);
 	//Be able to unpause
 	InputComponent->BindAction("Pause", IE_Pressed, this, &AStefun::TogglePause).bExecuteWhenPaused = true;
 
@@ -122,6 +125,7 @@ void AStefun::ToggleCrouch(){
 
 void AStefun::Interact(){
 	if (mTrigger != nullptr){
+		mTrigger->SetPointerTarget(mTargetPos);
 		mTrigger->Interact();
 	}
 
@@ -146,18 +150,50 @@ void AStefun::HoverOverObject() {
 	if (traceHitResult.bBlockingHit == true) {
 		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
 
+		// Hit a trigger
 		if (tmpTrigger != nullptr) {
+			// No selected trigger
 			if (mTrigger == nullptr) {
 				mTrigger = tmpTrigger;
 				mTrigger->StartHover();
+
+				// Assign held trigger
+				if (mHoldTrigger == nullptr) {
+					mHoldTrigger = mTrigger;
+				}
+
+				// Interact if button was pressed before hovering over trigger
+				if (mInteractButtonIsPressed == true) {
+					Interact();
+				}
 			}
 
+			// Selected trigger
 			else {
+				// New trigger is different
 				if (mTrigger != tmpTrigger) {
 					mTrigger->EndHover();
 					mTrigger = tmpTrigger;
 					mTrigger->StartHover();
+
+					// Interact if button was pressed before hovering over trigger
+					if (mInteractButtonIsPressed == true) {
+						Interact();
+					}
 				}
+
+				// Assign held trigger
+				if (mHoldTrigger == nullptr) {
+					mHoldTrigger = mTrigger;
+				}
+			}
+		}
+
+		// Hit something other than a trigger
+		else {
+			if (mTrigger != nullptr) {
+				mTrigger->EndHover();
+				mTrigger = nullptr;
 			}
 		}
 	}
@@ -168,6 +204,19 @@ void AStefun::HoverOverObject() {
 			mTrigger->EndHover();
 			mTrigger = nullptr;
 		}
+	}
+}
+
+void AStefun::InteractButtonPressed() {
+	mInteractButtonIsPressed = true;
+	Interact();
+}
+
+void AStefun::InteractButtonRelesased() {
+	mInteractButtonIsPressed = false;
+	if (mHoldTrigger != nullptr) {
+		mHoldTrigger->EndHold();
+		mHoldTrigger = nullptr;
 	}
 }
 

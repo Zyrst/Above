@@ -74,12 +74,21 @@ public:
 
 	/** Fondle - Calls Interact() on InteractionTrigger of looked at obeject */
 	UFUNCTION(BlueprintCallable, Category = CharacterInteraction)
-	void Interact();
+		void Interact();
 
 	UFUNCTION(BlueprintCallable, Category = CharacterInteraction)
 		void HoverOverObject();
 
+	bool mInteractButtonIsPressed;
+
+	void InteractButtonPressed();
+	void InteractButtonRelesased();
+
+	// Object hooverd over
 	AInteractionTrigger* mTrigger;
+	AInteractionTrigger* mHoldTrigger;
+
+	FVector mTargetPos;
 
 private: 
 	bool mIsPaused;

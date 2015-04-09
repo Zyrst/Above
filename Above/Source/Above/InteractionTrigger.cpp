@@ -22,6 +22,8 @@ AInteractionTrigger::AInteractionTrigger(const FObjectInitializer& ObjectInitial
 	mHoverText->SetTextRenderColor(FColor(255, 0, 0));
 	mHoverText->SetHiddenInGame(true);
 	mHoverText->SetText(mHoverTextDefaultValue);
+
+	//mPointerTarget = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -38,6 +40,15 @@ void AInteractionTrigger::Tick( float DeltaTime )
 
 // Function overridden in blueprints
 void AInteractionTrigger::Interact_Implementation() {
+
+}
+
+void AInteractionTrigger::SetPointerTarget(FVector vectorPointer) {
+	mPointerTarget = vectorPointer;
+}
+
+FVector AInteractionTrigger::GetPointerTarget() {
+	return mPointerTarget;
 }
 
 // Show text on start of hover
@@ -48,4 +59,8 @@ void AInteractionTrigger::StartHover() {
 // Hide text on end of hover
 void AInteractionTrigger::EndHover() {
 	mHoverText->SetHiddenInGame(true);
+}
+
+// End of hold
+void AInteractionTrigger::EndHold_Implementation() {
 }
