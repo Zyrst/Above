@@ -24,13 +24,22 @@ public:
 		void Activate(float target);
 
 	void Reset();
+
+	UFUNCTION(BlueprintCallable, Category = RandomNum)
+		float NotSameNumber();
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Points )
+		TArray<float> mPoints;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Points)
+		float mOldTarget;
 
 private:
 	bool mRotate;
-	float mTarget;
+	float mCalcTarget = 0;
+	
+	float mTarget = 0;
 	float mBase;
 	float mCurrent;
-	TArray<float> mPoints;
 	UStaticMeshComponent* mDishMesh;
+	FVector* mStartPos;
 };
