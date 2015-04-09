@@ -25,11 +25,14 @@ public:
 
 	void Reset();
 
+	/**Get a random number which is not the current target*/
 	UFUNCTION(BlueprintCallable, Category = RandomNum)
 		float NotSameNumber();
 	
+	/**Array of points*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Points )
 		TArray<float> mPoints;
+	/**Last target*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Points)
 		float mOldTarget;
 

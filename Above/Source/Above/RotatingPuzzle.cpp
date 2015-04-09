@@ -18,7 +18,8 @@ void ARotatingPuzzle::BeginPlay()
 	Super::BeginPlay();
 	mRotate = false;
 	mOldTarget = 0;
-
+	
+	//Get the disk mesh
 	TArray<UStaticMeshComponent*> Components;
 	this->GetComponents<UStaticMeshComponent>(Components);
 	for (int32 i = 0; i < Components.Num(); i++){
@@ -37,8 +38,6 @@ void ARotatingPuzzle::BeginPlay()
 			mPoints.Push(i * 60);
 	}
 	
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("Vector &f"), mStartPos));
-	//Activate(90);
 }
 
 // Called every frame
@@ -47,19 +46,14 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 	if (mRotate){
-		//Do stuff
 		//(two*pi*r*(CurrentDegree / 360))
 		if ((mBase * (mCurrent / 360)) < mCalcTarget){
 			
 			mDishMesh->AddLocalRotation(FRotator::FRotator(0, 1, 0), false, nullptr);
-			//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Yaw float value %f"), mDishMesh->GetComponentRotation().Yaw));
-			//this->AddActorLocalRotation(FRotator(0, 1, 0), false, nullptr);
 			mCurrent += 1.0;
 		}
 
 		if ((mBase * (mCurrent / 360)) >= mCalcTarget){
-			//GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Red, FString::Printf(TEXT("Current rotate value %f"), mCurrent));
-			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("mCalcTarget %f"), mTarget));
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Stopped"));
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, FString::Printf(TEXT("mCurrent %f"), mCurrent));
 			mRotate = false;
@@ -79,6 +73,7 @@ void ARotatingPuzzle::Activate(float target){
 	float calc = 0;
 	float num = 0;
 	float sum = 0;
+	//Find the old target in the array of positions
 	for (int32 i = 0; i < mPoints.Num(); i++){
 		if (mPoints[i] == mOldTarget){
 			calc = mPoints[i];
@@ -88,33 +83,33 @@ void ARotatingPuzzle::Activate(float target){
 
 	bool loop = true;
 	int32 j = num;
+	//Find points between oldtarget and new target and add the degrees between
+	//Used to calculate the arc length
 	while (loop){
 		if ( j == mPoints.Num() - 1){
 			if (mPoints[j] == mTarget){
-				//sum += 60;
 				loop = false;
 			}
 			else{
+				//Last point in array 
+				//Did not find target so start over
 				sum += 60;
 				j = 0;
 			}
-
 		}
 		else {
 			if (mPoints[j] == mTarget){
-				//GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Green, FString::Printf(TEXT("Array value %f"), mPoints[j]));
-				//sum += 60;
+				//Found target , stop loop
 				loop = false;
 			}
 			else{
 				sum += 60;
 				j++;
 			}
-
-
 		}
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Magenta, FString::Printf(TEXT("Degree to move %f"), sum));
+	//Calc the target with the formula
 	mCalcTarget = mBase * ((sum / 360));
 }
 
@@ -123,12 +118,12 @@ void ARotatingPuzzle::Reset(){
 }
 
 float ARotatingPuzzle::NotSameNumber(){
-	int32 random = FMath::RandHelper(5);
 
+	int32 random = FMath::RandHelper(5);
 	float point = mPoints[random];
 
 	if (point == mOldTarget){
-		NotSameNumber();
+		return NotSameNumber();
 	}
 	else
 		return point;
