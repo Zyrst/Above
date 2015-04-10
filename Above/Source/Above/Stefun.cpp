@@ -146,8 +146,12 @@ void AStefun::HoverOverObject() {
 	// Trace
 	Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
 
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mTargetPos.ToString()));
+
 	// Hit something
 	if (traceHitResult.bBlockingHit == true) {
+		mTargetPos = traceHitResult.ImpactPoint;
+
 		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
 
 		// Hit a trigger
@@ -200,6 +204,8 @@ void AStefun::HoverOverObject() {
 
 	// Hit nothing
 	else {
+		mTargetPos = traceEnd;
+
 		if (mTrigger != nullptr) {
 			mTrigger->EndHover();
 			mTrigger = nullptr;
