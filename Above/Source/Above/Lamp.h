@@ -87,9 +87,32 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
 		void SoundEventButtonPress();
 
+	/** Sound event called when player is near enough to manipulate lamp sound by distance */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventDistance();
+
+	/** Sound event called when starting */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventBeginPlay();
+
+	/** Called when something enter sphere collider */
+	UFUNCTION()
+		void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	/** Called when something exits sphere collider*/
+	UFUNCTION()
+		void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	/** Returns distance between lamp and player */
+	UFUNCTION(BlueprintCallable, Category = "Misc")
+		float GetDistanceFromPlayer();
+
+
 private:
-	bool mAction, mActionKill;
+	bool mAction, mActionKill, mTrackPlayer;
 	float mKillTimer;
 
 	UActorComponent* mFireflyParticles;
+	USphereComponent* mSphereCollider;
+	AActor* mPlayerReference;
 };

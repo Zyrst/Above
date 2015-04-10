@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "Lamp.h"
+#include "Stefun.h"
 
 
 // Sets default values
@@ -19,7 +20,6 @@ ALamp::ALamp(const FObjectInitializer& ObjectInitializer) :
 	mBlinkFactor(1){
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -51,12 +51,24 @@ void ALamp::BeginPlay(){
 			break;
 		}
 	}
+
+	TArray<USphereComponent*> colliders;
+	this->GetComponents(colliders);
+	if (colliders.Num() > 0) {
+		mSphereCollider = colliders[0];
+		mSphereCollider->OnComponentBeginOverlap.AddDynamic(this, &ALamp::OnOverlapBegin);
+		mSphereCollider->OnComponentEndOverlap.AddDynamic(this, &ALamp::OnOverlapEnd);
+	}
+
+	SoundEventBeginPlay();
 }
 
 // Called every frame
 void ALamp::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
 
+	if (mTrackPlayer)
+		SoundEventDistance();
 	
 	// Clamp flicker amount
 	int32 flicktmp = (mFlickerAmount == 0) ? 1 : mFlickerAmount;
@@ -110,7 +122,8 @@ void ALamp::Tick( float DeltaTime ){
 	else if (mAction && !mActionKill) {
 		mAction		= false;
 		mActionKill = false;
-		mFireflyParticles->Deactivate();
+		if (mFireflyParticles != NULL)
+			mFireflyParticles->Deactivate();
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Resetting lamp")));
 	}
 }
@@ -138,8 +151,36 @@ void ALamp::ActivateSecond() {
 	mAction		= true;
 	mActionKill = false;
 	mKillTimer	= mKillingDuration;
-	mFireflyParticles->Activate();
+	if (mFireflyParticles != NULL)
+		mFireflyParticles->Activate();
 	SoundEventFireflyElectrocute();
 	SoundEventButtonPress();
 }
 
+
+void ALamp::OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	TArray<AActor*> actors;
+	GetOverlappingActors(actors, AStefun::StaticClass());
+
+	if (actors.Num() > 0) {
+		mPlayerReference = actors[0];
+		mTrackPlayer = true;
+	}
+}
+
+void ALamp::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
+	TArray<AActor*> actors;
+	GetOverlappingActors(actors, AStefun::StaticClass());
+
+	if (actors.Num() > 0) {
+		mTrackPlayer = false;
+	}
+}
+
+
+float ALamp::GetDistanceFromPlayer() {
+	FVector p1 = this->GetTransform().GetLocation();
+	FVector p2 = mPlayerReference->GetTransform().GetLocation();
+
+	return FMath::Sqrt(FVector::Dist(p1, p2));
+}

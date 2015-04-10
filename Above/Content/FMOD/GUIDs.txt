@@ -1,0 +1,9 @@
+{ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Movement
+{f3b95c51-6d04-4f20-b347-604d687c5bec} event:/Music (test)
+{ff2ffc44-8109-4f86-8810-794abf86ed10} event:/Cave/AMBMUS
+{0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Cave/Door
+{46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Cave/Lamp
+{eaba399a-7884-4f32-8fe6-e4f830e95f3b} bus:/
+{e3c75b64-ac28-4651-9217-704615c41f02} bus:/Reverb
+{79b09ee8-0f81-4297-a339-5c4304385123} bus:/Reverb grotta
+{d84c2c47-108b-401a-85e0-1b306ab3d26d} bank:/Master Bank
