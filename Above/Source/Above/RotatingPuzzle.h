@@ -36,6 +36,25 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Points)
 		float mOldTarget;
 
+	/** For getting reference to "indicator" material */
+	UFUNCTION(BlueprintCallable, Category = Material)
+		TArray<UTexture2D*> GetMaterialsReference();
+
+	UFUNCTION(BlueprintCallable, Category = Material)
+		UMaterialInstanceDynamic* GetMaterialReference();
+
+	/** Populate this with materials corresponding to numbers */
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mIndicatorTextures;
+
+	/** Set name of rotating parent here */
+	UPROPERTY(EditAnywhere, Category = Properties)
+		FString mRotationParentName;
+
+	/** Set name of indicator parent here */
+	UPROPERTY(EditAnywhere, Category = Properties)
+		FString mIndicatorParentName;
+
 private:
 	bool mRotate;
 	float mCalcTarget = 0;
@@ -43,6 +62,10 @@ private:
 	float mTarget = 0;
 	float mBase;
 	float mCurrent;
+	int32 mRandom;
+
 	UStaticMeshComponent* mDishMesh;
+	UStaticMeshComponent* mIndicatorMesh;
+	UMaterialInstanceDynamic* mIndicatorMeshMaterial;
 	FVector* mStartPos;
 };

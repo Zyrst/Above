@@ -74,6 +74,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "LampActions")
 		void ActivateSecond();
 
+
+	/** Sound event called when fireflies are released */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventFireflyRelease();
+
+	/** Sound event called when fireflies are killed */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventFireflyElectrocute();
+
+	/** Sound event called when either button are pressed */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventButtonPress();
+
 private:
 	bool mAction, mActionKill;
 	float mKillTimer;

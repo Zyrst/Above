@@ -126,6 +126,8 @@ void ALamp::ActivateFirst() {
 	mAction		= true;
 	mActionKill = true;
 	mKillTimer	= mKillingDuration;
+	SoundEventFireflyRelease();
+	SoundEventButtonPress();
 }
 
 void ALamp::ActivateSecond() {
@@ -137,5 +139,7 @@ void ALamp::ActivateSecond() {
 	mActionKill = false;
 	mKillTimer	= mKillingDuration;
 	mFireflyParticles->Activate();
+	SoundEventFireflyElectrocute();
+	SoundEventButtonPress();
 }
 
