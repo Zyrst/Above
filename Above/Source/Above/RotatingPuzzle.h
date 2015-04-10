@@ -47,6 +47,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mIndicatorTextures;
 
+	/** Set name of rotating parent here */
+	UPROPERTY(EditAnywhere, Category = Properties)
+		FString mRotationParentName;
+
+	/** Set name of indicator parent here */
+	UPROPERTY(EditAnywhere, Category = Properties)
+		FString mIndicatorParentName;
+
 private:
 	bool mRotate;
 	float mCalcTarget = 0;

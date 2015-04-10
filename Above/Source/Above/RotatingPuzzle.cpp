@@ -23,12 +23,12 @@ void ARotatingPuzzle::BeginPlay()
 	this->GetComponents<UStaticMeshComponent>(Components);
 	for (int32 i = 0; i < Components.Num(); i++){
 		UStaticMeshComponent* mesh = Components[i];
-		if (mesh->GetName() == "Disk"){
+		if (mesh->GetName() == mRotationParentName){
 			mDishMesh = Components[i];
 		}
-
+		
 		// Get indicator mesh
-		if (mesh->GetName() == "Indicator") {
+		if (mesh->GetName() == mIndicatorParentName) {
 			mIndicatorMesh = Components[i];
 			mIndicatorMeshMaterial = mIndicatorMesh->CreateAndSetMaterialInstanceDynamic(0);
 		}
@@ -57,8 +57,8 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 		}
 
 		if ((mBase * (mCurrent / 360)) >= mCalcTarget){
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Stopped"));
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, FString::Printf(TEXT("mCurrent %f"), mCurrent));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Stopped"));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, FString::Printf(TEXT("mCurrent %f"), mCurrent));
 			mRotate = false;
 			mOldTarget = mTarget;
 			Reset();
@@ -67,11 +67,13 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 }
 
 void ARotatingPuzzle::Activate(float target){
-	
+	if (mRotate)
+		return;
+
 	mRotate = true;
 	mTarget = target;
-	GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Red, FString::Printf(TEXT("Target from array %f"), (target)));
-	GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Red, FString::Printf(TEXT("old target %f"), ( mOldTarget)));
+	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Red, FString::Printf(TEXT("Target from array %f"), (target)));
+	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Red, FString::Printf(TEXT("old target %f"), ( mOldTarget)));
 	
 	float calc = 0;
 	float num = 0;
@@ -111,7 +113,7 @@ void ARotatingPuzzle::Activate(float target){
 			}
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Magenta, FString::Printf(TEXT("Degree to move %f"), sum));
+	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Magenta, FString::Printf(TEXT("Degree to move %f"), sum));
 	//Calc the target with the formula
 	mCalcTarget = mBase * ((sum / 360));
 
