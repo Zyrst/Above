@@ -22,24 +22,33 @@ public:
 
 	/**Activate the door rotation*/
 	UFUNCTION(BlueprintCallable, Category = Activation)
-		void Activate(); 
+		void Activate();
 
 	void Reset();
 
 	/**The degree which it shall be rotated, normal is 90*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Rotation)
 		float RotationDegree;
-private:
+//private:
 	//Enables and disables rotation
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Animation)
 	bool mShouldRotate = false;
-	//Arc lenght that gets calculated 
+	//Arc lenght that gets calculated
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Animation)
 	float mTarget; 
 	//Calculate the "base" which is used to calculate the arc lenght
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Animation)
 	float mBase;
 	//Current arc lenght
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Animation)
 	float mCurrent = 0;
 	//Door mesh
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Animation)
 	UStaticMesh* mDoorMesh;
 	//Door mesh component
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Animation)
 	UStaticMeshComponent* mDoor;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventDoorOpen();
 };

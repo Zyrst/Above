@@ -95,6 +95,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
 		void SoundEventBeginPlay();
 
+	/** Sound event called when intensity change */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventIntensityChange();
+
 	/** Called when something enter sphere collider */
 	UFUNCTION()
 		void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -104,8 +108,12 @@ public:
 		void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	/** Returns distance between lamp and player */
-	UFUNCTION(BlueprintCallable, Category = "Misc")
+	UFUNCTION(BlueprintCallable, Category = "fmod")
 		float GetDistanceFromPlayer();
+
+	/** Returns sound intensity level. For use with fmod*/
+	UFUNCTION(BlueprintCallable, Category = "fmod")
+		float GetSoundIntensityLevel();
 
 
 private:
@@ -115,4 +123,6 @@ private:
 	UActorComponent* mFireflyParticles;
 	USphereComponent* mSphereCollider;
 	AActor* mPlayerReference;
+
+	float mSoundIntensity;
 };

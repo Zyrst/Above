@@ -17,7 +17,8 @@ ALamp::ALamp(const FObjectInitializer& ObjectInitializer) :
 	mTransitionSpeed(0.8f),
 	mFlickerAmount(200),
 	mFlickerIntensity(1),
-	mBlinkFactor(1){
+	mBlinkFactor(1),
+	mSoundIntensity(2){
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -125,10 +126,14 @@ void ALamp::Tick( float DeltaTime ){
 		if (mFireflyParticles != NULL)
 			mFireflyParticles->Deactivate();
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Resetting lamp")));
+
+		mSoundIntensity = 2;
+		SoundEventIntensityChange();
 	}
 }
 
 
+// Kill fireflies
 void ALamp::ActivateFirst() {
 	// Do not allow press when action. R.I.P English
 	if (mAction)
@@ -136,25 +141,34 @@ void ALamp::ActivateFirst() {
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Playing sounds of fireflies screaming in agony")));
 	
-	mAction		= true;
-	mActionKill = true;
-	mKillTimer	= mKillingDuration;
+	mSoundIntensity = 3;
+	mAction			= true;
+	mActionKill		= true;
+	mKillTimer		= mKillingDuration;
+
+	// Call sound events
 	SoundEventFireflyRelease();
 	SoundEventButtonPress();
+	SoundEventIntensityChange();
 }
 
+// Release fireflies
 void ALamp::ActivateSecond() {
 	// Do not allow press when action
 	if (mAction)
 		return;
 
-	mAction		= true;
-	mActionKill = false;
-	mKillTimer	= mKillingDuration;
+	mSoundIntensity = 1;
+	mAction			= true;
+	mActionKill		= false;
+	mKillTimer		= mKillingDuration;
 	if (mFireflyParticles != NULL)
 		mFireflyParticles->Activate();
+
+	// Call sound events
 	SoundEventFireflyElectrocute();
 	SoundEventButtonPress();
+	SoundEventIntensityChange();
 }
 
 
@@ -183,4 +197,8 @@ float ALamp::GetDistanceFromPlayer() {
 	FVector p2 = mPlayerReference->GetTransform().GetLocation();
 
 	return FMath::Sqrt(FVector::Dist(p1, p2));
+}
+
+float ALamp::GetSoundIntensityLevel() {
+	return mSoundIntensity;
 }
