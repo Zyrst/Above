@@ -102,15 +102,21 @@ void AStefun::MoveForward(float val){
 		
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
 	}
+	
 }
 
 
 void AStefun::MoveRight(float val){
+	if (currentSpeed == 0){
+		GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
+	}
+
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
 		AddMovementInput(direction, val);
 	}
+	
 }
 
 void AStefun::OnStartJump(){
