@@ -35,7 +35,7 @@ public:
 	UFUNCTION()
 		void OnStartJump();
 	UFUNCTION()
-	void OnStopJump();
+		void OnStopJump();
 
 	/** Zooms in */
 	UFUNCTION()
@@ -95,4 +95,7 @@ private:
 	float mPrevTime = 0;
 	int mTestFall = 0;
 	FRunnableThread* mThread;
+	float maxSpeed = 20;
+	float currentSpeed = 0;
+	bool forward = false;
 };

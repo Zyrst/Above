@@ -48,4 +48,7 @@ public:
 	//Door mesh component
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Animation)
 	UStaticMeshComponent* mDoor;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventDoorOpen();
 };
