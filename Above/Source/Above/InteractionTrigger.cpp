@@ -23,7 +23,7 @@ AInteractionTrigger::AInteractionTrigger(const FObjectInitializer& ObjectInitial
 	mHoverText->SetHiddenInGame(true);
 	mHoverText->SetText(mHoverTextDefaultValue);
 
-	//mPointerTarget = nullptr;
+	mPointerTarget = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -36,6 +36,10 @@ void AInteractionTrigger::BeginPlay()
 void AInteractionTrigger::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	if (mPointerTarget != nullptr) {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mPointerTarget->ToString()));
+	}
 }
 
 // Function overridden in blueprints
@@ -43,12 +47,12 @@ void AInteractionTrigger::Interact_Implementation() {
 
 }
 
-void AInteractionTrigger::SetPointerTarget(FVector vectorPointer) {
-	mPointerTarget = vectorPointer;
+void AInteractionTrigger::SetPointerTarget(FVector& vectorPointer) {
+	mPointerTarget = &vectorPointer;
 }
 
-FVector AInteractionTrigger::GetPointerTarget() {
-	return mPointerTarget;
+FVector& AInteractionTrigger::GetPointerTarget() {
+	return *mPointerTarget;
 }
 
 // Show text on start of hover
