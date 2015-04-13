@@ -97,4 +97,5 @@ private:
 	FRunnableThread* mThread;
 	float maxSpeed = 20;
 	float currentSpeed = 0;
+	bool forward = false;
 };

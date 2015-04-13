@@ -76,14 +76,30 @@ void AStefun::MoveForward(float val){
 		}
 		
 		AddMovementInput(direction, val);
+		if (val > 0)
+			forward = true;
+		else
+			forward = false;
 	}
 	if (val == 0.0f){
+
+		FRotator rotation = Controller->GetControlRotation();
+		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
+			rotation.Pitch = 0.0f;
+		}
+		//Add movement in that direction
+		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
+
 		if (currentSpeed > 0.0f){
 			currentSpeed -= 10.0f;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+			float value = currentSpeed * 0.1;
+			if (forward)
+				AddMovementInput(direction, 1);
+			else 
+				AddMovementInput(direction, -1);
 		}
-		float value = currentSpeed * 0.1;
-		AddMovementInput(Controller->GetControlRotation().Vector(), value);
+		
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
 	}
 }
