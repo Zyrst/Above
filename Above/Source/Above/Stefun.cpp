@@ -43,7 +43,7 @@ void AStefun::BeginPlay()
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
-
+	GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 	HoverOverObject();
 
 	// Prevent jumping over edge
@@ -61,7 +61,7 @@ void AStefun::Tick( float DeltaTime ){
 
 // Called to bind functionality to input
 void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
-	InputComponent->BindAxis("MoveForward", this, &AStefun::MoveForward);
+	InputComponent->BindAxis("MoveForward",this, &AStefun::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AStefun::MoveRight);
 	InputComponent->BindAxis("Turn", this, &AStefun::AddControllerYawInput);
 	InputComponent->BindAxis("LookUp", this, &AStefun::AddControllerPitchInput);
@@ -115,20 +115,59 @@ void AStefun::MoveForward(float val){
 		}
 		//Add movement in that direction
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
+
+		if (currentSpeed < mWalkSpeed){
+			currentSpeed += 10;
+			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
+		}
+		
 		AddMovementInput(direction, val);
+		if (val > 0)
+			forward = true;
+		else
+			forward = false;
 	}
+	if (val == 0.0f){
+
+		FRotator rotation = Controller->GetControlRotation();
+		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
+			rotation.Pitch = 0.0f;
+		}
+		//Add movement in that direction
+		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
+
+		if (currentSpeed > 0.0f){
+			currentSpeed -= 10.0f;
+			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+			float value = currentSpeed * 0.1;
+			if (forward)
+				AddMovementInput(direction, 1);
+			else 
+				AddMovementInput(direction, -1);
+		}
+		
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
+	}
+	
 }
+
 
 void AStefun::MoveRight(float val){
 	// Do now allow strafe when looking over edge or strafing into edge
 	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
 		return;
 	
+	if (currentSpeed == 0){
+		GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
+	}
+
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
 		AddMovementInput(direction, val);
 	}
+	
 }
 
 void AStefun::OnStartJump(){

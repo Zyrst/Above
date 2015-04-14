@@ -35,7 +35,7 @@ public:
 	UFUNCTION()
 		void OnStartJump();
 	UFUNCTION()
-	void OnStopJump();
+		void OnStopJump();
 
 	/** Zooms in */
 	UFUNCTION()
@@ -112,4 +112,8 @@ private:
 	FVector mCamDefaultLocation;
 	FVector mCamCurrentLocation;
 	bool mLeaningOverEdge;
+	
+	float maxSpeed = 20;
+	float currentSpeed = 0;
+	bool forward = false;
 };
