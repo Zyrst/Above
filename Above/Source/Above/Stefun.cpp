@@ -7,7 +7,12 @@
 
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer){
+	: Super(ObjectInitializer),
+	mEdgeThreshold(15),
+	mLeaningOverEdge(false),
+	mEdgeLeanAmount(50),
+	mLookDownSpeed(0){
+
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	mFaceCam = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FaceCam"));
@@ -30,6 +35,9 @@ void AStefun::BeginPlay()
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	DisableSprint();
 	Super::BeginPlay();
+
+
+	mCamDefaultLocation = mCamCurrentLocation = mFaceCam->GetRelativeTransform().GetLocation();
 }
 
 // Called every frame
@@ -37,6 +45,18 @@ void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
 
 	HoverOverObject();
+
+	// Prevent jumping over edge
+	if (!GetCharacterMovement()->IsMovingOnGround()) {
+		// Only care about xy speed
+		FVector vel = GetCharacterMovement()->Velocity;
+		vel.Z = 1;
+		
+		if (!FindGroundBelow(vel / vel * mEdgeThreshold)) {
+			GetCharacterMovement()->Velocity.X = 0;
+			GetCharacterMovement()->Velocity.Y = 0;
+		}
+	}
 }
 
 // Called to bind functionality to input
@@ -60,6 +80,33 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 }
 
 void AStefun::MoveForward(float val){
+
+	// If edge, tilt forward
+	if (!FindGroundBelow(GetActorForwardVector() * mEdgeThreshold) && val > 0) {
+		AddControllerPitchInput(mLookDownSpeed);
+
+		// Pan camera forward
+		mCamCurrentLocation = FMath::Lerp<FVector, float>(mCamCurrentLocation, mCamDefaultLocation + FVector(mEdgeLeanAmount, 0, 0), 0.5f);
+		mLeaningOverEdge = true;
+		mFaceCam->SetRelativeLocation(mCamCurrentLocation);
+
+		return;
+	}
+	
+	// If no edge or backing off, return to normal
+	if (val > 0 || (mLeaningOverEdge && val < 0)) {
+		if (FVector::Dist(mCamCurrentLocation, mCamDefaultLocation) > 0.5f)
+			mCamCurrentLocation = FMath::Lerp<FVector, float>(mCamCurrentLocation, mCamDefaultLocation, 0.5f);
+		else
+			mLeaningOverEdge = false;
+
+		mFaceCam->SetRelativeLocation(mCamCurrentLocation);
+	}
+	// If backing into an edge, do nothing
+	else if (val < 0.0f && !FindGroundBelow(-(GetActorForwardVector() * mEdgeThreshold)))
+		return;
+
+
 	if ((Controller != NULL) && (val != 0.0f)){
 		//Find which way is forward
 		FRotator rotation = Controller->GetControlRotation();
@@ -73,6 +120,10 @@ void AStefun::MoveForward(float val){
 }
 
 void AStefun::MoveRight(float val){
+	// Do now allow strafe when looking over edge or strafing into edge
+	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
+		return;
+	
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
@@ -237,4 +288,17 @@ void AStefun::TogglePause(){
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 		mIsPaused = false;
 	}
+}
+
+bool AStefun::FindGroundBelow(FVector offset) {
+	// Setup trace
+	FHitResult traceHitResult;
+	TObjectIterator<AStefun> Player;
+	FVector traceStart = GetTransform().GetLocation() + offset;
+	FVector traceEnd = traceStart + (-GetActorUpVector() * 10000) + offset;
+	ECollisionChannel collisionChannel = ECC_WorldStatic;
+	FCollisionQueryParams traceParamaters(FName(TEXT("InteractionTrace")), true, this);
+
+	// Trace
+	return Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
 }
