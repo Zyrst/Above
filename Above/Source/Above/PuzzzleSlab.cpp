@@ -19,7 +19,7 @@ APuzzzleSlab::APuzzzleSlab(const FObjectInitializer& ObjectInitializer)
 	mSlab = ObjectInitializer.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("Slab"));
 	mSlab->AttachParent = mRootComponent;
 
-	//mOverlapBox->OnComponentBeginOverlap
+	mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &APuzzzleSlab::BeginOverlapOnBox);
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +35,18 @@ void APuzzzleSlab::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 }
 
-void APuzzzleSlab::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Overlap")));
+void APuzzzleSlab::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	SteppedOnSlab();
+}
+
+void APuzzzleSlab::SteppedOnSlab_Implementation() {
+
+}
+
+void APuzzzleSlab::LightUpSlab() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));
+}
+
+void APuzzzleSlab::ResetSlab() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
 }

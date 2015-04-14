@@ -31,8 +31,17 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 		USkeletalMeshComponent* mSlab;
 
-	void BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	UFUNCTION()
+		void BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
+	UFUNCTION(BlueprintNativeEvent, Category = Overlap)
+		void SteppedOnSlab();
+
+	UFUNCTION(BlueprintCallable, Category = Effect)
+		void LightUpSlab();
+
+	UFUNCTION(BlueprintCallable, Category = Effect)
+		void ResetSlab();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bool)
 		bool mCorrectSlab;
