@@ -16,10 +16,12 @@ APuzzzleSlab::APuzzzleSlab(const FObjectInitializer& ObjectInitializer)
 	mOverlapBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("CollisionBox"));
 	mOverlapBox->AttachParent = mRootComponent;
 	
-	mSlab = ObjectInitializer.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("Slab"));
-	mSlab->AttachParent = mRootComponent;
+	mSlabMesh = ObjectInitializer.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("Slab"));
+	mSlabMesh->AttachParent = mRootComponent;
 
 	mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &APuzzzleSlab::BeginOverlapOnBox);
+
+	mIsCorrectSlab = false;
 }
 
 // Called when the game starts or when spawned
