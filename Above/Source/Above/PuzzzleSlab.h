@@ -29,20 +29,25 @@ public:
 		UBoxComponent* mOverlapBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
-		USkeletalMeshComponent* mSlab;
+		USkeletalMeshComponent* mSlabMesh;
 
+	/** Trigger on begin overlap */
 	UFUNCTION()
 		void BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
+	/** Called when stepped on */
 	UFUNCTION(BlueprintNativeEvent, Category = Overlap)
 		void SteppedOnSlab();
 
+	/** Turns on light effects */
 	UFUNCTION(BlueprintCallable, Category = Effect)
 		void LightUpSlab();
 
+	/** Resets light effects */
 	UFUNCTION(BlueprintCallable, Category = Effect)
 		void ResetSlab();
 
+	/** Is correct slab open variable */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bool)
-		bool mCorrectSlab;
+		bool mIsCorrectSlab;
 };
