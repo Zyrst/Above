@@ -48,17 +48,31 @@ void AStefun::Tick( float DeltaTime ){
 
 	// Prevent jumping over edge
 	// Uncomment this for only checking when in air. (Does not work with sliding)
-	//if (!GetCharacterMovement()->IsMovingOnGround()) {
+	//if (!GetCharacterMovement()->IsMovingOnGround())
+	{ 
 		// Only care about xy speed
 		FVector vel = GetCharacterMovement()->Velocity;
 		vel.Z = 1;
-		
+
 		if (!FindGroundBelow(vel / vel * mEdgeThreshold)) {
 			GetCharacterMovement()->Velocity.X = 0;
 			GetCharacterMovement()->Velocity.Y = 0;
 			currentSpeed = 0;
 		}
-	//}
+	}
+
+
+	if (currentSpeed > 0) {
+		if (mMoving == false)
+			SoundEventBeginMove();
+
+		SoundEventMove();
+	}
+	else if (currentSpeed == 0 && mMoving) {
+		mMoving = false;
+		SoundEventEndMove();
+	}
+
 }
 
 // Called to bind functionality to input
@@ -342,4 +356,8 @@ bool AStefun::FindGroundBelow(FVector offset) {
 
 	// Trace
 	return Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
+}
+
+float AStefun::GetMoveSpeed() {
+	return currentSpeed;
 }
