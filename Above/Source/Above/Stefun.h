@@ -90,11 +90,29 @@ public:
 
 	FVector mTargetPos;
 
+	/** Distance from edge where actor starts to look down */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
+		float mEdgeThreshold;
+
+	/** How far player should look over edge */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
+		float mEdgeLeanAmount;
+
+	/** How fast camera should pan down when walking towards edge */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
+		float mLookDownSpeed;
+
 private: 
 	bool mIsPaused;
 	float mPrevTime = 0;
 	int mTestFall = 0;
 	FRunnableThread* mThread;
+
+	bool FindGroundBelow(FVector offset);
+	FVector mCamDefaultLocation;
+	FVector mCamCurrentLocation;
+	bool mLeaningOverEdge;
+	
 	float maxSpeed = 20;
 	float currentSpeed = 0;
 	bool forward = false;
