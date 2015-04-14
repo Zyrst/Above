@@ -47,7 +47,8 @@ void AStefun::Tick( float DeltaTime ){
 	HoverOverObject();
 
 	// Prevent jumping over edge
-	if (!GetCharacterMovement()->IsMovingOnGround()) {
+	// Uncomment this for only checking when in air. (Does not work with sliding)
+	//if (!GetCharacterMovement()->IsMovingOnGround()) {
 		// Only care about xy speed
 		FVector vel = GetCharacterMovement()->Velocity;
 		vel.Z = 1;
@@ -55,8 +56,9 @@ void AStefun::Tick( float DeltaTime ){
 		if (!FindGroundBelow(vel / vel * mEdgeThreshold)) {
 			GetCharacterMovement()->Velocity.X = 0;
 			GetCharacterMovement()->Velocity.Y = 0;
+			currentSpeed = 0;
 		}
-	}
+	//}
 }
 
 // Called to bind functionality to input
