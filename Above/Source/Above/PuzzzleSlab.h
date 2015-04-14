@@ -30,5 +30,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 		USkeletalMeshComponent* mSlab;
+
+	void BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bool)
+		bool mCorrectSlab;
 };

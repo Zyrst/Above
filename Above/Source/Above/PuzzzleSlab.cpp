@@ -18,6 +18,8 @@ APuzzzleSlab::APuzzzleSlab(const FObjectInitializer& ObjectInitializer)
 	
 	mSlab = ObjectInitializer.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("Slab"));
 	mSlab->AttachParent = mRootComponent;
+
+	//mOverlapBox->OnComponentBeginOverlap
 }
 
 // Called when the game starts or when spawned
@@ -31,6 +33,8 @@ void APuzzzleSlab::BeginPlay()
 void APuzzzleSlab::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
+void APuzzzleSlab::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Overlap")));
+}
