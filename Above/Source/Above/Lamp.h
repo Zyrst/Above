@@ -115,6 +115,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "fmod")
 		float GetSoundIntensityLevel();
 
+	/** Returns sound intensity level. For use with fmod*/
+	UFUNCTION(BlueprintCallable, Category = "fmod")
+		float GetPlayedStatus();
 
 private:
 	bool mAction, mActionKill, mTrackPlayer;
@@ -125,4 +128,6 @@ private:
 	AActor* mPlayerReference;
 
 	float mSoundIntensity;
+
+	bool mPressedBefore;
 };

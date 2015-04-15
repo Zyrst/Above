@@ -18,7 +18,8 @@ ALamp::ALamp(const FObjectInitializer& ObjectInitializer) :
 	mFlickerAmount(200),
 	mFlickerIntensity(1),
 	mBlinkFactor(1),
-	mSoundIntensity(2){
+	mSoundIntensity(2),
+	mPressedBefore(false){
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -158,6 +159,7 @@ void ALamp::ActivateSecond() {
 	if (mAction)
 		return;
 
+	mPressedBefore	= true;
 	mSoundIntensity = 1;
 	mAction			= true;
 	mActionKill		= false;
@@ -201,4 +203,9 @@ float ALamp::GetDistanceFromPlayer() {
 
 float ALamp::GetSoundIntensityLevel() {
 	return mSoundIntensity;
+}
+
+
+float ALamp::GetPlayedStatus() {
+	return mPressedBefore ? 1.0f : 0.0f;
 }
