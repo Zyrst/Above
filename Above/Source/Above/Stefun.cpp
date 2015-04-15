@@ -132,11 +132,12 @@ void AStefun::MoveForward(float val){
 		//Add movement in that direction
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
 
-		if (currentSpeed < mWalkSpeed){
+		//Accelerate stefun uncomment
+		/*if (currentSpeed < mWalkSpeed){
 			currentSpeed += 10;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-		}
+		}*/
 		
 		AddMovementInput(direction, val);
 		if (val > 0)
@@ -144,7 +145,8 @@ void AStefun::MoveForward(float val){
 		else
 			forward = false;
 	}
-	if (val == 0.0f){
+	//Make accelerated Stefun, uncomment
+	/*if (val == 0.0f){
 
 		FRotator rotation = Controller->GetControlRotation();
 		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
@@ -161,10 +163,10 @@ void AStefun::MoveForward(float val){
 				AddMovementInput(direction, 1);
 			else 
 				AddMovementInput(direction, -1);
-		}
+				}
 		
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-	}
+	}*/
 	
 }
 
@@ -174,9 +176,9 @@ void AStefun::MoveRight(float val){
 	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
 		return;
 	
-	if (currentSpeed == 0){
+	/*if (currentSpeed == 0){
 		GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
-	}
+	}*/
 
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
