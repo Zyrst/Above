@@ -18,12 +18,9 @@ void ALightIndicator::BeginPlay()
 	for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
 		APuzzleSlabIndicatorLight* tmp = Cast<APuzzleSlabIndicatorLight>(*itr);
 		if (tmp != nullptr){
-			tmp->GetName();
-			tmp->LightOff();
+			mLights.Push(tmp);
 		}
-		
 	}
-	
 }
 
 // Called every frame
@@ -34,9 +31,12 @@ void ALightIndicator::Tick( float DeltaTime )
 }
 
 void ALightIndicator::Reduce(){
-
+	mLights[mLampsOff++]->LightOff();
 }
 
 void ALightIndicator::Reset(){
-
+	for (int32 i = 0; i < mLights.Num(); i++){
+		mLights[i]->Reset();
+	}
+	mLampsOff = 0;
 }

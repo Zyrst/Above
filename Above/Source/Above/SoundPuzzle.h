@@ -6,6 +6,7 @@
 #include "SoundPuzzle.generated.h"
 
 class APuzzzleSlab;
+class ALightIndicator;
 
 UCLASS()
 class ABOVE_API ASoundPuzzle : public AActor
@@ -33,6 +34,6 @@ public:
 private:
 	int32 mSteps;
 	TArray<UChildActorComponent*> mWalkWay;
-
+	ALightIndicator* mLightInd;
 
 };
