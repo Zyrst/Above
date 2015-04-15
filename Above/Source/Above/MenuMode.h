@@ -16,5 +16,4 @@ class ABOVE_API AMenuMode : public AGameMode
 public:
 	AMenuMode(const class FObjectInitializer& ObjectInitializer);
 	
-	
 };
