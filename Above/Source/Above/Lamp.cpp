@@ -126,7 +126,6 @@ void ALamp::Tick( float DeltaTime ){
 		mActionKill = false;
 		if (mFireflyParticles != NULL)
 			mFireflyParticles->Deactivate();
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Resetting lamp")));
 
 		mSoundIntensity = 2;
 		SoundEventIntensityChange();
@@ -140,8 +139,6 @@ void ALamp::ActivateFirst() {
 	if (mAction)
 		return;
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Playing sounds of fireflies screaming in agony")));
-	
 	mSoundIntensity = 3;
 	mAction			= true;
 	mActionKill		= true;
