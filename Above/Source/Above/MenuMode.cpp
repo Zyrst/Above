@@ -10,4 +10,3 @@ Super(ObjectInitializer){
 	if (HUD.Class != NULL)
 		HUDClass = HUD.Class;*/
 }
-
