@@ -35,4 +35,10 @@ public:
 	/** Light mesh */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
 		USkeletalMeshComponent* mLightMesh;
+
+	UMaterialInstanceDynamic* mLightMaterial;
+
+	/** Populate this with materials corresponding to numbers */
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mLightTextures;
 };
