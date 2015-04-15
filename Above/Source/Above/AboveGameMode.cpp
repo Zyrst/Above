@@ -13,10 +13,9 @@ AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer
 		GEngine->GameViewport->SetSuppressTransitionMessage(true);
 	}
 
-	static ConstructorHelpers::FClassFinder<AHUD> HUD(TEXT("Blueprint'/Game/Blueprints/DefaultHUD.DefaultHUD_C'"));
+	static ConstructorHelpers::FClassFinder<AHUD> HUD(TEXT("Blueprint'/Game/Blueprints/HUDs/DefaultHUD.DefaultHUD_C'"));
 	if (HUD.Class != NULL)
 		HUDClass = HUD.Class;
-
 }
 
 float AAboveGameMode::getStandardFoV(){
