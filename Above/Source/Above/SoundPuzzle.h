@@ -23,17 +23,16 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION(BlueprintCallable, Category = Activation)
-		void Activate(int32 index);
+		void Activate(int32 index, UChildActorComponent* slab);
 	UFUNCTION()
 		void Reset();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Maze)
 		TArray<AActor*> MazeArray;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Slab)
-		UChildActorComponent* mChild;
 
 private:
 	int32 mSteps;
-	
+	TArray<UChildActorComponent*> mWalkWay;
+
+
 };

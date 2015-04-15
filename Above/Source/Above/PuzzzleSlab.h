@@ -51,11 +51,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Path)
 		bool mIsCorrectSlab;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Path)
+		bool mStartSlab;
+
+
 	UMaterialInstanceDynamic* mSlabMaterial;
 
 	/** Populate this with materials corresponding to numbers */
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mSlabTextures;
+
 	UFUNCTION(BlueprintCallable, Category = Index)
 		int32 GetIndex();
 
