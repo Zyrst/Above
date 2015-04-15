@@ -62,4 +62,13 @@ void APuzzzleSlab::ResetSlab() {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
 		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
+}
+
+int32 APuzzzleSlab::GetIndex(){
+	return mIndex;
+}
+
+void APuzzzleSlab::SetIndex(int32 index){
+	mIndex = index;
 }

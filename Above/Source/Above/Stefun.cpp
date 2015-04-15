@@ -48,17 +48,31 @@ void AStefun::Tick( float DeltaTime ){
 
 	// Prevent jumping over edge
 	// Uncomment this for only checking when in air. (Does not work with sliding)
-	//if (!GetCharacterMovement()->IsMovingOnGround()) {
+	//if (!GetCharacterMovement()->IsMovingOnGround())
+	{ 
 		// Only care about xy speed
 		FVector vel = GetCharacterMovement()->Velocity;
 		vel.Z = 1;
-		
+
 		if (!FindGroundBelow(vel / vel * mEdgeThreshold)) {
 			GetCharacterMovement()->Velocity.X = 0;
 			GetCharacterMovement()->Velocity.Y = 0;
 			currentSpeed = 0;
 		}
-	//}
+	}
+
+
+	if (currentSpeed > 0) {
+		if (mMoving == false)
+			SoundEventBeginMove();
+
+		SoundEventMove();
+	}
+	else if (currentSpeed == 0 && mMoving) {
+		mMoving = false;
+		SoundEventEndMove();
+	}
+
 }
 
 // Called to bind functionality to input
@@ -118,11 +132,12 @@ void AStefun::MoveForward(float val){
 		//Add movement in that direction
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
 
-		if (currentSpeed < mWalkSpeed){
+		//Accelerate stefun uncomment
+		/*if (currentSpeed < mWalkSpeed){
 			currentSpeed += 10;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-		}
+		}*/
 		
 		AddMovementInput(direction, val);
 		if (val > 0)
@@ -130,7 +145,8 @@ void AStefun::MoveForward(float val){
 		else
 			forward = false;
 	}
-	if (val == 0.0f){
+	//Make accelerated Stefun, uncomment
+	/*if (val == 0.0f){
 
 		FRotator rotation = Controller->GetControlRotation();
 		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
@@ -147,10 +163,10 @@ void AStefun::MoveForward(float val){
 				AddMovementInput(direction, 1);
 			else 
 				AddMovementInput(direction, -1);
-		}
+				}
 		
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-	}
+	}*/
 	
 }
 
@@ -160,9 +176,9 @@ void AStefun::MoveRight(float val){
 	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
 		return;
 	
-	if (currentSpeed == 0){
+	/*if (currentSpeed == 0){
 		GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
-	}
+	}*/
 
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
@@ -342,4 +358,8 @@ bool AStefun::FindGroundBelow(FVector offset) {
 
 	// Trace
 	return Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
+}
+
+float AStefun::GetMoveSpeed() {
+	return currentSpeed;
 }

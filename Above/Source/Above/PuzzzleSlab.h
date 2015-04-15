@@ -48,7 +48,7 @@ public:
 		void ResetSlab();
 
 	/** Is correct slab open variable */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bool)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Path)
 		bool mIsCorrectSlab;
 
 	UMaterialInstanceDynamic* mSlabMaterial;
@@ -56,4 +56,12 @@ public:
 	/** Populate this with materials corresponding to numbers */
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mSlabTextures;
+	UFUNCTION(BlueprintCallable, Category = Index)
+		int32 GetIndex();
+
+	UFUNCTION(BlueprintCallable, Category = Index)
+		void SetIndex(int32 index);
+
+private:
+	int32 mIndex;
 };
