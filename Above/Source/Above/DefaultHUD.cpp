@@ -6,7 +6,7 @@
 
 ADefaultHUD::ADefaultHUD(const class FPostConstructInitializeProperties& PCIP):
 Super(PCIP){
-
+	
 }
 
 void ADefaultHUD::DrawHUD() {

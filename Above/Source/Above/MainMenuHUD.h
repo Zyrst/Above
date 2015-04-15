@@ -3,24 +3,23 @@
 #pragma once
 
 #include "GameFramework/HUD.h"
-#include "DefaultHUD.generated.h"
+#include "MainMenuHUD.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ABOVE_API ADefaultHUD : public AHUD
+class ABOVE_API AMainMenuHUD : public AHUD
 {
 	GENERATED_BODY()
 	
 public:
-	ADefaultHUD(const class FObjectInitializer& PCIP);
+	AMainMenuHUD(const class FObjectInitializer& PCIP);
 
 	virtual void DrawHUD() override;
 	virtual void PostInitializeComponents() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = JoyHUD)
+		UFont* mFont;
 	
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Crosshair")
-		UTexture2D* mCrosshairTexture;
-
 };
