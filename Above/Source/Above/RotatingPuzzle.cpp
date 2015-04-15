@@ -9,6 +9,8 @@ ARotatingPuzzle::ARotatingPuzzle()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	mFadeDown = false;
+	mShouldFade = false;
 }
 
 // Called when the game starts or when spawned
@@ -41,6 +43,10 @@ void ARotatingPuzzle::BeginPlay()
 		else
 			mPoints.Push(i * 60);
 	}
+
+	mIndicatorMeshMaterial->SetTextureParameterValue("Texture2", mTextureInactive);
+	mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", 1.0f);
+	mBlendFactor = 1;
 }
 
 // Called every frame
@@ -62,6 +68,30 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 			mRotate = false;
 			mOldTarget = mTarget;
 			Reset();
+		}
+	}
+
+
+	if (mShouldFade) {
+		// Fade "up" to unlit texture
+		if (!mFadeDown && mBlendFactor < 1.0f) {
+			mBlendFactor += mBlendSpeed;
+			mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", mBlendFactor);
+		}
+		// Change texture when unlit is showing
+		else if (!mFadeDown && mBlendFactor >= 1.0f) {
+			mIndicatorMeshMaterial->SetTextureParameterValue("Texture1", mDesiredTexture);
+			mFadeDown = true;
+		}
+		// Fade "down" to lit texture
+		else if (mFadeDown && mBlendFactor > 0.0f) {
+			mBlendFactor -= mBlendSpeed;
+			mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", mBlendFactor);
+		}
+		// Stop fading when lit
+		else if (mFadeDown && mBlendFactor <= 0.0f) {
+			mShouldFade = false;
+			mFadeDown = false;
 		}
 	}
 }
@@ -119,8 +149,10 @@ void ARotatingPuzzle::Activate(float target){
 
 
 	// Set texture if texture exists
-	if (mRandom <= mIndicatorTextures.Num())
-		mIndicatorMeshMaterial->SetTextureParameterValue("BaseTexture", mIndicatorTextures[mRandom]);
+	if (mRandom <= mIndicatorTextures.Num()) {
+		mDesiredTexture = mIndicatorTextures[mRandom];
+		mShouldFade = true;
+	}
 }
 
 void ARotatingPuzzle::Reset(){

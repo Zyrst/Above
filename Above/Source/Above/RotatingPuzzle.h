@@ -47,6 +47,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mIndicatorTextures;
 
+	/** Texture when off */
+	UPROPERTY(EditAnywhere, Category = Material)
+		UTexture2D* mTextureInactive;
+
+	/** How fast to blend textures */
+	UPROPERTY(EditAnywhere, Category = Material)
+		float mBlendSpeed;
+
 	/** Set name of rotating parent here */
 	UPROPERTY(EditAnywhere, Category = Properties)
 		FString mRotationParentName;
@@ -68,4 +76,9 @@ private:
 	UStaticMeshComponent* mIndicatorMesh;
 	UMaterialInstanceDynamic* mIndicatorMeshMaterial;
 	FVector* mStartPos;
+
+	UTexture2D* mDesiredTexture;
+	bool mFadeDown;
+	bool mShouldFade;
+	float mBlendFactor;
 };
