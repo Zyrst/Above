@@ -3,7 +3,7 @@
 #include "Above.h"
 #include "SoundPuzzle.h"
 #include "PuzzzleSlab.h"
-
+#include "LightIndicator.h"
 
 // Sets default values
 ASoundPuzzle::ASoundPuzzle(const FObjectInitializer& objectInit):
@@ -18,6 +18,13 @@ void ASoundPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 	mSteps = 0;
+
+	for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
+		ALightIndicator* tmp = Cast<ALightIndicator>(*itr);
+		if (tmp != nullptr){
+			mLightInd = tmp;
+		}
+	}
 }
 
 // Called every frame
@@ -46,12 +53,14 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 				//Add to walkpath and light it up
 				mWalkWay.Add(slab);
 				tmpSlab->LightUpSlab();
+				mLightInd->Reduce();
 			}
 			else if(mSteps != 0){
 				if (!mWalkWay.Contains(slab)){
 					mSteps++;
 					mWalkWay.Add(slab);
 					tmpSlab->LightUpSlab();
+					mLightInd->Reduce();
 				}
 			}
 		}
@@ -67,9 +76,11 @@ void ASoundPuzzle::Reset(){
 			APuzzzleSlab* tmpSlab = Cast<APuzzzleSlab>(mWalkWay[i]->ChildActor);
 			if (tmpSlab != nullptr){
 				tmpSlab->ResetSlab();
+
 			}
 		}
 		//Empties the array but keep the same size so no need to allocate more room
 		mWalkWay.Empty(16);
+		mLightInd->Reset();
 	}
 }

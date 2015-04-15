@@ -52,17 +52,17 @@ void APuzzzleSlab::SteppedOnSlab_Implementation() {
 
 void APuzzzleSlab::LightUpSlab() {
 	if (mSlabTextures.Num() > 0) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));
 		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[1]);
 	}
 }
 
 void APuzzzleSlab::ResetSlab() {
 	if (mSlabTextures.Num() == 2) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
 		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
 }
 
 int32 APuzzzleSlab::GetIndex(){

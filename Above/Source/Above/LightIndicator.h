@@ -28,7 +28,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Reset)
 		void Reset();
 private:
-	int32 mLampsOff;
+	int32 mLampsOff = 0;
 	
-	TArray<UChildActorComponent*> mLights;
+	TArray<APuzzleSlabIndicatorLight*> mLights;
 };
