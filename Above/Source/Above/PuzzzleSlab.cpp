@@ -28,7 +28,12 @@ APuzzzleSlab::APuzzzleSlab(const FObjectInitializer& ObjectInitializer)
 void APuzzzleSlab::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	mSlabMaterial = mSlabMesh->CreateAndSetMaterialInstanceDynamic(0);
+
+	if (mSlabTextures.Num() == 2) {
+		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
+	}
 }
 
 // Called every frame
@@ -46,9 +51,15 @@ void APuzzzleSlab::SteppedOnSlab_Implementation() {
 }
 
 void APuzzzleSlab::LightUpSlab() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));
+	if (mSlabTextures.Num() > 0) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));
+		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[1]);
+	}
 }
 
 void APuzzzleSlab::ResetSlab() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
+	if (mSlabTextures.Num() == 2) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
+		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
+	}
 }

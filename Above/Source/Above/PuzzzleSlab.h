@@ -50,4 +50,10 @@ public:
 	/** Is correct slab open variable */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Bool)
 		bool mIsCorrectSlab;
+
+	UMaterialInstanceDynamic* mSlabMaterial;
+
+	/** Populate this with materials corresponding to numbers */
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mSlabTextures;
 };
