@@ -154,6 +154,8 @@ void ARotatingPuzzle::Activate(float target){
 	if (mRandom <= mIndicatorTextures.Num()) {
 		mDesiredTexture = mIndicatorTextures[mRandom];
 		mShouldFade = true;
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Random: %i"), mRandom));
 	}
 
 	SoundEventButtonClick();
