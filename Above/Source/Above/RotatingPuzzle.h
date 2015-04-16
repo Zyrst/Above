@@ -63,6 +63,23 @@ public:
 	UPROPERTY(EditAnywhere, Category = Properties)
 		FString mIndicatorParentName;
 
+	/** Is called when button is pressed */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventButtonClick();
+
+	/** Is called when beggining to rotate */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventRotateBegin();
+
+	/** Is called when stopping rotation */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventRotateEnd();
+
+	/** Is called when rotating */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventRotating();
+
+
 private:
 	bool mRotate;
 	float mCalcTarget = 0;

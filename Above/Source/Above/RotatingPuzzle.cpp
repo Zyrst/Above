@@ -60,6 +60,7 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 			
 			mDishMesh->AddLocalRotation(FRotator::FRotator(0, 1, 0), false, nullptr);
 			mCurrent += 1.0;
+			SoundEventRotating();
 		}
 
 		if ((mBase * (mCurrent / 360)) >= mCalcTarget){
@@ -68,6 +69,7 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 			mRotate = false;
 			mOldTarget = mTarget;
 			Reset();
+			SoundEventRotateEnd();
 		}
 	}
 
@@ -153,6 +155,9 @@ void ARotatingPuzzle::Activate(float target){
 		mDesiredTexture = mIndicatorTextures[mRandom];
 		mShouldFade = true;
 	}
+
+	SoundEventButtonClick();
+	SoundEventRotateBegin();
 }
 
 void ARotatingPuzzle::Reset(){
