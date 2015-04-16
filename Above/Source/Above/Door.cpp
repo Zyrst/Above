@@ -57,8 +57,6 @@ void ADoor::Activate(){
 	mTarget = mBase * target;
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Black, FString::Printf(TEXT("Size %f"), mTarget));
 	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Black, FString::Printf(TEXT("BlueprintDegree %f"), RotationDegree));
-
-	SoundEventDoorOpen();
 }
 
 void ADoor::Reset(){

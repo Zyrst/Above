@@ -7,12 +7,7 @@
 
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer),
-	mEdgeThreshold(15),
-	mLeaningOverEdge(false),
-	mEdgeLeanAmount(50),
-	mLookDownSpeed(0){
-
+	: Super(ObjectInitializer){
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	mFaceCam = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FaceCam"));
@@ -35,49 +30,18 @@ void AStefun::BeginPlay()
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true;
 	DisableSprint();
 	Super::BeginPlay();
-
-
-	mCamDefaultLocation = mCamCurrentLocation = mFaceCam->GetRelativeTransform().GetLocation();
 }
 
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
-	GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
+
 	HoverOverObject();
-
-	// Prevent jumping over edge
-	// Uncomment this for only checking when in air. (Does not work with sliding)
-	//if (!GetCharacterMovement()->IsMovingOnGround())
-	{ 
-		// Only care about xy speed
-		FVector vel = GetCharacterMovement()->Velocity;
-		vel.Z = 1;
-
-		if (!FindGroundBelow(vel / vel * mEdgeThreshold)) {
-			GetCharacterMovement()->Velocity.X = 0;
-			GetCharacterMovement()->Velocity.Y = 0;
-			currentSpeed = 0;
-		}
-	}
-
-
-	if (currentSpeed > 0) {
-		if (mMoving == false)
-			SoundEventBeginMove();
-
-		SoundEventMove();
-	}
-	else if (currentSpeed == 0 && mMoving) {
-		mMoving = false;
-		SoundEventEndMove();
-	}
-
 }
 
 // Called to bind functionality to input
 void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
-	InputComponent->BindAxis("MoveForward",this, &AStefun::MoveForward);
+	InputComponent->BindAxis("MoveForward", this, &AStefun::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AStefun::MoveRight);
 	InputComponent->BindAxis("Turn", this, &AStefun::AddControllerYawInput);
 	InputComponent->BindAxis("LookUp", this, &AStefun::AddControllerPitchInput);
@@ -96,33 +60,6 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 }
 
 void AStefun::MoveForward(float val){
-
-	// If edge, tilt forward
-	if (!FindGroundBelow(GetActorForwardVector() * mEdgeThreshold) && val > 0) {
-		AddControllerPitchInput(mLookDownSpeed);
-
-		// Pan camera forward
-		mCamCurrentLocation = FMath::Lerp<FVector, float>(mCamCurrentLocation, mCamDefaultLocation + FVector(mEdgeLeanAmount, 0, 0), 0.5f);
-		mLeaningOverEdge = true;
-		mFaceCam->SetRelativeLocation(mCamCurrentLocation);
-
-		return;
-	}
-	
-	// If no edge or backing off, return to normal
-	if (val > 0 || (mLeaningOverEdge && val < 0)) {
-		if (FVector::Dist(mCamCurrentLocation, mCamDefaultLocation) > 0.5f)
-			mCamCurrentLocation = FMath::Lerp<FVector, float>(mCamCurrentLocation, mCamDefaultLocation, 0.5f);
-		else
-			mLeaningOverEdge = false;
-
-		mFaceCam->SetRelativeLocation(mCamCurrentLocation);
-	}
-	// If backing into an edge, do nothing
-	else if (val < 0.0f && !FindGroundBelow(-(GetActorForwardVector() * mEdgeThreshold)))
-		return;
-
-
 	if ((Controller != NULL) && (val != 0.0f)){
 		//Find which way is forward
 		FRotator rotation = Controller->GetControlRotation();
@@ -131,61 +68,16 @@ void AStefun::MoveForward(float val){
 		}
 		//Add movement in that direction
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
-
-		//Accelerate stefun uncomment
-		/*if (currentSpeed < mWalkSpeed){
-			currentSpeed += 10;
-			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-		}*/
-		
 		AddMovementInput(direction, val);
-		if (val > 0)
-			forward = true;
-		else
-			forward = false;
 	}
-	//Make accelerated Stefun, uncomment
-	/*if (val == 0.0f){
-
-		FRotator rotation = Controller->GetControlRotation();
-		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
-			rotation.Pitch = 0.0f;
-		}
-		//Add movement in that direction
-		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
-
-		if (currentSpeed > 0.0f){
-			currentSpeed -= 10.0f;
-			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-			float value = currentSpeed * 0.1;
-			if (forward)
-				AddMovementInput(direction, 1);
-			else 
-				AddMovementInput(direction, -1);
-				}
-		
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-	}*/
-	
 }
 
-
 void AStefun::MoveRight(float val){
-	// Do now allow strafe when looking over edge or strafing into edge
-	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
-		return;
-	
-	/*if (currentSpeed == 0){
-		GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
-	}*/
-
 	if ((Controller != NULL) && (val != 0.0f)){
 		const FRotator rotation = Controller->GetControlRotation();
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
 		AddMovementInput(direction, val);
 	}
-	
 }
 
 void AStefun::OnStartJump(){
@@ -254,12 +146,8 @@ void AStefun::HoverOverObject() {
 	// Trace
 	Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
 
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mTargetPos.ToString()));
-
 	// Hit something
 	if (traceHitResult.bBlockingHit == true) {
-		mTargetPos = traceHitResult.ImpactPoint;
-
 		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
 
 		// Hit a trigger
@@ -312,8 +200,6 @@ void AStefun::HoverOverObject() {
 
 	// Hit nothing
 	else {
-		mTargetPos = traceEnd;
-
 		if (mTrigger != nullptr) {
 			mTrigger->EndHover();
 			mTrigger = nullptr;
@@ -345,21 +231,4 @@ void AStefun::TogglePause(){
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 		mIsPaused = false;
 	}
-}
-
-bool AStefun::FindGroundBelow(FVector offset) {
-	// Setup trace
-	FHitResult traceHitResult;
-	TObjectIterator<AStefun> Player;
-	FVector traceStart = GetTransform().GetLocation() + offset;
-	FVector traceEnd = traceStart + (-GetActorUpVector() * 10000) + offset;
-	ECollisionChannel collisionChannel = ECC_WorldStatic;
-	FCollisionQueryParams traceParamaters(FName(TEXT("InteractionTrace")), true, this);
-
-	// Trace
-	return Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
-}
-
-float AStefun::GetMoveSpeed() {
-	return currentSpeed;
 }

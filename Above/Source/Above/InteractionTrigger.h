@@ -26,10 +26,10 @@ public:
 		void Interact();
 
 	UFUNCTION(BlueprintCallable, Category = Interaction)
-		void SetPointerTarget(UPARAM(ref) FVector& vectorPointer);
+		void SetPointerTarget(FVector vectorPointer);
 
 	UFUNCTION(BlueprintCallable, Category = Interaction)
-		FVector& GetPointerTarget();
+		FVector GetPointerTarget();
 
 	/** Called on hit by line trace */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
@@ -55,5 +55,5 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
 		UBoxComponent* mRootComponent;
 
-	FVector* mPointerTarget;
+	FVector mPointerTarget;
 };

@@ -22,7 +22,7 @@ public:
 
 	/** Mark numberd trigger as activated */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
-		void InteractWithTrigger(int32 triggerNum, UPARAM(ref) FVector& vectorPointer);
+	void InteractWithTrigger(int32 triggerNum);
 
 	/** Empty list of activated triggers */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
@@ -41,6 +41,4 @@ public:
 	/** Light specified button */
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		void LightButton(int32 buttonNum);
-
-	FVector* mPointerTarget;
 };

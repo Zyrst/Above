@@ -35,7 +35,7 @@ public:
 	UFUNCTION()
 		void OnStartJump();
 	UFUNCTION()
-		void OnStopJump();
+	void OnStopJump();
 
 	/** Zooms in */
 	UFUNCTION()
@@ -90,48 +90,9 @@ public:
 
 	FVector mTargetPos;
 
-	/** Distance from edge where actor starts to look down */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
-		float mEdgeThreshold;
-
-	/** How far player should look over edge */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
-		float mEdgeLeanAmount;
-
-	/** How fast camera should pan down when walking towards edge */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
-		float mLookDownSpeed;
-
-	/** Called when moving */
-	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
-		void SoundEventMove();
-
-	/** Called when beginning to move */
-	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
-		void SoundEventBeginMove();
-
-	/** Called when movement stops */
-	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
-		void SoundEventEndMove();
-
-	/** Returns move speed */
-	UFUNCTION(BlueprintCallable, Category = "fmod")
-		float GetMoveSpeed();
-
 private: 
 	bool mIsPaused;
 	float mPrevTime = 0;
 	int mTestFall = 0;
 	FRunnableThread* mThread;
-
-	bool FindGroundBelow(FVector offset);
-	FVector mCamDefaultLocation;
-	FVector mCamCurrentLocation;
-	bool mLeaningOverEdge;
-	
-	float maxSpeed = 20;
-	float currentSpeed = 0;
-	bool forward = false;
-
-	bool mMoving = false;
 };

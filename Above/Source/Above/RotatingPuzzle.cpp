@@ -9,9 +9,6 @@ ARotatingPuzzle::ARotatingPuzzle()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	mFadeDown = false;
-	mShouldFade = false;
-	mRandomRotationInterval = FVector2D(3, 5);
 }
 
 // Called when the game starts or when spawned
@@ -44,10 +41,6 @@ void ARotatingPuzzle::BeginPlay()
 		else
 			mPoints.Push(i * 60);
 	}
-
-	mIndicatorMeshMaterial->SetTextureParameterValue("Texture2", mTextureInactive);
-	mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", 1.0f);
-	mBlendFactor = 1;
 }
 
 // Called every frame
@@ -61,7 +54,6 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 			
 			mDishMesh->AddLocalRotation(FRotator::FRotator(0, 1, 0), false, nullptr);
 			mCurrent += 1.0;
-			SoundEventRotating();
 		}
 
 		if ((mBase * (mCurrent / 360)) >= mCalcTarget){
@@ -70,31 +62,6 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 			mRotate = false;
 			mOldTarget = mTarget;
 			Reset();
-			SoundEventRotateEnd();
-		}
-	}
-
-
-	if (mShouldFade) {
-		// Fade "up" to unlit texture
-		if (!mFadeDown && mBlendFactor < 1.0f) {
-			mBlendFactor += mBlendSpeed;
-			mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", mBlendFactor);
-		}
-		// Change texture when unlit is showing
-		else if (!mFadeDown && mBlendFactor >= 1.0f) {
-			mIndicatorMeshMaterial->SetTextureParameterValue("Texture1", mDesiredTexture);
-			mFadeDown = true;
-		}
-		// Fade "down" to lit texture
-		else if (mFadeDown && mBlendFactor > 0.0f) {
-			mBlendFactor -= mBlendSpeed;
-			mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", mBlendFactor);
-		}
-		// Stop fading when lit
-		else if (mFadeDown && mBlendFactor <= 0.0f) {
-			mShouldFade = false;
-			mFadeDown = false;
 		}
 	}
 }
@@ -149,18 +116,11 @@ void ARotatingPuzzle::Activate(float target){
 	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Magenta, FString::Printf(TEXT("Degree to move %f"), sum));
 	//Calc the target with the formula
 	mCalcTarget = mBase * ((sum / 360));
-	mCalcTarget += mBase * ((360 * FMath::RandRange(3, 5) / 360));
+
 
 	// Set texture if texture exists
-	if (mRandom <= mIndicatorTextures.Num()) {
-		mDesiredTexture = mIndicatorTextures[mRandom];
-		mShouldFade = true;
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Random: %i"), mRandom));
-	}
-
-	SoundEventButtonClick();
-	SoundEventRotateBegin();
+	if (mRandom <= mIndicatorTextures.Num())
+		mIndicatorMeshMaterial->SetTextureParameterValue("BaseTexture", mIndicatorTextures[mRandom]);
 }
 
 void ARotatingPuzzle::Reset(){
