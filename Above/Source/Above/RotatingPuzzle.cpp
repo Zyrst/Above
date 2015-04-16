@@ -11,6 +11,7 @@ ARotatingPuzzle::ARotatingPuzzle()
 	PrimaryActorTick.bCanEverTick = true;
 	mFadeDown = false;
 	mShouldFade = false;
+	mRandomRotationInterval = FVector2D(3, 5);
 }
 
 // Called when the game starts or when spawned
@@ -148,7 +149,7 @@ void ARotatingPuzzle::Activate(float target){
 	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Magenta, FString::Printf(TEXT("Degree to move %f"), sum));
 	//Calc the target with the formula
 	mCalcTarget = mBase * ((sum / 360));
-
+	mCalcTarget += mBase * ((360 * FMath::RandRange(3, 5) / 360));
 
 	// Set texture if texture exists
 	if (mRandom <= mIndicatorTextures.Num()) {

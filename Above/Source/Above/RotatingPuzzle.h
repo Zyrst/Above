@@ -55,6 +55,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Material)
 		float mBlendSpeed;
 
+	/** Number of laps to rotate */
+	UPROPERTY(EditAnywhere, Category = Properties)
+		FVector2D mRandomRotationInterval;
+
 	/** Set name of rotating parent here */
 	UPROPERTY(EditAnywhere, Category = Properties)
 		FString mRotationParentName;
