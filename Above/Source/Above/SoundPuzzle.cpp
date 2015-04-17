@@ -67,8 +67,8 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 	APuzzzleSlab* tmpSlab = Cast<APuzzzleSlab>(slab->ChildActor);
 	if (tmpSlab != nullptr){
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, tmpSlab->GetName());
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Y value %f"), tmpSlab->GetActorLocation().Y));
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("X value %f"), tmpSlab->GetActorLocation().X));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Y value %f"), tmpSlab->GetActorLocation().Y));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("X value %f"), tmpSlab->GetActorLocation().X));
 
 		if (mSteps < 16 ){
 			//Make sure we start from the begining of the puzzle
