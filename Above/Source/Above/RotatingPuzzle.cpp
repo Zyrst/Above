@@ -59,8 +59,13 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 		//(two*pi*r*(CurrentDegree / 360))
 		if ((mBase * (mCurrent / 360)) < mCalcTarget){
 			
-			mDishMesh->AddLocalRotation(FRotator::FRotator(0, 1, 0), false, nullptr);
-			mCurrent += 1.0;
+			int32 rotationSpeed = (mCalcTarget - mBase * (mCurrent / 360)) * 0.2;
+			if (rotationSpeed < 1) {
+				rotationSpeed = 1;
+			}
+
+			mDishMesh->AddLocalRotation(FRotator::FRotator(0, rotationSpeed, 0), false, nullptr);
+			mCurrent += rotationSpeed;
 			SoundEventRotating();
 		}
 
