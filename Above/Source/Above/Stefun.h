@@ -133,7 +133,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 		float mParameterChangeValue;
 
-
 private: 
 	bool mIsPaused;
 	float mPrevTime = 0;
@@ -150,4 +149,5 @@ private:
 	bool forward = false;
 
 	bool mMoving = false;
+
 };
