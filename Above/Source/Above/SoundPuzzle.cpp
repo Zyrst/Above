@@ -45,6 +45,7 @@ void ASoundPuzzle::Tick( float DeltaTime )
 
 		if (mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
+			PuzzleCompleted = true;
 		}
 		else if (!mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the wrong way"));
@@ -77,7 +78,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 	}
 	//Make sure we don't have a null pointer
 	if (tmpSlab != nullptr){
-		if (mSteps < 16 ){
+		if (mSteps < 16 && !PuzzleCompleted ){
 			//Make sure we start from the begining of the puzzle
 			if (mSteps == 0 && tmpSlab->mStartSlab){
 				Reset();
@@ -151,7 +152,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 		}
 		
 		
-
+		
 		
 	}
 }

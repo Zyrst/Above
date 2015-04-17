@@ -48,5 +48,6 @@ private:
 	/*0 = Left, 1 = Right, 2 = Forward, 3 = Back*/
 	TArray<bool> mSounds;
 
+	bool PuzzleCompleted = false;
 	bool mDoneOnce = false;
 };
