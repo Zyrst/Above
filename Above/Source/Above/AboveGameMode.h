@@ -24,4 +24,7 @@ public:
 		float StandardF_O_V;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Utility)
 		float ZoomF_O_V;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+		TArray<bool> CompletedPuzzleArray;
 };

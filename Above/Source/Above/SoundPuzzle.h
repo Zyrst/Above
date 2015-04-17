@@ -23,7 +23,6 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-
 	void DoOnceLoad();
 
 	UFUNCTION(BlueprintCallable, Category = Activation)
@@ -38,10 +37,16 @@ public:
 
 private:
 	int32 mSteps;
+	int32 mCorPathSteps;
 	TArray<UChildActorComponent*> mWalkWay;
-	FString mWalkingWay;
-	ALightIndicator* mLightInd;
 	TArray<AActor*> mCorPathSlabs;
-	int32 mCurrentStep;
+	FString mWalkingWay;
+	FString mRightWay;
+	ALightIndicator* mLightInd;
+	
+	/*Sound bools*/
+	/*0 = Left, 1 = Right, 2 = Forward, 3 = Back*/
+	TArray<bool> mSounds;
+
 	bool mDoneOnce = false;
 };
