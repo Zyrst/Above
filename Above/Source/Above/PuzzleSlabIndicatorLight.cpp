@@ -37,14 +37,14 @@ void APuzzleSlabIndicatorLight::Tick( float DeltaTime )
 }
 
 void APuzzleSlabIndicatorLight::LightOff() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Turned light off"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Turned light off"));
 	if (mLightTextures.Num() == 2) {
 		mLightMaterial->SetTextureParameterValue("BaseTexture", mLightTextures[1]);
 	}
 }
 
 void APuzzleSlabIndicatorLight::Reset() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Reset light"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Reset light"));
 	if (mLightTextures.Num() == 2) {
 		mLightMaterial->SetTextureParameterValue("BaseTexture", mLightTextures[0]);
 	}
