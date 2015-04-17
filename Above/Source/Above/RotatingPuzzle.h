@@ -55,6 +55,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Material)
 		float mBlendSpeed;
 
+	/** Number of laps to rotate */
+	UPROPERTY(EditAnywhere, Category = Properties)
+		FVector2D mRandomRotationInterval;
+
 	/** Set name of rotating parent here */
 	UPROPERTY(EditAnywhere, Category = Properties)
 		FString mRotationParentName;
@@ -62,6 +66,23 @@ public:
 	/** Set name of indicator parent here */
 	UPROPERTY(EditAnywhere, Category = Properties)
 		FString mIndicatorParentName;
+
+	/** Is called when button is pressed */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventButtonClick();
+
+	/** Is called when beggining to rotate */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventRotateBegin();
+
+	/** Is called when stopping rotation */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventRotateEnd();
+
+	/** Is called when rotating */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventRotating();
+
 
 private:
 	bool mRotate;

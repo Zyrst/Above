@@ -363,3 +363,12 @@ bool AStefun::FindGroundBelow(FVector offset) {
 float AStefun::GetMoveSpeed() {
 	return currentSpeed;
 }
+
+
+
+void AStefun::ChangeParameter(FName parameterName, float parameterValue) {
+	mParameterChangeName = parameterName;
+	mParameterChangeValue = parameterValue;
+
+	SoundEventParameterChange();
+}

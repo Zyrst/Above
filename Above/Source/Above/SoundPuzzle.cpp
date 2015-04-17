@@ -25,17 +25,39 @@ void ASoundPuzzle::BeginPlay()
 			mLightInd = tmp;
 		}
 	}
+	
+
 }
+
 
 // Called every frame
 void ASoundPuzzle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	if (mDoneOnce == false){
+		DoOnceLoad();
+		mDoneOnce = true;
+	}
 	if (mSteps == 16){
 		for (int32 i = 0; i < 16; i++){
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mWalkWay[i]->GetName());
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mWalkWay[i]->GetName());
 		}
 		mSteps = 0;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, mWalkingWay);
+	}
+}
+
+void ASoundPuzzle::DoOnceLoad(){
+	for (int32 i = 0; i < mCorrectPath.Num(); i++){
+		mCorPathSlabs.Add(MazeArray[mCorrectPath[i]]);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Value %d"), mCorrectPath[i]));
+	}
+
+	for (int32 k = 0; k < 1; k++){
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mCorPathSlabs[k]->GetName());
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Y value %f"),mCorPathSlabs[k]->GetTransform().GetLocation().Y));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("X value %f"), mCorPathSlabs[k]->GetTransform().GetLocation().X));
 	}
 }
 
@@ -44,7 +66,10 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 	//Cast to Puzzleslab so we can use functions
 	APuzzzleSlab* tmpSlab = Cast<APuzzzleSlab>(slab->ChildActor);
 	if (tmpSlab != nullptr){
-		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Found Slab"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, tmpSlab->GetName());
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("Y value %f"), tmpSlab->GetActorLocation().Y));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("X value %f"), tmpSlab->GetActorLocation().X));
+
 		if (mSteps < 16 ){
 			//Make sure we start from the begining of the puzzle
 			if (mSteps == 0 && tmpSlab->mStartSlab){
@@ -54,6 +79,8 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 				mWalkWay.Add(slab);
 				tmpSlab->LightUpSlab();
 				mLightInd->Reduce();
+				mCurrentStep++;
+				mWalkingWay += FString::FromInt(index);
 			}
 			else if(mSteps != 0){
 				if (!mWalkWay.Contains(slab)){
@@ -61,9 +88,28 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 					mWalkWay.Add(slab);
 					tmpSlab->LightUpSlab();
 					mLightInd->Reduce();
+					mWalkingWay += FString::FromInt(index);
+					if (mCorPathSlabs[mCurrentStep]->GetName() == tmpSlab->GetName()){
+						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, tmpSlab->GetName());
+						mCurrentStep++;
+					}
 				}
 			}
 		}
+
+		//FVector rootLocation = tmpSlab->GetRootComponent()->GetCustomLocation();
+		auto name = slab->GetAttachmentRoot()->GetName();
+		auto rootLocation = slab->GetAttachmentRoot()->RelativeLocation;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, name);
+		
+		FVector tmpPos = rootLocation - tmpSlab->GetTransform().GetLocation();
+		FVector tmpNextPos = rootLocation - mCorPathSlabs[(mCurrentStep)]->GetTransform().GetLocation();
+
+		float tmpX = tmpPos.X - tmpNextPos.X;
+		float tmpY = tmpPos.Y - tmpNextPos.Y;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("tmpX value %f"), tmpX));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("tmpY value %f"), tmpY));
+
 	}
 
 	
@@ -82,5 +128,6 @@ void ASoundPuzzle::Reset(){
 		//Empties the array but keep the same size so no need to allocate more room
 		mWalkWay.Empty(16);
 		mLightInd->Reset();
+		mCurrentStep = 0;
 	}
 }

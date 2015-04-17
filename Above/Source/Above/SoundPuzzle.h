@@ -23,6 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+
+	void DoOnceLoad();
+
 	UFUNCTION(BlueprintCallable, Category = Activation)
 		void Activate(int32 index, UChildActorComponent* slab);
 	UFUNCTION()
@@ -30,10 +33,15 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Maze)
 		TArray<AActor*> MazeArray;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Maze)
+		TArray<int32> mCorrectPath;
 
 private:
 	int32 mSteps;
 	TArray<UChildActorComponent*> mWalkWay;
+	FString mWalkingWay;
 	ALightIndicator* mLightInd;
-
+	TArray<AActor*> mCorPathSlabs;
+	int32 mCurrentStep;
+	bool mDoneOnce = false;
 };
