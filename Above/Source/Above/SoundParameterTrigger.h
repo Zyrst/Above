@@ -11,6 +11,13 @@ class ABOVE_API ASoundParameterTrigger : public AActor
 	GENERATED_BODY()
 	
 public:	
+
+	UENUM(BlueprintType)
+	enum class ColliderType : uint8{
+		Box,
+		Spehere,
+	};
+
 	// Sets default values for this actor's properties
 	ASoundParameterTrigger(const FObjectInitializer& ObjectInitializer);
 
@@ -20,11 +27,22 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	/** Name of parameter to set value on */
+	/** Name of parameter to set value on when entering trigger */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
-		FName mParameterName;
+		FName mEnterParameterName;
 	
-	/** Value of parameter */
+	/** Value of parameter when entering trigger */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
-		float mParameterValue;
+		float mEnterParameterValue;
+
+	/** Name of parameter to set value on when exitting trigger */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+		FName mExitParameterName;
+
+	/** Value of parameter when exitting trigger */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+		float mExitParameterValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Collider")
+		ColliderType mColliderType;
 };
