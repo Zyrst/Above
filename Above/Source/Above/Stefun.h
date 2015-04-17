@@ -118,6 +118,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "fmod")
 		float GetMoveSpeed();
 
+	/** Called when parameters are to be changed */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventParameterChange();
+
+	/** Call this to change parameters */
+	UFUNCTION(BlueprintCallable, Category = "fmod")
+		void ChangeParameter(FName parameterName, float parameterValue);
+
+	/** Property holding which parameter to change */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+		FName mParameterChangeName;
+	/** Property holding which parameter value to set */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+		float mParameterChangeValue;
+
+
 private: 
 	bool mIsPaused;
 	float mPrevTime = 0;
