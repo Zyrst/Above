@@ -86,8 +86,8 @@ void AStefun::Tick( float DeltaTime ){
 
 		mCurrentWindValue = FMath::SmoothStep(mWindLevels[windA], mWindLevels[windB], GetTransform().GetLocation().Z);
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Levels: %i, %i"), windA, windB));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Step: %f"), mCurrentWindValue + mWindBaseValue + 1));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Levels: %i, %i"), windA, windB));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Step: %f"), mCurrentWindValue + mWindBaseValue + 1));
 
 		if (GetTransform().GetLocation().Z < mWindLevels[windA] && mWindBaseValue >= 1.0f)
 			mWindBaseValue--;
@@ -387,7 +387,7 @@ float AStefun::GetMoveSpeed() {
 }
 
 float AStefun::GetCurrentWindValue() {
-	return mCurrentWindValue;
+	return mCurrentWindValue + mWindBaseValue + 1;
 }
 
 
