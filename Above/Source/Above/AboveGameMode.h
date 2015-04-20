@@ -27,22 +27,22 @@ public:
 
 	/** Sets complete status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
-		void SetCompleteStatus(UObject* puzzle, bool status);
+		void SetCompleteStatus(AActor* puzzle, bool status);
 
 	/** Gets complete status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
-		bool GetCompleteStatus(UObject* puzzle);
+		bool GetCompleteStatus(AActor* puzzle);
 	
 	/** Sets begin status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
-		void SetStartedStatus(UObject* puzzle, bool status);
+		void SetStartedStatus(AActor* puzzle, bool status);
 
 	/** Gets begin status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
-		bool GetStartedStatus(UObject* puzzle);
+		bool GetStartedStatus(AActor* puzzle);
 
 
 private:
-	TMap<UObject*, bool> CompletedPuzzleArray;
-	TMap<UObject*, bool> StartedPuzzleArray;
+	TMap<AActor*, bool> CompletedPuzzleArray;
+	TMap<AActor*, bool> StartedPuzzleArray;
 };

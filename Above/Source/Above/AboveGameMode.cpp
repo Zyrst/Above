@@ -27,26 +27,26 @@ float AAboveGameMode::getZoomFoV(){
 }
 
 
-void AAboveGameMode::SetCompleteStatus(UObject* puzzle, bool status) {
+void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool status) {
 	if (!CompletedPuzzleArray.Find(puzzle))
 		CompletedPuzzleArray.Add(puzzle);
 	CompletedPuzzleArray[puzzle] = status;
 }
 
-bool AAboveGameMode::GetCompleteStatus(UObject* puzzle) {
+bool AAboveGameMode::GetCompleteStatus(AActor* puzzle) {
 	if (CompletedPuzzleArray.Find(puzzle))
 		return CompletedPuzzleArray[puzzle];
 	return false;
 }
 
 
-void AAboveGameMode::SetStartedStatus(UObject* puzzle, bool status) {
+void AAboveGameMode::SetStartedStatus(AActor* puzzle, bool status) {
 	if (StartedPuzzleArray.Find(puzzle))
 		StartedPuzzleArray.Add(puzzle);
 	StartedPuzzleArray[puzzle] = status;
 }
 
-bool AAboveGameMode::GetStartedStatus(UObject* puzzle) {
+bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
 	if (StartedPuzzleArray.Find(puzzle))
 		return StartedPuzzleArray[puzzle];
 	return false;
