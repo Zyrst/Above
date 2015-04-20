@@ -28,6 +28,6 @@ Kodstandard
 		
 		//Indenta ufunction, uproperty etc.
 		UFUNCTION()
-			void EnableSprin();
+			void EnableSprint();
 	
 	}

@@ -22,8 +22,8 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 
 	mTrigger = nullptr;
 	mHoldTrigger = nullptr;
-
-	GetCharacterMovement()->MaxWalkSpeedCrouched = mCrouchSpeed;
+	
+	
 	mIsPaused = false;
 
 	mInteractButtonIsPressed = false;
@@ -36,13 +36,14 @@ void AStefun::BeginPlay()
 	DisableSprint();
 	Super::BeginPlay();
 
-
+	GetCharacterMovement()->MaxWalkSpeedCrouched = mCrouchSpeed;
 	mCamDefaultLocation = mCamCurrentLocation = mFaceCam->GetRelativeTransform().GetLocation();
 }
 
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
+
 	GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 	HoverOverObject();
 
@@ -94,6 +95,7 @@ void AStefun::Tick( float DeltaTime ){
 			mWindBaseValue++;
 	}
 }
+
 
 // Called to bind functionality to input
 void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
