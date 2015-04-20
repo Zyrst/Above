@@ -133,6 +133,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
 		float mParameterChangeValue;
 
+	/** Windlevels for map */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WindLevels")
+		TArray<float> mWindLevels;
+
+	/** Call this to get current wind level */
+	UFUNCTION(BlueprintCallable, Category = "WindLevels")
+		float GetCurrentWindValue();
 
 private: 
 	bool mIsPaused;
@@ -150,4 +157,7 @@ private:
 	bool forward = false;
 
 	bool mMoving = false;
+
+	float mCurrentWindValue = 0;
+	float mWindBaseValue = 0;
 };
