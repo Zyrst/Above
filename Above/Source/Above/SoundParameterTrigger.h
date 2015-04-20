@@ -16,6 +16,7 @@ public:
 	enum class ColliderType : uint8{
 		Box,
 		Spehere,
+		Capsule,
 	};
 
 	// Sets default values for this actor's properties
