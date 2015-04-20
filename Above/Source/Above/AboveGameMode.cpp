@@ -25,3 +25,29 @@ float AAboveGameMode::getStandardFoV(){
 float AAboveGameMode::getZoomFoV(){
 	return ZoomF_O_V;
 }
+
+
+void AAboveGameMode::SetCompleteStatus(UObject* puzzle, bool status) {
+	if (!CompletedPuzzleArray.Find(puzzle))
+		CompletedPuzzleArray.Add(puzzle);
+	CompletedPuzzleArray[puzzle] = status;
+}
+
+bool AAboveGameMode::GetCompleteStatus(UObject* puzzle) {
+	if (CompletedPuzzleArray.Find(puzzle))
+		return CompletedPuzzleArray[puzzle];
+	return false;
+}
+
+
+void AAboveGameMode::SetStartedStatus(UObject* puzzle, bool status) {
+	if (StartedPuzzleArray.Find(puzzle))
+		StartedPuzzleArray.Add(puzzle);
+	StartedPuzzleArray[puzzle] = status;
+}
+
+bool AAboveGameMode::GetStartedStatus(UObject* puzzle) {
+	if (StartedPuzzleArray.Find(puzzle))
+		return StartedPuzzleArray[puzzle];
+	return false;
+}

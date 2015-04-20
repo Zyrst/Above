@@ -25,6 +25,24 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Utility)
 		float ZoomF_O_V;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
-		TArray<bool> CompletedPuzzleArray;
+	/** Sets complete status on puzzle */
+	UFUNCTION(BlueprintCallable, Category = Puzzle)
+		void SetCompleteStatus(UObject* puzzle, bool status);
+
+	/** Gets complete status on puzzle */
+	UFUNCTION(BlueprintCallable, Category = Puzzle)
+		bool GetCompleteStatus(UObject* puzzle);
+	
+	/** Sets begin status on puzzle */
+	UFUNCTION(BlueprintCallable, Category = Puzzle)
+		void SetStartedStatus(UObject* puzzle, bool status);
+
+	/** Gets begin status on puzzle */
+	UFUNCTION(BlueprintCallable, Category = Puzzle)
+		bool GetStartedStatus(UObject* puzzle);
+
+
+private:
+	TMap<UObject*, bool> CompletedPuzzleArray;
+	TMap<UObject*, bool> StartedPuzzleArray;
 };
