@@ -3,6 +3,7 @@
 #include "Above.h"
 #include "Lamp.h"
 #include "Stefun.h"
+#include "AboveGameMode.h"
 
 
 // Sets default values
@@ -148,6 +149,11 @@ void ALamp::ActivateFirst() {
 	SoundEventFireflyRelease();
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
+
+	// Puzzle is done
+	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	if (mode != nullptr)
+		mode->SetCompleteStatus(this, true);
 }
 
 // Release fireflies
@@ -168,6 +174,11 @@ void ALamp::ActivateSecond() {
 	SoundEventFireflyElectrocute();
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
+
+	// Puzzle is done
+	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	if (mode != nullptr)
+		mode->SetCompleteStatus(this, true);
 }
 
 

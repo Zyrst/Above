@@ -27,7 +27,7 @@ public:
 
 	/** Sets complete status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
-		void SetCompleteStatus(AActor* puzzle, bool status);
+		void SetCompleteStatus(AActor* puzzle, bool done);
 
 	/** Gets complete status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
@@ -35,7 +35,7 @@ public:
 	
 	/** Sets begin status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
-		void SetStartedStatus(AActor* puzzle, bool status);
+		void SetStartedStatus(AActor* puzzle, bool started);
 
 	/** Gets begin status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
