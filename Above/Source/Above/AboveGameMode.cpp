@@ -27,10 +27,10 @@ float AAboveGameMode::getZoomFoV(){
 }
 
 
-void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool status) {
+void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 	if (!CompletedPuzzleArray.Find(puzzle))
 		CompletedPuzzleArray.Add(puzzle);
-	CompletedPuzzleArray[puzzle] = status;
+	CompletedPuzzleArray[puzzle] = done;
 }
 
 bool AAboveGameMode::GetCompleteStatus(AActor* puzzle) {
@@ -40,10 +40,10 @@ bool AAboveGameMode::GetCompleteStatus(AActor* puzzle) {
 }
 
 
-void AAboveGameMode::SetStartedStatus(AActor* puzzle, bool status) {
+void AAboveGameMode::SetStartedStatus(AActor* puzzle, bool started) {
 	if (StartedPuzzleArray.Find(puzzle))
 		StartedPuzzleArray.Add(puzzle);
-	StartedPuzzleArray[puzzle] = status;
+	StartedPuzzleArray[puzzle] = started;
 }
 
 bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
