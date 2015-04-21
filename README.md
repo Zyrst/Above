@@ -1,3 +1,5 @@
+# This shit right here is so damn deprecated!
+
 # Above
 Kodstandard 
 
