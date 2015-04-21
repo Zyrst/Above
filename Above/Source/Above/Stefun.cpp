@@ -175,30 +175,25 @@ void AStefun::MoveForward(float val){
 		}
 		//Add movement in that direction
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
-		if (mStrafing){
-			currentSpeed = mWalkSpeed;
-			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-		}
-		//Accelerate stefun uncomment
+		//Increase movementspeed
 		if (currentSpeed < mWalkSpeed){
 			currentSpeed += 10;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
 		}
 		
 		AddMovementInput(direction, val);
+		//Know which way we went (forward/back)
 		if (val > 0)
 			mForward = true;
 		else
 			mForward = false;
 	}
-
+	//We are strafing don't want to decrease speed yet
 	if (val == 0 && mStrafing){
-		//currentSpeed = mWalkSpeed / 2;
 		mMoveForward = false;
 	}
 
-	//Make accelerated Stefun, uncomment
+	//No movement in anyway time to slow down
 	else if(val == 0 && !mStrafing){
 		
 		FRotator rotation = Controller->GetControlRotation();
@@ -211,7 +206,6 @@ void AStefun::MoveForward(float val){
 		if (currentSpeed > 0.0f && !mStrafing){
 			currentSpeed -= 20.0f;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-			//float value = currentSpeed * 0.1;
 			if (mForward)
 				AddMovementInput(direction, 1);
 			else 
@@ -219,9 +213,7 @@ void AStefun::MoveForward(float val){
 		}
 		if (currentSpeed == 0.0f){
 			mMoveForward = false;
-		}
-		
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
+		}		
 	}
 	
 }
@@ -232,10 +224,6 @@ void AStefun::MoveRight(float val){
 	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
 		return;
 
-	/*if (currentSpeed == 0 ){
-		GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
-	}*/
-
 	if ((Controller != NULL) && (val != 0.0f)){
 		mStrafing = true;
 		FRotator rotation = Controller->GetControlRotation();
@@ -244,11 +232,10 @@ void AStefun::MoveRight(float val){
 		}
 
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
-
+		//Movement intesifies
 		if (currentSpeed < mWalkSpeed){
 			currentSpeed += 10;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
 		}
 
 		AddMovementInput(direction, val);
@@ -257,11 +244,11 @@ void AStefun::MoveRight(float val){
 		else
 			mRight = false;
 	}
-
+	//No more strafe but stilling moving forward
 	if (val == 0 && mMoveForward){
 		mStrafing = false;
 	}
-
+	//No movement
 	else if (val == 0 && !mMoveForward){
 
 		FRotator rotation = Controller->GetControlRotation();
@@ -277,7 +264,7 @@ void AStefun::MoveRight(float val){
 				AddMovementInput(direction, -1);
 				
 		}
-
+		//Not moving at all
 		if (currentSpeed == 0){
 			mStrafing = false;
 		}
