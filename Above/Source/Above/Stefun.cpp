@@ -8,7 +8,7 @@
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer),
-	mEdgeThreshold(15),
+	mEdgeThreshold(20),
 	mLeaningOverEdge(false),
 	mEdgeLeanAmount(50),
 	mLookDownSpeed(0){
@@ -58,7 +58,11 @@ void AStefun::Tick( float DeltaTime ){
 		FVector vel = GetCharacterMovement()->Velocity;
 		vel.Z = 1;
 
-		if (!FindGroundBelow(vel / vel * mEdgeThreshold)) {
+		vel.X /= GetCharacterMovement()->MaxWalkSpeed;
+		vel.Y /= GetCharacterMovement()->MaxWalkSpeed;
+	
+
+		if (!FindGroundBelow(vel * mEdgeThreshold)) {
 			GetCharacterMovement()->Velocity.X = 0;
 			GetCharacterMovement()->Velocity.Y = 0;
 			currentSpeed = 0;
