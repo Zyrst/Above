@@ -151,11 +151,13 @@ private:
 	
 	float maxSpeed = 20;
 	float currentSpeed = 0;
-	bool forward = false;
-
+	bool mForward = false;
+	bool mMoveForward = false;
+	bool mRight = false;
+	bool mStrafing = false;
 	bool mMoving = false;
 
-	int32 mFallingTime = 0;
+	int32 mFallingTime;
 	APlayerController* mController;
 
 	float mCurrentWindValue = 0;

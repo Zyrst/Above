@@ -40,6 +40,7 @@ void AStefun::BeginPlay()
 	mCamDefaultLocation = mCamCurrentLocation = mFaceCam->GetRelativeTransform().GetLocation();
 
 	mController = GetWorld()->GetFirstPlayerController();
+
 }
 
 // Called every frame
@@ -77,6 +78,20 @@ void AStefun::Tick( float DeltaTime ){
 		SoundEventEndMove();
 	}
 	
+	if (GetCharacterMovement()->IsFalling()){
+		mFallingTime++;
+		//UE_LOG(LogTemp, Log, TEXT("Falling Count %d"), mFallingTime);
+		if (mFallingTime > 90){
+			this->TeleportTo(mController->GetSpawnLocation(), FRotator(0, 0, 0), false, true);
+			mFallingTime = 0;
+		}
+	}
+
+	else if (!GetCharacterMovement()->IsFalling() && mFallingTime != 0){
+		mFallingTime = 0;
+	}
+
+
 	// Calculate wind level
 	if (mWindLevels.Num() > 0) {
 		int windA = FMath::Floor(mWindBaseValue);
@@ -133,7 +148,7 @@ void AStefun::MoveForward(float val){
 
 		return;
 	}
-	
+
 	// If no edge or backing off, return to normal
 	if (val > 0 || (mLeaningOverEdge && val < 0)) {
 		if (FVector::Dist(mCamCurrentLocation, mCamDefaultLocation) > 0.5f)
@@ -149,48 +164,61 @@ void AStefun::MoveForward(float val){
 
 	if ((Controller != NULL) && (val != 0.0f)){
 		//Find which way is forward
+		mMoveForward = true;
 		FRotator rotation = Controller->GetControlRotation();
 		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
 			rotation.Pitch = 0.0f;
 		}
 		//Add movement in that direction
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
-
+		if (mStrafing){
+			currentSpeed = mWalkSpeed;
+			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+		}
 		//Accelerate stefun uncomment
-		/*if (currentSpeed < mWalkSpeed){
+		if (currentSpeed < mWalkSpeed){
 			currentSpeed += 10;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-		}*/
+		}
 		
 		AddMovementInput(direction, val);
 		if (val > 0)
-			forward = true;
+			mForward = true;
 		else
-			forward = false;
+			mForward = false;
 	}
-	//Make accelerated Stefun, uncomment
-	/*if (val == 0.0f){
 
+	if (val == 0 && mStrafing){
+		//currentSpeed = mWalkSpeed / 2;
+		mMoveForward = false;
+	}
+
+	//Make accelerated Stefun, uncomment
+	else if(val == 0 && !mStrafing){
+		
 		FRotator rotation = Controller->GetControlRotation();
 		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
 			rotation.Pitch = 0.0f;
 		}
 		//Add movement in that direction
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::X);
-
-		if (currentSpeed > 0.0f){
-			currentSpeed -= 10.0f;
+		
+		if (currentSpeed > 0.0f && !mStrafing){
+			currentSpeed -= 20.0f;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-			float value = currentSpeed * 0.1;
-			if (forward)
+			//float value = currentSpeed * 0.1;
+			if (mForward)
 				AddMovementInput(direction, 1);
 			else 
 				AddMovementInput(direction, -1);
-				}
+		}
+		if (currentSpeed == 0.0f){
+			mMoveForward = false;
+		}
 		
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
-	}*/
+	}
 	
 }
 
@@ -199,17 +227,54 @@ void AStefun::MoveRight(float val){
 	// Do now allow strafe when looking over edge or strafing into edge
 	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
 		return;
-	
-	/*if (currentSpeed == 0){
+
+	/*if (currentSpeed == 0 ){
 		GetCharacterMovement()->MaxWalkSpeed = mWalkSpeed;
 	}*/
 
 	if ((Controller != NULL) && (val != 0.0f)){
+		mStrafing = true;
 		const FRotator rotation = Controller->GetControlRotation();
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
+		
+		if (currentSpeed < mWalkSpeed){
+			currentSpeed += 10;
+			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("CurrentSpeed %f"), currentSpeed));
+		}
+
 		AddMovementInput(direction, val);
+		if (val > 0)
+			mRight = true;
+		else
+			mRight = false;
 	}
-	
+
+	if (val == 0 && mMoveForward){
+		mStrafing = false;
+	}
+
+	else if (val == 0 && !mMoveForward){
+
+		FRotator rotation = Controller->GetControlRotation();
+		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
+
+		if (currentSpeed > 0.0f && !mMoveForward){
+			currentSpeed -= 20.0f;
+			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+
+			if (mRight)
+				AddMovementInput(direction, 1);
+			else
+				AddMovementInput(direction, -1);
+				
+		}
+
+		if (currentSpeed == 0){
+			mStrafing = false;
+		}
+	}
+		
 }
 
 void AStefun::OnStartJump(){
@@ -233,7 +298,6 @@ void AStefun::UnSetZoom(){
 	AAboveGameMode* mode; 
 	mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
 	float FoV = mode->getStandardFoV();
-	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("FoV value %f"),FoV));
 	mFaceCam->FieldOfView = FoV;
 }
 
