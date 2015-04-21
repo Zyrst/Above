@@ -30,8 +30,15 @@ void ALamp::BeginPlay(){
 	Super::BeginPlay();
 
 	// Populate lights array
-	this->GetComponents(mLights);
+	TArray<UPointLightComponent*> mLightTemp;
+	this->GetComponents(mLightTemp);
 	
+	// Add only moveable lights
+	for (int32 i = 0; i < mLightTemp.Num(); i++) {
+		if (mLightTemp[i]->Mobility == EComponentMobility::Movable)
+			mLights.Add(mLightTemp[i]);
+	}
+
 	// Add default intensities
 	for (int32 i = 0; i < mLights.Num(); i++) {
 		if (mLights[i] != NULL) {
