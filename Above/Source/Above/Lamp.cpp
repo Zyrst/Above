@@ -153,7 +153,7 @@ void ALamp::ActivateFirst() {
 	mKillTimer		= mKillingDuration;
 
 	// Call sound events
-	SoundEventFireflyRelease();
+	SoundEventFireflyElectrocute();
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
 
@@ -178,7 +178,7 @@ void ALamp::ActivateSecond() {
 		mFireflyParticles->Activate();
 
 	// Call sound events
-	SoundEventFireflyElectrocute();
+	SoundEventFireflyRelease();
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
 
