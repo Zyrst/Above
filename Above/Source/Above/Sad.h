@@ -10,4 +10,6 @@ class ABOVE_API Sad
 public:
 	Sad();
 	~Sad();
+
+	int mFanJesper;
 };
