@@ -234,9 +234,13 @@ void AStefun::MoveRight(float val){
 
 	if ((Controller != NULL) && (val != 0.0f)){
 		mStrafing = true;
-		const FRotator rotation = Controller->GetControlRotation();
+		FRotator rotation = Controller->GetControlRotation();
+		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
+			rotation.Pitch = 0.0f;
+		}
+
 		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
-		
+
 		if (currentSpeed < mWalkSpeed){
 			currentSpeed += 10;
 			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
