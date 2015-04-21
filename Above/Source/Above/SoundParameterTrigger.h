@@ -16,6 +16,7 @@ public:
 	enum class ColliderType : uint8{
 		Box,
 		Spehere,
+		Capsule,
 	};
 
 	// Sets default values for this actor's properties
@@ -27,22 +28,66 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	virtual void OnConstruction(const FTransform& Transform) override;
+
 	/** Name of parameter to set value on when entering trigger */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (EditCondition = "!mPuzzleDoneTrigger"))
 		FName mEnterParameterName;
 	
 	/** Value of parameter when entering trigger */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (EditCondition = "!mPuzzleDoneTrigger"))
 		float mEnterParameterValue;
 
 	/** Name of parameter to set value on when exitting trigger */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (EditCondition = "!mPuzzleDoneTrigger"))
 		FName mExitParameterName;
 
 	/** Value of parameter when exitting trigger */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Parameters", meta = (EditCondition = "!mPuzzleDoneTrigger"))
 		float mExitParameterValue;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Collider")
-		ColliderType mColliderType;
+		ColliderType mColliderType = ColliderType::Box;
+
+
+
+	/** Should this trigger check if puzzle is done? */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle")
+		bool mPuzzleDoneTrigger = false;
+
+	/** Reference to puzzle */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle", meta = (EditCondition = "mPuzzleDoneTrigger"))
+		AActor* mPuzzleReference;
+
+	/** Parameter name */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle", meta = (EditCondition = "mPuzzleDoneTrigger"))
+		FName mStatusParameterName = "PuzzleComplete";
+
+	/** Value when puzzle has not been started */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle", meta = (EditCondition = "mPuzzleDoneTrigger"))
+		float mNotStarted = 0;
+
+	/** Value when puzzle is started */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle", meta = (EditCondition = "mPuzzleDoneTrigger"))
+		float mStarted = 1;
+
+	/** Value when puzzle is done */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Puzzle", meta = (EditCondition = "mPuzzleDoneTrigger"))
+		float mFinished = 2;
+
+
+	/** Called when something enter collider */
+	UFUNCTION()
+		void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	/** Called when something exits collider*/
+	UFUNCTION()
+		void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+
+private:
+	UBoxComponent* mRootComponent;
+	UBoxComponent* mBoxCollider;
+	USphereComponent* mSphereCollider;
+	UCapsuleComponent* mCapsuleCollider;
 };

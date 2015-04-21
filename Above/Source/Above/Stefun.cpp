@@ -76,23 +76,27 @@ void AStefun::Tick( float DeltaTime ){
 		
 		SoundEventEndMove();
 	}
-
 	
+	// Calculate wind level
+	if (mWindLevels.Num() > 0) {
+		int windA = FMath::Floor(mWindBaseValue);
+		int windB = FMath::Ceil(mWindBaseValue + 0.5f);
 
-	if (GetCharacterMovement()->IsFalling()){
-		mFallingTime++;
-		//UE_LOG(LogTemp, Log, TEXT("Falling Count %d"), mFallingTime);
-		if (mFallingTime > 90){
-			this->TeleportTo(mController->GetSpawnLocation(), FRotator(0, 0, 0), false, true);
-			mFallingTime = 0;
+		if (windB > mWindLevels.Num() - 1) {
+			windB = mWindLevels.Num() - 1;
+			mCurrentWindValue = 0;
 		}
 
-	}
-	else if (!GetCharacterMovement()->IsFalling() && mFallingTime != 0){
-		mFallingTime = 0;
-	}
-		
+		mCurrentWindValue = FMath::SmoothStep(mWindLevels[windA], mWindLevels[windB], GetTransform().GetLocation().Z);
 
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Levels: %i, %i"), windA, windB));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Step: %f"), mCurrentWindValue + mWindBaseValue + 1));
+
+		if (GetTransform().GetLocation().Z < mWindLevels[windA] && mWindBaseValue >= 1.0f)
+			mWindBaseValue--;
+		else if (GetTransform().GetLocation().Z > mWindLevels[windB] && mWindBaseValue < mWindLevels.Num() - 2)
+			mWindBaseValue++;
+	}
 }
 
 
@@ -372,7 +376,7 @@ bool AStefun::FindGroundBelow(FVector offset) {
 	FHitResult traceHitResult;
 	TObjectIterator<AStefun> Player;
 	FVector traceStart = GetTransform().GetLocation() + offset;
-	FVector traceEnd = traceStart + (-GetActorUpVector() * 10000) + offset;
+	FVector traceEnd = traceStart + (-GetActorUpVector() * 1000) + offset;
 	ECollisionChannel collisionChannel = ECC_WorldStatic;
 	FCollisionQueryParams traceParamaters(FName(TEXT("InteractionTrace")), true, this);
 
@@ -384,6 +388,9 @@ float AStefun::GetMoveSpeed() {
 	return currentSpeed;
 }
 
+float AStefun::GetCurrentWindValue() {
+	return mCurrentWindValue + mWindBaseValue + 1;
+}
 
 
 void AStefun::ChangeParameter(FName parameterName, float parameterValue) {
