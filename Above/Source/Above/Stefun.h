@@ -135,9 +135,6 @@ public:
 
 private: 
 	bool mIsPaused;
-	float mPrevTime = 0;
-	int mTestFall = 0;
-	FRunnableThread* mThread;
 
 	bool FindGroundBelow(FVector offset);
 	FVector mCamDefaultLocation;
@@ -149,5 +146,8 @@ private:
 	bool forward = false;
 
 	bool mMoving = false;
+
+	int32 mFallingTime = 0;
+	APlayerController* mController;
 
 };

@@ -38,6 +38,8 @@ void AStefun::BeginPlay()
 
 	GetCharacterMovement()->MaxWalkSpeedCrouched = mCrouchSpeed;
 	mCamDefaultLocation = mCamCurrentLocation = mFaceCam->GetRelativeTransform().GetLocation();
+
+	mController = GetWorld()->GetFirstPlayerController();
 }
 
 // Called every frame
@@ -66,13 +68,30 @@ void AStefun::Tick( float DeltaTime ){
 	if (currentSpeed > 0) {
 		if (mMoving == false)
 			SoundEventBeginMove();
-
+		
 		SoundEventMove();
 	}
 	else if (currentSpeed == 0 && mMoving) {
 		mMoving = false;
+		
 		SoundEventEndMove();
 	}
+
+	
+
+	if (GetCharacterMovement()->IsFalling()){
+		mFallingTime++;
+		//UE_LOG(LogTemp, Log, TEXT("Falling Count %d"), mFallingTime);
+		if (mFallingTime > 90){
+			this->TeleportTo(mController->GetSpawnLocation(), FRotator(0, 0, 0), false, true);
+			mFallingTime = 0;
+		}
+
+	}
+	else if (!GetCharacterMovement()->IsFalling() && mFallingTime != 0){
+		mFallingTime = 0;
+	}
+		
 
 }
 
@@ -123,7 +142,6 @@ void AStefun::MoveForward(float val){
 	// If backing into an edge, do nothing
 	else if (val < 0.0f && !FindGroundBelow(-(GetActorForwardVector() * mEdgeThreshold)))
 		return;
-
 
 	if ((Controller != NULL) && (val != 0.0f)){
 		//Find which way is forward

@@ -21,7 +21,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	UFUNCTION(BlueprintCallable, Category = Activation)
-		void Activate(float target);
+		void Activate();
 
 	void Reset();
 
@@ -102,4 +102,6 @@ private:
 	bool mFadeDown;
 	bool mShouldFade;
 	float mBlendFactor;
+
+	TArray<float> mPrevPos;
 };
