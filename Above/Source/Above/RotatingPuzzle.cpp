@@ -119,7 +119,7 @@ void ARotatingPuzzle::Activate(){
 	else{
 		float tmp = sum - mPrevPos.Find(mPrevPos.Last());
 		mPrevPos.Add(tmp);
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString::Printf(TEXT("Value: %f"), tmp));
+		//GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString::Printf(TEXT("Value: %f"), tmp));
 	}
 	
 
