@@ -3,6 +3,7 @@
 #include "Above.h"
 #include "Lamp.h"
 #include "Stefun.h"
+#include "AboveGameMode.h"
 
 
 // Sets default values
@@ -29,8 +30,15 @@ void ALamp::BeginPlay(){
 	Super::BeginPlay();
 
 	// Populate lights array
-	this->GetComponents(mLights);
+	TArray<UPointLightComponent*> mLightTemp;
+	this->GetComponents(mLightTemp);
 	
+	// Add only moveable lights
+	for (int32 i = 0; i < mLightTemp.Num(); i++) {
+		if (mLightTemp[i]->Mobility == EComponentMobility::Movable)
+			mLights.Add(mLightTemp[i]);
+	}
+
 	// Add default intensities
 	for (int32 i = 0; i < mLights.Num(); i++) {
 		if (mLights[i] != NULL) {
@@ -145,9 +153,14 @@ void ALamp::ActivateFirst() {
 	mKillTimer		= mKillingDuration;
 
 	// Call sound events
-	SoundEventFireflyRelease();
+	SoundEventFireflyElectrocute();
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
+
+	// Puzzle is done
+	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	if (mode != nullptr)
+		mode->SetCompleteStatus(this, true);
 }
 
 // Release fireflies
@@ -165,9 +178,14 @@ void ALamp::ActivateSecond() {
 		mFireflyParticles->Activate();
 
 	// Call sound events
-	SoundEventFireflyElectrocute();
+	SoundEventFireflyRelease();
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
+
+	// Puzzle is done
+	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+	if (mode != nullptr)
+		mode->SetCompleteStatus(this, true);
 }
 
 

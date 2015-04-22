@@ -58,17 +58,14 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 	if (mRotate){
 		//(two*pi*r*(CurrentDegree / 360))
 		if ((mBase * (mCurrent / 360)) < mCalcTarget){
-			
 			int32 rotationSpeed = (mCalcTarget - mBase * (mCurrent / 360)) * 0.2;
 			if (rotationSpeed < 1) {
 				rotationSpeed = 1;
 			}
-
 			mDishMesh->AddLocalRotation(FRotator::FRotator(0, rotationSpeed, 0), false, nullptr);
 			mCurrent += rotationSpeed;
 			SoundEventRotating();
 		}
-
 		if ((mBase * (mCurrent / 360)) >= mCalcTarget){
 			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Stopped"));
 			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, FString::Printf(TEXT("mCurrent %f"), mCurrent));
@@ -104,31 +101,58 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 	}
 }
 
-void ARotatingPuzzle::Activate(float target){
+void ARotatingPuzzle::Activate(){
 	if (mRotate)
 		return;
 
-	mRotate = true;
-	mTarget = target;
-	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Red, FString::Printf(TEXT("Target from array %f"), (target)));
-	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Red, FString::Printf(TEXT("old target %f"), ( mOldTarget)));
-	
-	float calc = 0;
-	float num = 0;
+	mRotate = true;	
+	//Get random number
+	mRandom = FMath::RandHelper(5);
+	//Don't want zero so + 1 so it always moves atleast one spot
+	mRandom += 1;
+
 	float sum = 0;
+	sum = 60 * (mRandom);
+	if (mPrevPos.Num() == 0){
+		mPrevPos.Push(sum);
+	}
+	else{
+		float tmp = sum - mPrevPos.Find(mPrevPos.Last());
+		mPrevPos.Add(tmp);
+		//GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString::Printf(TEXT("Value: %f"), tmp));
+	}
+	
+
+	//Calc the target with the formula using arc length formula
+	mCalcTarget = mBase * ((sum / 360));
+	mCalcTarget += mBase * ((360 * FMath::RandRange(3, 5) / 360));
+
+	// Set texture if texture exists
+	if (mRandom <= mIndicatorTextures.Num()) {
+		mDesiredTexture = mIndicatorTextures[mRandom - 1];
+		mShouldFade = true;
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Random: %i"), mRandom));
+	}
+	SoundEventButtonClick();
+	SoundEventRotateBegin();
+
+	///Old Code
+
+	/*float calc = 0;
+	int32 num = 0;
+	bool loop = true;
+
 	//Find the old target in the array of positions
 	for (int32 i = 0; i < mPoints.Num(); i++){
 		if (mPoints[i] == mOldTarget){
 			calc = mPoints[i];
 			num = i;
 		}
-	}
+	}*/
 
-	bool loop = true;
-	int32 j = num;
 	//Find points between oldtarget and new target and add the degrees between
-	//Used to calculate the arc length
-	while (loop){
+	/*while (loop){
 		if ( j == mPoints.Num() - 1){
 			if (mPoints[j] == mTarget){
 				loop = false;
@@ -150,31 +174,17 @@ void ARotatingPuzzle::Activate(float target){
 				j++;
 			}
 		}
-	}
-	//GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Magenta, FString::Printf(TEXT("Degree to move %f"), sum));
-	//Calc the target with the formula
-	mCalcTarget = mBase * ((sum / 360));
-	mCalcTarget += mBase * ((360 * FMath::RandRange(3, 5) / 360));
-
-	// Set texture if texture exists
-	if (mRandom <= mIndicatorTextures.Num()) {
-		mDesiredTexture = mIndicatorTextures[mRandom];
-		mShouldFade = true;
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Random: %i"), mRandom));
-	}
-
-	SoundEventButtonClick();
-	SoundEventRotateBegin();
+	}*/
 }
 
 void ARotatingPuzzle::Reset(){
 	mCurrent = 0;
 }
 
+/** Old code*/
 float ARotatingPuzzle::NotSameNumber(){
-
-	mRandom = FMath::RandHelper(5);
+	
+	mRandom = FMath::RandHelper(6);
 	float point = mPoints[mRandom];
 
 	if (point == mOldTarget){
@@ -183,6 +193,7 @@ float ARotatingPuzzle::NotSameNumber(){
 	else
 		return point;
 }
+///End of old code
 
 TArray<UTexture2D*> ARotatingPuzzle::GetMaterialsReference() {
 	return mIndicatorTextures;

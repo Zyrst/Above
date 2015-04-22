@@ -35,6 +35,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Maze)
 		TArray<int32> mCorrectPath;
 
+	/**Sound events*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventLeft();
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventRight();
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventForward();
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventBack();
+
 private:
 	int32 mSteps;
 	int32 mCorPathSteps;
@@ -43,10 +53,6 @@ private:
 	FString mWalkingWay;
 	FString mRightWay;
 	ALightIndicator* mLightInd;
-	
-	/*Sound bools*/
-	/*0 = Left, 1 = Right, 2 = Forward, 3 = Back*/
-	TArray<bool> mSounds;
 
 	bool PuzzleCompleted = false;
 	bool mDoneOnce = false;

@@ -19,10 +19,6 @@ void ASoundPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 	mSteps = 0;
-	for (int32 i = 0; i < 4; i++){
-		mSounds.Add(false);
-	}
-
 	for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
 		ALightIndicator* tmp = Cast<ALightIndicator>(*itr);
 		if (tmp != nullptr){
@@ -40,8 +36,8 @@ void ASoundPuzzle::Tick( float DeltaTime )
 		DoOnceLoad();
 		mDoneOnce = true;
 	}
+
 	if (mSteps == 16){
-		
 
 		if (mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
@@ -59,6 +55,7 @@ void ASoundPuzzle::Tick( float DeltaTime )
 
 void ASoundPuzzle::DoOnceLoad(){
 	for (int32 i = 0; i < mCorrectPath.Num(); i++){
+		//Know which slabs are right
 		mCorPathSlabs.Add(MazeArray[mCorrectPath[i]]);
 	}
 
@@ -68,14 +65,10 @@ void ASoundPuzzle::DoOnceLoad(){
 }
 
 void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
-	//Spela upp ljud
+
 	//Cast to Puzzleslab so we can use functions
 	APuzzzleSlab* tmpSlab = Cast<APuzzzleSlab>(slab->ChildActor);
 
-	//Reset sound array at every activate
-	for (int32 i = 0; i < 4; i++){
-		mSounds[i] = false;
-	}
 	//Make sure we don't have a null pointer
 	if (tmpSlab != nullptr){
 		if (mSteps < 16 && !PuzzleCompleted ){
@@ -98,6 +91,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 					mLightInd->Reduce();
 					mWalkingWay += FString::FromInt(index);
 				}
+				//Did we walk on a correct slab?
 				if (mCorPathSlabs[mCorPathSteps]->GetName() == tmpSlab->GetName()){
 					//(GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, tmpSlab->GetName());
 					mCorPathSteps++;
@@ -105,17 +99,16 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 				
 			}
 
-			auto name = slab->GetAttachmentRoot()->GetName();
 			auto rootLocation = slab->GetAttachmentRoot()->RelativeLocation;
-			//slab->GetAttachmentRoot()->RelativeLocation;
 			FVector tmpPos = slab->GetRelativeTransform().GetLocation();
-			//tmpSlab->GetTransform().GetLocation();
 			UE_LOG(LogTemp, Warning, TEXT("Location Root: %s"), *rootLocation.ToString());
 			UE_LOG(LogTemp, Warning, TEXT("Location Slab: %s"), *tmpPos.ToString());
+			//Next slab position, initialize with a zero vector
 			FVector tmpNextPos;
 			tmpNextPos = tmpNextPos.ZeroVector;
 			UE_LOG(LogTemp, Warning, TEXT("mCorPathSteps: %d"), mCorPathSteps);
 			if (mCorPathSteps < 16){
+				//Get relative from scene component in the blueprint
 				auto tmp = mCorPathSlabs[(mCorPathSteps)]->GetTransform().GetRelativeTransform(slab->GetAttachmentRoot()->GetComponentTransform());
 				tmpNextPos = tmp.GetLocation();
 				UE_LOG(LogTemp, Warning, TEXT("Location Next Slab: %s"), *tmpNextPos.ToString());
@@ -126,34 +119,25 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 			if (!tmpNextPos.IsZero()){
 				tmpX = tmpPos.X - tmpNextPos.X;
 				tmpY = tmpPos.Y - tmpNextPos.Y;
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("tmpX value %f"), tmpX));
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("tmpY value %f"), tmpY));
-				UE_LOG(LogTemp, Warning, TEXT("tmpX: %f"), tmpX);
-				UE_LOG(LogTemp, Warning, TEXT("tmpY: %f"), tmpY);
+			/*	UE_LOG(LogTemp, Warning, TEXT("tmpX: %f"), tmpX);
+				UE_LOG(LogTemp, Warning, TEXT("tmpY: %f"), tmpY);*/
 			}
-
+			
 			if (tmpX > 50){
-				mSounds[0] = true;
+				SoundEventLeft();
 			}
 			else if (tmpX < -50){
-				mSounds[1] = true;
+				SoundEventRight();
 			}
 
 			if (tmpY > 50){
-				mSounds[2] = true;
+				SoundEventForward();
 			}
 			else if (tmpY < -50){
-				mSounds[3] = true;
-			}
-
-			for (int32 i = 0; i < 4; i++){
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Magenta, FString::Printf(TEXT("Bool: %s"), mSounds[i] ? TEXT("true") : TEXT("false")));
+				SoundEventBack();
 			}
 		}
-		
-		
-		
-		
+
 	}
 }
 
@@ -171,9 +155,6 @@ void ASoundPuzzle::Reset(){
 		mLightInd->Reset();
 		mCorPathSteps = 0;
 
-		for (int32 i = 0; i < 4; i++){
-			mSounds[i] = false;
-		}
 	}
 	
 	mWalkingWay = NULL;
