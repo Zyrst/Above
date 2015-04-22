@@ -21,17 +21,32 @@ void ALightIndicator::BeginPlay()
 			mLights.Push(tmp);
 		}
 	}
+
+	TArray<UStaticMeshComponent*> Components;
+	this->GetComponents<UStaticMeshComponent>(Components);
+	for (int32 i = 0; i < Components.Num(); i++){
+		UStaticMeshComponent* mesh = Components[i];
+		if (mesh->GetName() == "Indicator"){
+			mLightIndMesh = Components[i];
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mLightIndMesh->GetName());
+		}
+	}
+	mLightMaterial = mLightIndMesh->CreateAndSetMaterialInstanceDynamic(0);
+	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[0]);
+	
 }
 
 // Called every frame
 void ALightIndicator::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
+	
 }
 
 void ALightIndicator::Reduce(){
 	mLights[mLampsOff++]->LightOff();
+	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[mLampsOff]);
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mLightMaterial->TextureParameterValues.GetData()->ParameterValue->GetName());
 }
 
 void ALightIndicator::Reset(){
@@ -39,4 +54,5 @@ void ALightIndicator::Reset(){
 		mLights[i]->Reset();
 	}
 	mLampsOff = 0;
+	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[mLampsOff]);
 }

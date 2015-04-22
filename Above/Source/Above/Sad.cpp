@@ -10,3 +10,10 @@ Sad::Sad()
 Sad::~Sad()
 {
 }
+
+
+void Sad::TestFunc(){
+
+	
+	
+}

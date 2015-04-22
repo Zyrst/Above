@@ -25,6 +25,7 @@ void ASoundPuzzle::BeginPlay()
 			mLightInd = tmp;
 		}
 	}
+
 }
 
 // Called every frame
