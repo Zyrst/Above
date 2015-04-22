@@ -53,6 +53,7 @@ private:
 	FString mWalkingWay;
 	FString mRightWay;
 	ALightIndicator* mLightInd;
+	
 
 	bool PuzzleCompleted = false;
 	bool mDoneOnce = false;

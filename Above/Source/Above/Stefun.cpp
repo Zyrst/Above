@@ -306,6 +306,7 @@ void AStefun::DisableSprint(){
 }
 
 void AStefun::ToggleCrouch(){
+
 	if (CanCrouch() == true){
 		Crouch();
 	}

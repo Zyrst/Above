@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "AboveGameMode.h"
+
 /**
  * 
  */
@@ -11,5 +13,8 @@ public:
 	Sad();
 	~Sad();
 
-	int mFanJesper;
+
+	void TestFunc();
+
+	int mFanJesper = 0;
 };
