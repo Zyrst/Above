@@ -77,8 +77,8 @@ void ALamp::BeginPlay(){
 void ALamp::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
 
-	if (mTrackPlayer)
-		SoundEventDistance();
+	/*if (mTrackPlayer)
+		SoundEventDistance();*/
 	
 	// Clamp flicker amount
 	int32 flicktmp = (mFlickerAmount == 0) ? 1 : mFlickerAmount;
@@ -192,32 +192,32 @@ void ALamp::ActivateSecond() {
 
 
 void ALamp::OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	TArray<AActor*> actors;
+	/*TArray<AActor*> actors;
 	GetOverlappingActors(actors, AStefun::StaticClass());
 
 	if (actors.Num() > 0) {
 		mPlayerReference = actors[0];
 		mTrackPlayer = true;
-	}
+	}*/
 }
 
 void ALamp::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
-	TArray<AActor*> actors;
+	/*TArray<AActor*> actors;
 	GetOverlappingActors(actors, AStefun::StaticClass());
 
 	if (actors.Num() > 0) {
 		mTrackPlayer = false;
-	}
+	}*/
 }
 
-
+/*
 float ALamp::GetDistanceFromPlayer() {
 	FVector p1 = this->GetTransform().GetLocation();
 	FVector p2 = mPlayerReference->GetTransform().GetLocation();
 
 	return FMath::Sqrt(FVector::Dist(p1, p2));
 }
-
+*/
 float ALamp::GetSoundIntensityLevel() {
 	return mSoundIntensity;
 }
