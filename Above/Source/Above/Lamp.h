@@ -88,8 +88,8 @@ public:
 		void SoundEventButtonPress();
 
 	/** Sound event called when player is near enough to manipulate lamp sound by distance */
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
-		void SoundEventDistance();
+	/*UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
+		void SoundEventDistance();*/
 
 	/** Sound event called when starting */
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Sound")
@@ -108,8 +108,8 @@ public:
 		void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	/** Returns distance between lamp and player */
-	UFUNCTION(BlueprintCallable, Category = "fmod")
-		float GetDistanceFromPlayer();
+	/*UFUNCTION(BlueprintCallable, Category = "fmod")
+		float GetDistanceFromPlayer();*/
 
 	/** Returns sound intensity level. For use with fmod*/
 	UFUNCTION(BlueprintCallable, Category = "fmod")
