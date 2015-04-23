@@ -71,8 +71,10 @@ void AStefun::Tick( float DeltaTime ){
 
 
 	if (currentSpeed > 0) {
-		if (mMoving == false)
+		if (mMoving == false) {
 			SoundEventBeginMove();
+			mMoving = true;
+		}
 		
 		SoundEventMove();
 	}
