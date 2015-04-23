@@ -25,6 +25,7 @@ void ASoundPuzzle::BeginPlay()
 			mLightInd = tmp;
 		}
 	}
+
 }
 
 // Called every frame
@@ -119,10 +120,8 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 			if (!tmpNextPos.IsZero()){
 				tmpX = tmpPos.X - tmpNextPos.X;
 				tmpY = tmpPos.Y - tmpNextPos.Y;
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("tmpX value %f"), tmpX));
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("tmpY value %f"), tmpY));
-				UE_LOG(LogTemp, Warning, TEXT("tmpX: %f"), tmpX);
-				UE_LOG(LogTemp, Warning, TEXT("tmpY: %f"), tmpY);
+			/*	UE_LOG(LogTemp, Warning, TEXT("tmpX: %f"), tmpX);
+				UE_LOG(LogTemp, Warning, TEXT("tmpY: %f"), tmpY);*/
 			}
 			
 			if (tmpX > 50){

@@ -27,8 +27,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Reset)
 		void Reset();
+
+	/** Populate this with materials corresponding to numbers */
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mShellTexture;
+
 private:
 	int32 mLampsOff = 0;
 	
 	TArray<APuzzleSlabIndicatorLight*> mLights;
+	UStaticMeshComponent* mLightIndMesh;
+	UMaterialInstanceDynamic* mLightMaterial;
 };
