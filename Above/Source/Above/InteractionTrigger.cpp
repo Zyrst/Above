@@ -58,11 +58,13 @@ FVector& AInteractionTrigger::GetPointerTarget() {
 // Show text on start of hover
 void AInteractionTrigger::StartHover() {
 	mHoverText->SetHiddenInGame(false);
+	EventStartHover();
 }
 
 // Hide text on end of hover
 void AInteractionTrigger::EndHover() {
 	mHoverText->SetHiddenInGame(true);
+	EventEndHover();
 }
 
 // End of hold

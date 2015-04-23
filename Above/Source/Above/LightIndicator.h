@@ -33,8 +33,16 @@ public:
 		TArray<UTexture2D*> mShellTexture;
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mEmmisiveTexture;
-	UPROPERTY(EditAnywhere, Category = Lamps)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Lamps)
 		int32 LampsOn;
+
+	/** Event called when lights are lit */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "fmod")
+		void SoundEventLightLit();
+
+	/** Event called when puzzle is activated */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "fmod")
+		void SoundEventActivate();
 
 private:	
 	TArray<APuzzleSlabIndicatorLight*> mLights;

@@ -35,9 +35,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void StartHover();
 
+	/** Called when hovering */
+	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
+		void EventStartHover();
+
 	/** Called when no longer hit by line trace */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void EndHover();
+
+	/** Called when no longer hit by line trace */
+	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
+		void EventEndHover();
 
 	/** Called when button is no longer held */
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
