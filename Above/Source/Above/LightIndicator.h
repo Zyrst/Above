@@ -31,10 +31,12 @@ public:
 	/** Populate this with materials corresponding to numbers */
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mShellTexture;
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mEmmisiveTexture;
+	UPROPERTY(EditAnywhere, Category = Lamps)
+		int32 LampsOn;
 
-private:
-	int32 mLampsOff = 0;
-	
+private:	
 	TArray<APuzzleSlabIndicatorLight*> mLights;
 	UStaticMeshComponent* mLightIndMesh;
 	UMaterialInstanceDynamic* mLightMaterial;
