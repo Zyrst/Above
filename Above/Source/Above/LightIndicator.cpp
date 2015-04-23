@@ -50,6 +50,8 @@ void ALightIndicator::Reduce(){
 	LampsOn++;
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
+
+	SoundEventLightLit();
 }
 
 void ALightIndicator::Reset(){
