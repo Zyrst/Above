@@ -15,12 +15,12 @@ ALightIndicator::ALightIndicator()
 void ALightIndicator::BeginPlay()
 {
 	Super::BeginPlay();
-	for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
+	/*for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
 		APuzzleSlabIndicatorLight* tmp = Cast<APuzzleSlabIndicatorLight>(*itr);
 		if (tmp != nullptr){
 			mLights.Push(tmp);
 		}
-	}
+	}*/
 
 	TArray<UStaticMeshComponent*> Components;
 	this->GetComponents<UStaticMeshComponent>(Components);
@@ -28,7 +28,7 @@ void ALightIndicator::BeginPlay()
 		UStaticMeshComponent* mesh = Components[i];
 		if (mesh->GetName() == "Indicator"){
 			mLightIndMesh = Components[i];
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mLightIndMesh->GetName());
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mLightIndMesh->GetName());
 		}
 	}
 	mLightMaterial = mLightIndMesh->CreateAndSetMaterialInstanceDynamic(0);
@@ -44,15 +44,15 @@ void ALightIndicator::Tick( float DeltaTime )
 }
 
 void ALightIndicator::Reduce(){
-	mLights[mLampsOff++]->LightOff();
+	//mLights[mLampsOff++]->LightOff();
+	mLampsOff++;
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[mLampsOff]);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mLightMaterial->TextureParameterValues.GetData()->ParameterValue->GetName());
 }
 
 void ALightIndicator::Reset(){
-	for (int32 i = 0; i < mLights.Num(); i++){
+	/*for (int32 i = 0; i < mLights.Num(); i++){
 		mLights[i]->Reset();
-	}
+	}*/
 	mLampsOff = 0;
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[mLampsOff]);
 }
