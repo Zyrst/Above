@@ -141,6 +141,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "WindLevels")
 		float GetCurrentWindValue();
 
+	UPROPERTY(EditAnywhere, Category = Character)
+		int32 FallingTime;
 private: 
 	bool mIsPaused;
 
