@@ -9,6 +9,7 @@ ALightIndicator::ALightIndicator()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	LampsOn = 0;
 }
 
 // Called when the game starts or when spawned
@@ -33,6 +34,7 @@ void ALightIndicator::BeginPlay()
 	}
 	mLightMaterial = mLightIndMesh->CreateAndSetMaterialInstanceDynamic(0);
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[0]);
+	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[0]);
 	
 }
 
@@ -45,14 +47,16 @@ void ALightIndicator::Tick( float DeltaTime )
 
 void ALightIndicator::Reduce(){
 	//mLights[mLampsOff++]->LightOff();
-	mLampsOff++;
-	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[mLampsOff]);
+	LampsOn++;
+	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
+	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
 }
 
 void ALightIndicator::Reset(){
 	/*for (int32 i = 0; i < mLights.Num(); i++){
 		mLights[i]->Reset();
 	}*/
-	mLampsOff = 0;
-	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[mLampsOff]);
+	LampsOn = 0;
+	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
+	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
 }
