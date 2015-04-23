@@ -28,12 +28,16 @@ void ARotatingPuzzle::BeginPlay()
 		UStaticMeshComponent* mesh = Components[i];
 		if (mesh->GetName() == mRotationParentName){
 			mDishMesh = Components[i];
+			
 		}
 		
 		// Get indicator mesh
 		if (mesh->GetName() == mIndicatorParentName) {
 			mIndicatorMesh = Components[i];
 			mIndicatorMeshMaterial = mIndicatorMesh->CreateAndSetMaterialInstanceDynamic(0);
+		}
+		if (mesh->GetName() == "ModelBase"){
+			mDishMeshMaterial = Components[i]->CreateAndSetMaterialInstanceDynamic(0);
 		}
 	}
 	mBase = (2 * 3.14) * mDishMesh->StaticMesh->GetBounds().SphereRadius;
@@ -44,7 +48,7 @@ void ARotatingPuzzle::BeginPlay()
 		else
 			mPoints.Push(i * 60);
 	}
-
+	mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[0]);
 	mIndicatorMeshMaterial->SetTextureParameterValue("Texture2", mTextureInactive);
 	mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", 1.0f);
 	mBlendFactor = 1;
@@ -65,12 +69,14 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 			mDishMesh->AddLocalRotation(FRotator::FRotator(0, rotationSpeed, 0), false, nullptr);
 			mCurrent += rotationSpeed;
 			SoundEventRotating();
+			
 		}
 		if ((mBase * (mCurrent / 360)) >= mCalcTarget){
 			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Stopped"));
 			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, FString::Printf(TEXT("mCurrent %f"), mCurrent));
 			mRotate = false;
 			mOldTarget = mTarget;
+			ActivateEmmisive();
 			Reset();
 			SoundEventRotateEnd();
 		}
@@ -110,16 +116,48 @@ void ARotatingPuzzle::Activate(){
 	mRandom = FMath::RandHelper(5);
 	//Don't want zero so + 1 so it always moves atleast one spot
 	mRandom += 1;
-
+	UE_LOG(LogTemp, Log, TEXT("Random: %d"), mRandom);
 	float sum = 0;
 	sum = 60 * (mRandom);
 	if (mPrevPos.Num() == 0){
 		mPrevPos.Push(sum);
+		if (sum == 0 || sum == 120 || sum == 240){
+			UE_LOG(LogTemp, Log, TEXT("One new Right"))
+			mRightPos.Add(sum);
+		}
 	}
-	else{
-		float tmp = sum - mPrevPos.Find(mPrevPos.Last());
+	else if(mPrevPos.Num() != 0){
+		float tmp = mPrevPos.Last() + sum;
+		if (tmp > 360){
+			tmp -= 360.0f;
+		}
+		if (tmp == 360){
+			tmp = 0;
+		}
 		mPrevPos.Add(tmp);
 		//GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString::Printf(TEXT("Value: %f"), tmp));
+		UE_LOG(LogTemp, Log, TEXT("Temp value %f"), tmp);
+		UE_LOG(LogTemp, Log, TEXT("Sum %f"), sum);
+		
+		if (tmp == 0 || tmp == 120 || tmp == 240){
+			UE_LOG(LogTemp, Log, TEXT("One new Right"));
+			if (!mRightPos.Contains(tmp)){
+				mRightPos.Add(tmp);
+				//Light up the right slot
+			}
+			
+			else if (mRightPos.Contains(tmp)){
+				//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Duplicate same value"));
+				UE_LOG(LogTemp, Log, TEXT("Duplicate value"));
+				mRightPos.Empty();
+				//Reset 
+			}
+			if (mRightPos.Num() == 3){
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("All right"));
+				UE_LOG(LogTemp, Log, TEXT("All right"));
+			}
+		}
+		UE_LOG(LogTemp, Log, TEXT("Size of Right Pos: %d"), mRightPos.Num());
 	}
 	
 
@@ -179,6 +217,44 @@ void ARotatingPuzzle::Activate(){
 
 void ARotatingPuzzle::Reset(){
 	mCurrent = 0;
+}
+
+
+void ARotatingPuzzle::ActivateEmmisive(){
+	
+	if (mRightPos.Num() == 0){
+		mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[0]);
+	}
+	if (mRightPos.Num() == 1){
+		float tmp = mRightPos.Last();
+		if (tmp == 0){
+			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[1]);
+		}
+		if (tmp == 120){
+			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[2]);
+		}
+		if (tmp == 240){
+			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[3]);
+		}
+	}
+	if(mRightPos.Num() == 2){
+		float tmp = mRightPos.Last();
+
+		if (tmp == 0){
+			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[1]);
+		}
+		if (tmp == 120){
+			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[2]);
+		}
+		if (tmp == 240){
+			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[3]);
+		}
+	}
+	if(mRightPos.Num() == 3){
+		mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[4]);
+		mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[0]);
+	}
+
 }
 
 /** Old code*/

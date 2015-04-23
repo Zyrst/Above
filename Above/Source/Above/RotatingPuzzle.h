@@ -82,7 +82,10 @@ public:
 	/** Is called when rotating */
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventRotating();
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mLightUp;
 
+	void ActivateEmmisive();
 
 private:
 	bool mRotate;
@@ -96,6 +99,7 @@ private:
 	UStaticMeshComponent* mDishMesh;
 	UStaticMeshComponent* mIndicatorMesh;
 	UMaterialInstanceDynamic* mIndicatorMeshMaterial;
+	UMaterialInstanceDynamic* mDishMeshMaterial;
 	FVector* mStartPos;
 
 	UTexture2D* mDesiredTexture;
@@ -104,4 +108,5 @@ private:
 	float mBlendFactor;
 
 	TArray<float> mPrevPos;
+	TArray<float> mRightPos;
 };
