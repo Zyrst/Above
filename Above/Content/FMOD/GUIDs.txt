@@ -1,8 +1,15 @@
+{ff2ffc44-8109-4f86-8810-794abf86ed10} event:/AMBMUS
 {ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Movement
 {f3b95c51-6d04-4f20-b347-604d687c5bec} event:/Music (test)
-{ff2ffc44-8109-4f86-8810-794abf86ed10} event:/Cave/AMBMUS
-{0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Cave/Door
-{46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Cave/Lamp
+{5bc869c0-074a-4a6e-bbf7-477ae46d8a38} event:/Cave/Button_Click
+{3c8a9677-265a-4d08-bb58-456e26f8937d} event:/Cave/Door
+{17522358-793d-4ded-a0f1-43d09cee73db} event:/Cave/Electrocute
+{62bd27d9-88a9-4a71-8b79-932ee9db3f08} event:/Cave/Lamp
+{f8203028-3563-4039-989f-7408cab3a2bc} event:/Cave/Release
+{0277a550-58aa-41b4-bdf4-1a7d00e6828d} event:/Cave/Toy_click
+{18e6f495-591c-43d9-b3f8-9d911df0c153} event:/Cave/Toy_Rotate
+{0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Old_unused/Door_old short
+{46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Old_unused/Lamp_Procedural
 {eaba399a-7884-4f32-8fe6-e4f830e95f3b} bus:/
 {e3c75b64-ac28-4651-9217-704615c41f02} bus:/Reverb
 {79b09ee8-0f81-4297-a339-5c4304385123} bus:/Reverb grotta
