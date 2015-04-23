@@ -169,7 +169,6 @@ void ALamp::ActivateSecond() {
 	if (mAction)
 		return;
 
-	mPressedBefore	= true;
 	mSoundIntensity = 1;
 	mAction			= true;
 	mActionKill		= false;
@@ -181,6 +180,9 @@ void ALamp::ActivateSecond() {
 	SoundEventFireflyRelease();
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
+
+	// Apply after calling events
+	mPressedBefore = true;
 
 	// Puzzle is done
 	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
