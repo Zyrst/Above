@@ -27,6 +27,8 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mIsPaused = false;
 
 	mInteractButtonIsPressed = false;
+
+	FallingTime = 200;
 }
 
 // Called when the game starts or when spawned
@@ -87,7 +89,7 @@ void AStefun::Tick( float DeltaTime ){
 	if (GetCharacterMovement()->IsFalling()){
 		mFallingTime++;
 		//UE_LOG(LogTemp, Log, TEXT("Falling Count %d"), mFallingTime);
-		if (mFallingTime > 90){
+		if (mFallingTime > FallingTime){
 			this->TeleportTo(mController->GetSpawnLocation(), FRotator(0, 0, 0), false, true);
 			mFallingTime = 0;
 		}
