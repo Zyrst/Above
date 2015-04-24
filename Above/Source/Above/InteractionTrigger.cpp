@@ -42,11 +42,6 @@ void AInteractionTrigger::Tick( float DeltaTime )
 	}
 }
 
-// Function overridden in blueprints
-void AInteractionTrigger::Interact_Implementation() {
-
-}
-
 void AInteractionTrigger::SetPointerTarget(FVector& vectorPointer) {
 	mPointerTarget = &vectorPointer;
 }
@@ -59,14 +54,20 @@ FVector& AInteractionTrigger::GetPointerTarget() {
 void AInteractionTrigger::StartHover() {
 	mHoverText->SetHiddenInGame(false);
 	EventStartHover();
+
+	if (mHighlightMaterial != nullptr)
+		mHighlightMaterial->SetScalarParameterValue(mHightlightParameterName, 1.0f);
 }
 
 // Hide text on end of hover
 void AInteractionTrigger::EndHover() {
 	mHoverText->SetHiddenInGame(true);
 	EventEndHover();
+
+	if (mHighlightMaterial != nullptr)
+		mHighlightMaterial->SetScalarParameterValue(mHightlightParameterName, 0.0f);
 }
 
-// End of hold
-void AInteractionTrigger::EndHold_Implementation() {
+void AInteractionTrigger::SetHighlightMaterial(UMaterialInstanceDynamic* material) {
+	mHighlightMaterial = material;
 }

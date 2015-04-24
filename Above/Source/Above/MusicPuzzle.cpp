@@ -32,14 +32,6 @@ void AMusicPuzzle::Tick( float DeltaTime )
 
 }
 
-void AMusicPuzzle::PlayMusic_Implementation() {
-
-}
-
-void AMusicPuzzle::PlayShortMusic_Implementation() {
-
-}
-
 void AMusicPuzzle::RotateDisc(int32 discNum) {
 	// Index chosen disc by one
 	if (discNum < DiscIndexArray.Num()) {
@@ -52,7 +44,7 @@ void AMusicPuzzle::RotateDisc(int32 discNum) {
 void AMusicPuzzle::Activate() {
 	// Compare with correct combination
 	if (DiscIndexArray == DiscIndexRefrenceArray) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Activate"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Playing animation"));
 
 		PlayMusic();
 	}

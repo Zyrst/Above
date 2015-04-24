@@ -71,11 +71,3 @@ void ADoorPuzzle::EndHoldButton() {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Dropped trigger"));
 	mButtonOrder.Empty();
 }
-
-void ADoorPuzzle::Unlock_Implementation() {
-
-}
-
-void ADoorPuzzle::LightButton_Implementation(int32 buttonNum) {
-
-}
