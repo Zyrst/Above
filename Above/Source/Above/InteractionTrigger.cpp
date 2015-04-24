@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "InteractionTrigger.h"
+#include "AboveSettings.h"
 
 
 // Sets default values
@@ -70,4 +71,8 @@ void AInteractionTrigger::EndHover() {
 
 void AInteractionTrigger::SetHighlightMaterial(UMaterialInstanceDynamic* material) {
 	mHighlightMaterial = material;
+
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	if (settings != nullptr)
+		mHighlightMaterial->SetVectorParameterValue(settings->mHighlightColorParameterName, settings->mHighlightColor);
 }
