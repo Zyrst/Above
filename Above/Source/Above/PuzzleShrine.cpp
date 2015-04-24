@@ -31,7 +31,3 @@ void APuzzleShrine::Activate() {
 
 	PlayMusic();
 }
-
-void APuzzleShrine::PlayMusic_Implementation() {
-
-}
