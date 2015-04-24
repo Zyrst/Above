@@ -36,6 +36,7 @@ void ARotatingPuzzle::BeginPlay()
 			mIndicatorMesh = Components[i];
 			mIndicatorMeshMaterial = mIndicatorMesh->CreateAndSetMaterialInstanceDynamic(0);
 		}
+		//Table material 
 		if (mesh->GetName() == "ModelBase"){
 			mDishMeshMaterial = Components[i]->CreateAndSetMaterialInstanceDynamic(0);
 		}

@@ -22,7 +22,7 @@ void ALightIndicator::BeginPlay()
 			mLights.Push(tmp);
 		}
 	}*/
-
+	mOnceLoad = false;
 	TArray<UStaticMeshComponent*> Components;
 	this->GetComponents<UStaticMeshComponent>(Components);
 	for (int32 i = 0; i < Components.Num(); i++){
@@ -33,8 +33,11 @@ void ALightIndicator::BeginPlay()
 		}
 	}
 	mLightMaterial = mLightIndMesh->CreateAndSetMaterialInstanceDynamic(0);
+	
+
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[0]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[0]);
+	
 	
 }
 
@@ -42,12 +45,21 @@ void ALightIndicator::BeginPlay()
 void ALightIndicator::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-	
+
 }
 
 void ALightIndicator::Reduce(){
 	//mLights[mLampsOff++]->LightOff();
 	LampsOn++;
+	//Test to see if preloading texture worked
+	/*if (!mOnceLoad){
+		for (int32 i = 0; i < mShellTexture.Num(); i++){
+			//mShellTexture[i]->NeverStream = true;
+			mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[i]);
+			mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[i]);
+		}
+		mOnceLoad = true;
+	}*/
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
 

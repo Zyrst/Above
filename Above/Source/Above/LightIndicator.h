@@ -48,4 +48,5 @@ private:
 	TArray<APuzzleSlabIndicatorLight*> mLights;
 	UStaticMeshComponent* mLightIndMesh;
 	UMaterialInstanceDynamic* mLightMaterial;
+	bool mOnceLoad = false;
 };
