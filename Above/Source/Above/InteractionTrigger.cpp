@@ -42,11 +42,6 @@ void AInteractionTrigger::Tick( float DeltaTime )
 	}
 }
 
-// Function overridden in blueprints
-void AInteractionTrigger::Interact_Implementation() {
-
-}
-
 void AInteractionTrigger::SetPointerTarget(FVector& vectorPointer) {
 	mPointerTarget = &vectorPointer;
 }
@@ -71,10 +66,6 @@ void AInteractionTrigger::EndHover() {
 
 	if (mHighlightMaterial != nullptr)
 		mHighlightMaterial->SetScalarParameterValue(mHightlightParameterName, 0.0f);
-}
-
-// End of hold
-void AInteractionTrigger::EndHold_Implementation() {
 }
 
 void AInteractionTrigger::SetHighlightMaterial(UMaterialInstanceDynamic* material) {

@@ -20,10 +20,10 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UFUNCTION(BlueprintNativeEvent, Category = Sound)
+	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
 		void PlayMusic();
 
-	UFUNCTION(BlueprintNativeEvent, Category = Sound)
+	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
 		void PlayShortMusic();
 
 	/** Indexes selected disc by one */

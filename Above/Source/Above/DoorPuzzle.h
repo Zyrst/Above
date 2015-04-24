@@ -35,11 +35,11 @@ public:
 	bool mIsInOrder;
 
 	/** Unlock door */
-	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
+	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
 		void Unlock();
 
 	/** Light specified button */
-	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
+	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
 		void LightButton(int32 buttonNum);
 
 	FVector* mPointerTarget;

@@ -32,14 +32,6 @@ void AMusicPuzzle::Tick( float DeltaTime )
 
 }
 
-void AMusicPuzzle::PlayMusic_Implementation() {
-
-}
-
-void AMusicPuzzle::PlayShortMusic_Implementation() {
-
-}
-
 void AMusicPuzzle::RotateDisc(int32 discNum) {
 	// Index chosen disc by one
 	if (discNum < DiscIndexArray.Num()) {
