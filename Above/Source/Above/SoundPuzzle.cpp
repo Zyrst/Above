@@ -102,8 +102,8 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 
 			auto rootLocation = slab->GetAttachmentRoot()->RelativeLocation;
 			FVector tmpPos = slab->GetRelativeTransform().GetLocation();
-			UE_LOG(LogTemp, Warning, TEXT("Location Root: %s"), *rootLocation.ToString());
-			UE_LOG(LogTemp, Warning, TEXT("Location Slab: %s"), *tmpPos.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Location Root: %s"), *rootLocation.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Location Slab: %s"), *tmpPos.ToString());
 			//Next slab position, initialize with a zero vector
 			FVector tmpNextPos;
 			tmpNextPos = tmpNextPos.ZeroVector;
@@ -112,7 +112,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 				//Get relative from scene component in the blueprint
 				auto tmp = mCorPathSlabs[(mCorPathSteps)]->GetTransform().GetRelativeTransform(slab->GetAttachmentRoot()->GetComponentTransform());
 				tmpNextPos = tmp.GetLocation();
-				UE_LOG(LogTemp, Warning, TEXT("Location Next Slab: %s"), *tmpNextPos.ToString());
+				//UE_LOG(LogTemp, Warning, TEXT("Location Next Slab: %s"), *tmpNextPos.ToString());
 			}
 
 			float tmpX = 0;
