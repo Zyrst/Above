@@ -42,11 +42,6 @@ void AInteractionTrigger::Tick( float DeltaTime )
 	}
 }
 
-// Function overridden in blueprints
-void AInteractionTrigger::Interact_Implementation() {
-
-}
-
 void AInteractionTrigger::SetPointerTarget(FVector& vectorPointer) {
 	mPointerTarget = &vectorPointer;
 }
@@ -65,8 +60,4 @@ void AInteractionTrigger::StartHover() {
 void AInteractionTrigger::EndHover() {
 	mHoverText->SetHiddenInGame(true);
 	EventEndHover();
-}
-
-// End of hold
-void AInteractionTrigger::EndHold_Implementation() {
 }

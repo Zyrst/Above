@@ -23,6 +23,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void Activate();
 	
-	UFUNCTION(BlueprintNativeEvent, Category = Sound)
+	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
 		void PlayMusic();
 };

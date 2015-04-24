@@ -22,7 +22,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	/** Called if both hit by line trace and mb1 is clicked */
-	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
+	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
 		void Interact();
 
 	UFUNCTION(BlueprintCallable, Category = Interaction)
@@ -48,7 +48,7 @@ public:
 		void EventEndHover();
 
 	/** Called when button is no longer held */
-	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
+	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
 		void EndHold();
 
 	/** Textcomponent */
