@@ -119,6 +119,7 @@ void ARotatingPuzzle::Activate(){
 	UE_LOG(LogTemp, Log, TEXT("Random: %d"), mRandom);
 	float sum = 0;
 	sum = 60 * (mRandom);
+	//mPevPos is empty so don't want nullptr which breaks the game
 	if (mPrevPos.Num() == 0){
 		mPrevPos.Push(sum);
 		if (sum == 0 || sum == 120 || sum == 240){
@@ -126,7 +127,8 @@ void ARotatingPuzzle::Activate(){
 			mRightPos.Add(sum);
 		}
 	}
-	else if(mPrevPos.Num() != 0){
+	//PrevPost contains elemtents that can be used to determine positions
+	else if(mPrevPos.Num() != 0 || mRightPos.Num() != 3){
 		float tmp = mPrevPos.Last() + sum;
 		if (tmp > 360){
 			tmp -= 360.0f;
@@ -222,39 +224,46 @@ void ARotatingPuzzle::Reset(){
 
 void ARotatingPuzzle::ActivateEmmisive(){
 	
-	if (mRightPos.Num() == 0){
+	float tmp;
+	switch (mRightPos.Num()){
+	case 0:
 		mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[0]);
-	}
-	if (mRightPos.Num() == 1){
-		float tmp = mRightPos.Last();
+		mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[0]);
+		break;
+	case 1:
+		tmp = mRightPos.Last();
 		if (tmp == 0){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[1]);
 		}
-		if (tmp == 120){
+		else if (tmp == 120){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[2]);
 		}
-		if (tmp == 240){
+		else if (tmp == 240){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[3]);
 		}
-	}
-	if(mRightPos.Num() == 2){
-		float tmp = mRightPos.Last();
+		break;
+	case 2:
+		tmp = mRightPos.Last();
 
 		if (tmp == 0){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[1]);
 		}
-		if (tmp == 120){
+		else if (tmp == 120){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[2]);
 		}
-		if (tmp == 240){
+		else if (tmp == 240){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[3]);
 		}
-	}
-	if(mRightPos.Num() == 3){
+		break;
+	case 3:
 		mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[4]);
 		mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[0]);
+		break;
+	default:
+		mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[0]);
+		mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[0]);
+		break;
 	}
-
 }
 
 /** Old code*/
