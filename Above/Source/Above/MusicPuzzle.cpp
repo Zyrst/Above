@@ -52,7 +52,7 @@ void AMusicPuzzle::RotateDisc(int32 discNum) {
 void AMusicPuzzle::Activate() {
 	// Compare with correct combination
 	if (DiscIndexArray == DiscIndexRefrenceArray) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Activate"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Playing animation"));
 
 		PlayMusic();
 	}

@@ -34,7 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 	void Activate();
 
-	// User combination
+	// Player input combination
 	TArray<int32> DiscIndexArray;
 
 	// Correct combination
