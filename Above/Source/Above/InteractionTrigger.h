@@ -64,4 +64,15 @@ public:
 		UBoxComponent* mRootComponent;
 
 	FVector* mPointerTarget;
+
+	/** Sets reference to material instance */
+	UFUNCTION(BlueprintCallable, Category = Highlight)
+		void SetHighlightMaterial(UMaterialInstanceDynamic* material);
+	
+	/** Name of parameter to change to get hightlight */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Hightlight)
+		FName mHightlightParameterName = "HighlightOn";
+
+private:
+	UMaterialInstanceDynamic* mHighlightMaterial;
 };
