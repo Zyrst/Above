@@ -32,9 +32,8 @@ void ALightIndicator::BeginPlay()
 			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, mLightIndMesh->GetName());
 		}
 	}
-	mLightMaterial = mLightIndMesh->CreateAndSetMaterialInstanceDynamic(0);
-	
 
+	mLightMaterial = mLightIndMesh->CreateAndSetMaterialInstanceDynamic(0);
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[0]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[0]);
 	

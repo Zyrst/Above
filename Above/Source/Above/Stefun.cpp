@@ -9,6 +9,7 @@
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer),
 	mEdgeThreshold(20),
+	mGapIgnoreSize(60),
 	mLeaningOverEdge(false),
 	mEdgeLeanAmount(50),
 	mLookDownSpeed(0){
@@ -48,23 +49,22 @@ void AStefun::BeginPlay()
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
 	Super::Tick( DeltaTime );
-
-	GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
+	
+GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 	HoverOverObject();
 
 	// Prevent jumping over edge
 	// Uncomment this for only checking when in air. (Does not work with sliding)
 	//if (!GetCharacterMovement()->IsMovingOnGround())
-	{ 
+	if (currentSpeed > 0) { 
 		// Only care about xy speed
 		FVector vel = GetCharacterMovement()->Velocity;
 		vel.Z = 1;
 
-		vel.X /= GetCharacterMovement()->MaxWalkSpeed;
-		vel.Y /= GetCharacterMovement()->MaxWalkSpeed;
-	
+		vel.X /= mWalkSpeed;
+		vel.Y /= mWalkSpeed;
 
-		if (!FindGroundBelow(vel * mEdgeThreshold)) {
+		if (!FindGroundBelow(vel)) {
 			GetCharacterMovement()->Velocity.X = 0;
 			GetCharacterMovement()->Velocity.Y = 0;
 			currentSpeed = 0;
@@ -169,7 +169,7 @@ void AStefun::MoveForward(float val){
 	// If backing into an edge, do nothing
 	else if (val < 0.0f && !FindGroundBelow(-(GetActorForwardVector() * mEdgeThreshold)))
 		return;
-
+	
 	if ((Controller != NULL) && (val != 0.0f)){
 		//Find which way is forward
 		mMoveForward = true;
@@ -442,11 +442,44 @@ bool AStefun::FindGroundBelow(FVector offset) {
 	FVector traceStart = GetTransform().GetLocation() + offset;
 	FVector traceEnd = traceStart + (-GetActorUpVector() * 1000) + offset;
 	ECollisionChannel collisionChannel = ECC_WorldStatic;
-	FCollisionQueryParams traceParamaters(FName(TEXT("InteractionTrace")), true, this);
+	FCollisionQueryParams traceParamaters(FName(TEXT("GroundTrace")), true, this);
 
-	// Trace
-	return Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
+	// Return trace
+	return Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters) || FindGroundAround(offset);
 }
+
+
+bool AStefun::FindGroundAround(FVector offset) {
+	// Setup trace
+	FHitResult traceHitResult;
+	TObjectIterator<AStefun> Player;
+	FVector traceStart = GetTransform().GetLocation() + offset;
+	FVector traceEnd = traceStart + (-GetActorUpVector() * 1000) + offset;
+	ECollisionChannel collisionChannel = ECC_WorldStatic;
+	FCollisionQueryParams traceParamaters(FName(TEXT("GroundTrace")), true, this);
+
+	bool ret = false;
+
+	float a = (1.22) - offset.HeadingAngle();
+	FVector begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
+	FVector end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
+	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
+
+	a = (1.57) - offset.HeadingAngle();
+	begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
+	end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
+	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
+
+	a = (1.92) - offset.HeadingAngle();
+	begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
+	end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
+	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
+
+	// Return trace
+	return	ret;
+}
+
+
 
 float AStefun::GetMoveSpeed() {
 	return currentSpeed;
