@@ -25,7 +25,7 @@ void ASoundPuzzle::BeginPlay()
 			mLightInd = tmp;
 		}
 	}
-
+	//Might want to find LightIndicator in children components 
 }
 
 // Called every frame
