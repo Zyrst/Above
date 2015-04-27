@@ -94,6 +94,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
 		float mEdgeThreshold;
 
+	/** Size of gaps to ignore */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
+		float mGapIgnoreSize;
+
 	/** How far player should look over edge */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
 		float mEdgeLeanAmount;
@@ -147,6 +151,7 @@ private:
 	bool mIsPaused;
 
 	bool FindGroundBelow(FVector offset);
+	bool FindGroundAround(FVector offset);
 	FVector mCamDefaultLocation;
 	FVector mCamCurrentLocation;
 	bool mLeaningOverEdge;
