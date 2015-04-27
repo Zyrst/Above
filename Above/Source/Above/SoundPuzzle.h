@@ -44,6 +44,11 @@ public:
 		void SoundEventForward();
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventBack();
+		
+	UFUNCTION(BlueprintCallable, Category = LightIndicator)
+		void SetLightIndicator(UChildActorComponent* light);
+	UFUNCTION(BlueprintCallable, Category = LightIndicator)
+		ALightIndicator* GetLightIndicator();
 
 private:
 	int32 mSteps;
@@ -52,8 +57,8 @@ private:
 	TArray<AActor*> mCorPathSlabs;
 	FString mWalkingWay;
 	FString mRightWay;
-	ALightIndicator* mLightInd;
 	
+	ALightIndicator* mLightInd;
 
 	bool PuzzleCompleted = false;
 	bool mDoneOnce = false;
