@@ -19,13 +19,23 @@ void ASoundPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 	mSteps = 0;
-	for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
+	/*for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
 		ALightIndicator* tmp = Cast<ALightIndicator>(*itr);
 		if (tmp != nullptr){
 			mLightInd = tmp;
-		}
+		}z
 	}
 	//Might want to find LightIndicator in children components 
+	TArray<UChildActorComponent*> Components;
+	this->GetComponents(Components);
+	for (int32 i = 0; i < Components.Num(); i++){
+		FString name = Components[i]->GetClass()->GetName();
+		ALightIndicator* tmp = Cast<ALightIndicator>(Components[i]);
+		if (tmp != nullptr){
+			mLightInd = tmp;
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Found Light Indicator"));
+		}
+	}*/
 }
 
 // Called every frame
@@ -161,3 +171,11 @@ void ASoundPuzzle::Reset(){
 	mWalkingWay = NULL;
 }
  
+void ASoundPuzzle::SetLightIndicator(UChildActorComponent* light){
+	ALightIndicator* tmp = Cast<ALightIndicator>(light->ChildActor);
+	mLightInd = tmp;
+}
+
+ALightIndicator* ASoundPuzzle::GetLightIndicator(){
+	return mLightInd;
+}
