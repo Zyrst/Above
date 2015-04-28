@@ -20,9 +20,11 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	/** Call to play music */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void Activate();
 	
+	/** Function to be overridden in blueprints */
 	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
 		void PlayMusic();
 };

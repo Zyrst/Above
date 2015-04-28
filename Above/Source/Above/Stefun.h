@@ -173,4 +173,5 @@ private:
 
 	float mCurrentWindValue = 0;
 	float mWindBaseValue = 0;
+	float mSoundSpeedValue = 0;
 };

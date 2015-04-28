@@ -62,6 +62,11 @@ void ALightIndicator::Reduce(){
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
 
+	if (LampsOn == 16)
+		mLightMaterial->SetScalarParameterValue("TexturePhase", 0.99f);
+	else
+		mLightMaterial->SetScalarParameterValue("TexturePhase", (float)LampsOn / 16.0f);
+
 	SoundEventLightLit();
 }
 
@@ -72,4 +77,6 @@ void ALightIndicator::Reset(){
 	LampsOn = 0;
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
+
+	mLightMaterial->SetScalarParameterValue("TexturePhase", 0);
 }

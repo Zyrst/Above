@@ -486,7 +486,16 @@ bool AStefun::FindGroundAround(FVector offset) {
 
 
 float AStefun::GetMoveSpeed() {
-	return currentSpeed;
+	auto charmove = GetCharacterMovement();
+
+	if (charmove->IsCrouching()) {
+		mSoundSpeedValue = FMath::Lerp(mSoundSpeedValue, charmove->MaxWalkSpeedCrouched, 0.5f);
+		return mSoundSpeedValue;
+	}
+
+	mSoundSpeedValue = FMath::Lerp(mSoundSpeedValue, charmove->MaxWalkSpeed, 0.5f);
+
+	return mSoundSpeedValue / 100;
 }
 
 float AStefun::GetCurrentWindValue() {

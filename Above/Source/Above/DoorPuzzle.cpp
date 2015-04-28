@@ -33,20 +33,18 @@ void ADoorPuzzle::Tick( float DeltaTime )
 }
  
 void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector& vectorPointer) {
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %d"), triggerNum));
-
 	mPointerTarget = &vectorPointer;
 
 	// Check if button is already pressed
 	if (!mButtonOrder.Contains(triggerNum)) {
 		mButtonOrder.Push(triggerNum);
 		LightButton(triggerNum);
+
+		SoundEventButtonInteract(mButtonOrder.Num());
 	}
 
 	// Check if all buttons have been pressed
 	if (mButtonOrder.Num() >= 5) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Array size 5"));
-
 		// Check if buttons pressed in correct order
 		mIsInOrder = true;
 		for (int32 i = 1; i < mButtonOrder.Num(); i++) {

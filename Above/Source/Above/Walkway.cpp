@@ -25,11 +25,3 @@ void AWalkway::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
-
-void AWalkway::Activate_Implementation() {
-
-}
-
-void AWalkway::ActivatePartly_Implementation() {
-
-}

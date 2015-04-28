@@ -20,12 +20,7 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UFUNCTION(BlueprintNativeEvent, Category = Animation)
-	void Activate();
-
-	UFUNCTION(BlueprintNativeEvent, Category = Animation)
-	void ActivatePartly();
-
+	/** Pointer to middle shrine */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pointer)
 		AActor* mMusicPuzzle;
 	
