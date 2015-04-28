@@ -20,6 +20,7 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	/** Pointer to button */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pointer)
 		AActor* mButton;
 	

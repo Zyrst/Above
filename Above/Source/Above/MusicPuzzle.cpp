@@ -10,10 +10,12 @@ AMusicPuzzle::AMusicPuzzle()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Initiate array with zeros
 	for (int32 i = 0; i < 3; i++) {
 		DiscIndexArray.Push(0);
 	}
 
+	// Initiate array, no propper initiation of arrays in unreal
 	int32 tableinit[] = { 3, 4, 2 };
 	DiscIndexRefrenceArray.Append(tableinit, ARRAY_COUNT(tableinit));
 }
@@ -36,22 +38,16 @@ void AMusicPuzzle::RotateDisc(int32 discNum) {
 	// Index chosen disc by one
 	if (discNum < DiscIndexArray.Num()) {
 		DiscIndexArray[discNum] = ++DiscIndexArray[discNum] % 5;
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %d"), DiscIndexArray[discNum]));
 	}
 }
 
 void AMusicPuzzle::Activate() {
 	// Compare with correct combination
 	if (DiscIndexArray == DiscIndexRefrenceArray) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Playing animation"));
-
 		PlayMusic();
 	}
 
 	else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Wrong combination you daft bastard"));
-
 		PlayShortMusic();
 	}
 }

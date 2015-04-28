@@ -46,5 +46,6 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = fmod)
 		void SoundEventButtonInteract(int32 nActivatedButtons);
 
+	// Pointer to player focus location
 	FVector* mPointerTarget;
 };
