@@ -147,6 +147,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Character)
 		int32 FallingTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
+		bool DontMove;
+
 private: 
 	bool mIsPaused;
 

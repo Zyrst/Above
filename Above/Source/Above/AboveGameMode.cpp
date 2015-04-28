@@ -51,3 +51,9 @@ bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
 		return StartedPuzzleArray[puzzle];
 	return false;
 }
+
+void AAboveGameMode::EndTrigger(){
+	//Stuff to be done
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Triggered the end"));
+	
+}
