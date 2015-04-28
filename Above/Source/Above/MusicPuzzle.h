@@ -20,9 +20,11 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	/** On correct combination */
 	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
 		void PlayMusic();
 
+	/** On incorrect combination*/
 	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
 		void PlayShortMusic();
 
