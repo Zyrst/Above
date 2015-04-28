@@ -482,7 +482,7 @@ bool AStefun::FindGroundAround(FVector offset) {
 
 
 float AStefun::GetMoveSpeed() {
-	return currentSpeed;
+	return currentSpeed / mWalkSpeed * 5;
 }
 
 float AStefun::GetCurrentWindValue() {
