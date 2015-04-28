@@ -103,8 +103,8 @@ GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 
 	// Calculate wind level
 	if (mWindLevels.Num() > 0) {
-		int windA = FMath::Floor(mWindBaseValue);
-		int windB = FMath::Ceil(mWindBaseValue + 0.5f);
+		int windA = FMath::FloorToFloat(mWindBaseValue);
+		int windB = FMath::CeilToFloat(mWindBaseValue + 0.5f);
 
 		if (windB > mWindLevels.Num() - 1) {
 			windB = mWindLevels.Num() - 1;
@@ -228,55 +228,56 @@ void AStefun::MoveForward(float val){
 
 void AStefun::MoveRight(float val){
 	// Do now allow strafe when looking over edge or strafing into edge
-	if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
-		return;
+	if (!DontMove){
+		if (!FindGroundBelow(GetActorRightVector() * val * mEdgeThreshold) || mLeaningOverEdge)
+			return;
 
-	if ((Controller != NULL) && (val != 0.0f)){
-		mStrafing = true;
-		FRotator rotation = Controller->GetControlRotation();
-		if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
-			rotation.Pitch = 0.0f;
-		}
+		if ((Controller != NULL) && (val != 0.0f)){
+			mStrafing = true;
+			FRotator rotation = Controller->GetControlRotation();
+			if (GetCharacterMovement()->IsMovingOnGround() || GetCharacterMovement()->IsFalling()){
+				rotation.Pitch = 0.0f;
+			}
 
-		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
-		//Movement intesifies
-		if (currentSpeed < mWalkSpeed){
-			currentSpeed += 10;
-			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-		}
+			const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
+			//Movement intesifies
+			if (currentSpeed < mWalkSpeed){
+				currentSpeed += 10;
+				GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+			}
 
-		AddMovementInput(direction, val);
-		if (val > 0)
-			mRight = true;
-		else
-			mRight = false;
-	}
-	//No more strafe but stilling moving forward
-	if (val == 0 && mMoveForward){
-		mStrafing = false;
-	}
-	//No movement
-	else if (val == 0 && !mMoveForward){
-
-		FRotator rotation = Controller->GetControlRotation();
-		const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
-
-		if (currentSpeed > 0.0f && !mMoveForward){
-			currentSpeed -= 20.0f;
-			GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-
-			if (mRight)
-				AddMovementInput(direction, 1);
+			AddMovementInput(direction, val);
+			if (val > 0)
+				mRight = true;
 			else
-				AddMovementInput(direction, -1);
-				
+				mRight = false;
 		}
-		//Not moving at all
-		if (currentSpeed == 0){
+		//No more strafe but stilling moving forward
+		if (val == 0 && mMoveForward){
 			mStrafing = false;
 		}
+		//No movement
+		else if (val == 0 && !mMoveForward){
+
+			FRotator rotation = Controller->GetControlRotation();
+			const FVector direction = FRotationMatrix(rotation).GetScaledAxis(EAxis::Y);
+
+			if (currentSpeed > 0.0f && !mMoveForward){
+				currentSpeed -= 20.0f;
+				GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+
+				if (mRight)
+					AddMovementInput(direction, 1);
+				else
+					AddMovementInput(direction, -1);
+
+			}
+			//Not moving at all
+			if (currentSpeed == 0){
+				mStrafing = false;
+			}
+		}
 	}
-		
 }
 
 void AStefun::OnStartJump(){
