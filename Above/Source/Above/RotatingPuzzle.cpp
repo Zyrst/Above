@@ -50,6 +50,9 @@ void ARotatingPuzzle::BeginPlay()
 			mPoints.Push(i * 60);
 	}
 	mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[0]);
+
+	if (mButtonEmissive.Num() > 0)
+		mIndicatorMeshMaterial->SetTextureParameterValue("Emissive", mButtonEmissive[0]);
 	mIndicatorMeshMaterial->SetTextureParameterValue("Texture2", mTextureInactive);
 	mIndicatorMeshMaterial->SetScalarParameterValue("BlendValue", 1.0f);
 	mBlendFactor = 1;
@@ -93,6 +96,7 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 		// Change texture when unlit is showing
 		else if (!mFadeDown && mBlendFactor >= 1.0f) {
 			mIndicatorMeshMaterial->SetTextureParameterValue("Texture1", mDesiredTexture);
+			mIndicatorMeshMaterial->SetTextureParameterValue("Emissive", mDesiredButtonEmissive);
 			mFadeDown = true;
 		}
 		// Fade "down" to lit texture
@@ -170,6 +174,9 @@ void ARotatingPuzzle::Activate(){
 
 	// Set texture if texture exists
 	if (mRandom <= mIndicatorTextures.Num()) {
+		if (mButtonEmissive.Num() <= mIndicatorTextures.Num())
+			mDesiredButtonEmissive = mButtonEmissive[mRandom - 1];
+
 		mDesiredTexture = mIndicatorTextures[mRandom - 1];
 		mShouldFade = true;
 

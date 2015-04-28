@@ -20,6 +20,7 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	/** Pointer to middle shrine */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pointer)
 		AActor* mMusicPuzzle;
 	

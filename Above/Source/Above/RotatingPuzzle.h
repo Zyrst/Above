@@ -85,6 +85,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mLightUp;
 
+	/** Array holding textures for button emissive */
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mButtonEmissive;
+
 	void ActivateEmmisive();
 
 private:
@@ -103,6 +107,7 @@ private:
 	FVector* mStartPos;
 
 	UTexture2D* mDesiredTexture;
+	UTexture2D* mDesiredButtonEmissive;
 	bool mFadeDown;
 	bool mShouldFade;
 	float mBlendFactor;
