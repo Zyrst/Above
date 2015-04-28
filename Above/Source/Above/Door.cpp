@@ -13,13 +13,13 @@ ADoor::ADoor()
 }
 
 // Called when the game starts or when spawned
-void ADoor::BeginPlay()
-{
+void ADoor::BeginPlay() {
+	Super::BeginPlay();
 
 }
 
 // Called every frame
-void ADoor::Tick( float DeltaTime )
-{
+void ADoor::Tick( float DeltaTime ) {
+	Super::Tick(DeltaTime);
 
 }
