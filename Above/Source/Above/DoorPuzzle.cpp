@@ -41,6 +41,8 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector& vectorPointer) 
 	if (!mButtonOrder.Contains(triggerNum)) {
 		mButtonOrder.Push(triggerNum);
 		LightButton(triggerNum);
+
+		SoundEventButtonInteract(mButtonOrder.Num());
 	}
 
 	// Check if all buttons have been pressed
