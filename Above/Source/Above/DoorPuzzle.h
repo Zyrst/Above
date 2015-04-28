@@ -42,5 +42,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
 		void LightButton(int32 buttonNum);
 
+	/** Is called when button is activated, passes how many lights are activated (for use with fmod) */
+	UFUNCTION(BlueprintImplementableEvent, Category = fmod)
+		void SoundEventButtonInteract(int32 nActivatedButtons);
+
 	FVector* mPointerTarget;
 };
