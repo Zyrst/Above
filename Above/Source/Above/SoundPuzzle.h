@@ -44,7 +44,8 @@ public:
 		void SoundEventForward();
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventBack();
-		
+
+	/**Set and get lightindicator*/
 	UFUNCTION(BlueprintCallable, Category = LightIndicator)
 		void SetLightIndicator(UChildActorComponent* light);
 	UFUNCTION(BlueprintCallable, Category = LightIndicator)
