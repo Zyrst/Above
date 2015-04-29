@@ -26,7 +26,7 @@ public:
 
 	/** On incorrect combination*/
 	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
-		void PlayShortMusic();
+		void PlayShortMusic(UPARAM(ref)TArray<int32>& currentCombination);
 
 	/** Indexes selected disc by one */
 	UFUNCTION(BlueprintCallable, Category = Interaction)

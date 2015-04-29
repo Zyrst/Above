@@ -48,6 +48,6 @@ void AMusicPuzzle::Activate() {
 	}
 
 	else {
-		PlayShortMusic();
+		PlayShortMusic(DiscIndexArray);
 	}
 }
