@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "AboveGameMode.h"
+#include "Stefun.h"
 
 AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer){
@@ -50,4 +51,19 @@ bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
 	if (StartedPuzzleArray.Find(puzzle))
 		return StartedPuzzleArray[puzzle];
 	return false;
+}
+
+void AAboveGameMode::EndTrigger(AActor* player, UDestructibleComponent* destComp, UPrimitiveComponent* standPlat){
+	//Stuff to be done
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Triggered the end"));
+	AStefun* stefun = Cast<AStefun>(player);
+	if (stefun != nullptr){
+		//stefun->DontMove = true;
+	}
+
+	destComp->ApplyDamage(1000, destComp->GetRelativeTransform().GetLocation(), destComp->GetRelativeTransform().GetLocation(),0);
+	//Make debries of old battery fall through platform
+	standPlat->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//Be able to stand there again
+	standPlat->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }

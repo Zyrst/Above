@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
 		bool GetStartedStatus(AActor* puzzle);
 
+	/**Player End Game Trigger*/
+	UFUNCTION(BlueprintCallable, Category = EndGame)
+		void EndTrigger(AActor* player, UDestructibleComponent* destComp, UPrimitiveComponent* standPlat);
 
 private:
 	TMap<AActor*, bool> CompletedPuzzleArray;

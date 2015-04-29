@@ -27,4 +27,7 @@ public:
 	/** Function to be overridden in blueprints */
 	UFUNCTION(BlueprintImplementableEvent, Category = Sound)
 		void PlayMusic();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
+		int32 mTuneToPlay;
 };
