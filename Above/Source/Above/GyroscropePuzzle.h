@@ -34,11 +34,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
 		float mOuterCircleRadius = 300;
 
-	/** Radius of outer circle */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
-		TArray<UActorComponent*> mInnerCircleComponents;
-
-
 	/** Public function for rotating outer circle (probably called by blueprint inheriting this class) */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
 		void AddOuterRotation();
