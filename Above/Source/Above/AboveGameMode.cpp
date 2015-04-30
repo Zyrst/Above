@@ -17,6 +17,7 @@ AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer
 	static ConstructorHelpers::FClassFinder<AHUD> HUD(TEXT("Blueprint'/Game/Blueprints/HUDs/DefaultHUD.DefaultHUD_C'"));
 	if (HUD.Class != NULL)
 		HUDClass = HUD.Class;
+	mTrigger = false;
 }
 
 float AAboveGameMode::getStandardFoV(){
@@ -55,15 +56,19 @@ bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
 
 void AAboveGameMode::EndTrigger(AActor* player, UDestructibleComponent* destComp, UPrimitiveComponent* standPlat){
 	//Stuff to be done
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Triggered the end"));
-	AStefun* stefun = Cast<AStefun>(player);
-	if (stefun != nullptr){
-		//stefun->DontMove = true;
-	}
+	if (!mTrigger){
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Triggered the end"));
+		AStefun* stefun = Cast<AStefun>(player);
+		if (stefun != nullptr){
+			//stefun->DontMove = true;
+		}
 
-	destComp->ApplyDamage(1000, destComp->GetRelativeTransform().GetLocation(), destComp->GetRelativeTransform().GetLocation(),0);
-	//Make debries of old battery fall through platform
-	standPlat->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	//Be able to stand there again
-	standPlat->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		destComp->ApplyDamage(1000, destComp->GetRelativeTransform().GetLocation(), destComp->GetRelativeTransform().GetLocation(),0);
+		//Make debries of old battery fall through platform
+		standPlat->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		//Be able to stand there again
+		standPlat->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		mTrigger = true;
+	}
+	
 }
