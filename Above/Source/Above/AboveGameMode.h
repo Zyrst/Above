@@ -44,8 +44,7 @@ public:
 	/**Player End Game Trigger*/
 	UFUNCTION(BlueprintCallable, Category = EndGame)
 		void EndTrigger(AActor* player, UDestructibleComponent* destComp, UPrimitiveComponent* standPlat);
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Utility)
-		UPostProcessComponent* mPostProcess;
+
 
 private:
 	TMap<AActor*, bool> CompletedPuzzleArray;
