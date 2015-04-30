@@ -54,14 +54,10 @@ bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
 	return false;
 }
 
-void AAboveGameMode::EndTrigger(AActor* player, UDestructibleComponent* destComp, UPrimitiveComponent* standPlat){
+void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComponent* standPlat){
 	//Stuff to be done
 	if (!mTrigger){
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Triggered the end"));
-		AStefun* stefun = Cast<AStefun>(player);
-		if (stefun != nullptr){
-			//stefun->DontMove = true;
-		}
 
 		destComp->ApplyDamage(1000, destComp->GetRelativeTransform().GetLocation(), destComp->GetRelativeTransform().GetLocation(),0);
 		//Make debries of old battery fall through platform
