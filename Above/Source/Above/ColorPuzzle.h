@@ -25,7 +25,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	/** Returns pointer to value from xy coordinates */
-	Int32Vector3* GetMatrixValue(int32 x, int32 y);
+	Int32Vector3* GetMatrixValue(Int32Vector2 index);
 
 	int32 mMatrixSizeX;
 	int32 mMatrixSizeY;
@@ -40,7 +40,9 @@ public:
 	
 	TMap<int32, FColor*> mColorValueReference;
 
-	void Activate(int32 slideNum);
+	void Activate(int32 slideNum, bool movePositiveDirection);
 
 	Int32Vector2 ConvertSlideNumberToIndex(int32 number);
+
+	void ShiftSlide(int32 slideNum, Int32Vector2 index, bool movePositiveDirection);
 };
