@@ -28,8 +28,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
 		UBoxComponent* mOverlapBox;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
-	//	UStaticMeshComponent* mSlabMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		UStaticMeshComponent* mSlabMesh;
 
 	/** Trigger on begin overlap */
 	UFUNCTION()
