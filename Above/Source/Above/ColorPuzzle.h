@@ -2,6 +2,10 @@
 
 #pragma once
 
+//#include "Int32Vector3.h"
+
+#include "Int32Vector2.h"
+#include "Int32Vector3.h"
 #include "GameFramework/Actor.h"
 #include "ColorPuzzle.generated.h"
 
@@ -20,7 +24,23 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ContainerClass")
-	TArray<int32> mMatrixBoard;
+	/** Returns pointer to value from xy coordinates */
+	Int32Vector3* GetMatrixValue(int32 x, int32 y);
+
+	int32 mMatrixSizeX;
+	int32 mMatrixSizeY;
+
+	TArray<Int32Vector3> mMatrixBoard;
+
+	int32 moveBuffer;
+
+	void Int32Flip(int32* x, int32* y);
+
+	void multiplyColor(Int32Vector3* vector);
 	
+	TMap<int32, FColor*> mColorValueReference;
+
+	void Activate(int32 slideNum);
+
+	Int32Vector2 ConvertSlideNumberToIndex(int32 number);
 };
