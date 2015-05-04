@@ -4,6 +4,7 @@
 #include "SoundPuzzle.h"
 #include "PuzzzleSlab.h"
 #include "LightIndicator.h"
+#include "AboveGamemode.h"
 
 // Sets default values
 ASoundPuzzle::ASoundPuzzle(const FObjectInitializer& objectInit):
@@ -24,7 +25,28 @@ void ASoundPuzzle::BeginPlay()
 // Called every frame
 void ASoundPuzzle::Tick( float DeltaTime )
 {
+	// Do this before updating blueprint
+	if (mSoundBuffer.Num() > 0 && mPlayNextSound && BufferSound) {
+		mPlayNextSound = false;
+		switch (mSoundBuffer[0]) {
+		case SoundDirection::Forward:
+			SoundEventForward();
+			break;
+		case SoundDirection::Back:
+			SoundEventBack();
+			break;
+		case SoundDirection::Left:
+			SoundEventLeft();
+			break;
+		case SoundDirection::Right:
+			SoundEventRight();
+			break;
+		}
+	}
+
+	// Update blueprint
 	Super::Tick( DeltaTime );
+
 
 	if (mDoneOnce == false){
 		DoOnceLoad();
@@ -36,6 +58,9 @@ void ASoundPuzzle::Tick( float DeltaTime )
 		if (mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
 			PuzzleCompleted = true;
+
+			// Tell gamemode we have completed puzzle
+			((AAboveGameMode*)GetWorld()->GetAuthGameMode())->SetCompleteStatus(this, true);
 		}
 		else if (!mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the wrong way"));
@@ -118,17 +143,29 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 			}
 			
 			if (tmpX > 50){
-				SoundEventLeft();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Left);
+				else
+					SoundEventLeft();
 			}
 			else if (tmpX < -50){
-				SoundEventRight();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Right);
+				else
+					SoundEventRight();
 			}
 
 			if (tmpY > 50){
-				SoundEventForward();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Forward);
+				else
+					SoundEventForward();
 			}
 			else if (tmpY < -50){
-				SoundEventBack();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Back);
+				else
+					SoundEventBack();
 			}
 		}
 
@@ -136,6 +173,9 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 }
 
 void ASoundPuzzle::Reset(){
+	// Tell game mode we have started puzzle
+	((AAboveGameMode*)GetWorld()->GetAuthGameMode())->SetStartedStatus(this, true);
+
 	//Don't want to crash when we try the puzzle for the first time
 	if (mWalkWay.Num() != 0){
 		for (int32 i = 0; i < 16; i++){
@@ -161,4 +201,12 @@ void ASoundPuzzle::SetLightIndicator(UChildActorComponent* light){
 
 ALightIndicator* ASoundPuzzle::GetLightIndicator(){
 	return mLightInd;
+}
+
+void ASoundPuzzle::SoundIsDonePlaying() {
+	if (mSoundBuffer.Num() <= 0) 
+		return;
+
+	mSoundBuffer.RemoveAt(0);
+	mPlayNextSound = true;
 }
