@@ -16,12 +16,14 @@ APuzzzleSlab::APuzzzleSlab(const FObjectInitializer& ObjectInitializer)
 	mOverlapBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("CollisionBox"));
 	mOverlapBox->AttachParent = mRootComponent;
 	
-	mSlabMesh = ObjectInitializer.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("Slab"));
-	mSlabMesh->AttachParent = mRootComponent;
-
+	//mSlabMesh = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("Slab"));
+	
 	mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &APuzzzleSlab::BeginOverlapOnBox);
 
 	mIsCorrectSlab = false;
+
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -29,11 +31,18 @@ void APuzzzleSlab::BeginPlay()
 {
 	Super::BeginPlay();
 
-	mSlabMaterial = mSlabMesh->CreateAndSetMaterialInstanceDynamic(0);
+	//mSlabMaterial = mSlabMesh->CreateAndSetMaterialInstanceDynamic(0);
 
 	if (mSlabTextures.Num() == 2) {
-		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
+		//mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
 	}
+
+	int32 rand = FMath::RandHelper(3);
+	if (!(rand > mSlabMeshes.Num())){
+		mSlabMesh->SetStaticMesh(mSlabMeshes[rand]);
+	}
+	
+	mSlabMesh->AttachParent = mRootComponent;
 }
 
 // Called every frame
@@ -53,7 +62,7 @@ void APuzzzleSlab::SteppedOnSlab_Implementation() {
 void APuzzzleSlab::LightUpSlab() {
 	if (mSlabTextures.Num() > 0) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));
-		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[1]);
+		//mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[1]);
 	}
 }
 
