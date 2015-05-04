@@ -14,6 +14,15 @@ class ABOVE_API ASoundPuzzle : public AActor
 	GENERATED_BODY()
 	
 public:	
+	UENUM(BlueprintType)
+	enum class SoundDirection : uint8
+	{
+		Forward, 
+		Back,
+		Left,
+		Right
+	};
+
 	// Sets default values for this actor's properties
 	ASoundPuzzle(const FObjectInitializer& ObjectInitializer);
 
@@ -45,11 +54,18 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventBack();
 
+	UFUNCTION(BlueprintCallable, Category = "fmod")
+		void SoundIsDonePlaying();
+
 	/**Set and get lightindicator*/
 	UFUNCTION(BlueprintCallable, Category = LightIndicator)
 		void SetLightIndicator(UChildActorComponent* light);
 	UFUNCTION(BlueprintCallable, Category = LightIndicator)
 		ALightIndicator* GetLightIndicator();
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "fmod")
+		bool BufferSound = true;
 
 private:
 	int32 mSteps;
@@ -63,4 +79,7 @@ private:
 
 	bool PuzzleCompleted = false;
 	bool mDoneOnce = false;
+
+	TArray<SoundDirection> mSoundBuffer;
+	bool mPlayNextSound = true;
 };

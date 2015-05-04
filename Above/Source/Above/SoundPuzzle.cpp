@@ -24,7 +24,28 @@ void ASoundPuzzle::BeginPlay()
 // Called every frame
 void ASoundPuzzle::Tick( float DeltaTime )
 {
+	// Do this before updating blueprint
+	if (mSoundBuffer.Num() > 0 && mPlayNextSound && BufferSound) {
+		mPlayNextSound = false;
+		switch (mSoundBuffer[0]) {
+		case SoundDirection::Forward:
+			SoundEventForward();
+			break;
+		case SoundDirection::Back:
+			SoundEventBack();
+			break;
+		case SoundDirection::Left:
+			SoundEventLeft();
+			break;
+		case SoundDirection::Right:
+			SoundEventRight();
+			break;
+		}
+	}
+
+	// Update blueprint
 	Super::Tick( DeltaTime );
+
 
 	if (mDoneOnce == false){
 		DoOnceLoad();
@@ -118,17 +139,29 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 			}
 			
 			if (tmpX > 50){
-				SoundEventLeft();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Left);
+				else
+					SoundEventLeft();
 			}
 			else if (tmpX < -50){
-				SoundEventRight();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Right);
+				else
+					SoundEventRight();
 			}
 
 			if (tmpY > 50){
-				SoundEventForward();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Forward);
+				else
+					SoundEventForward();
 			}
 			else if (tmpY < -50){
-				SoundEventBack();
+				if (BufferSound)
+					mSoundBuffer.Add(SoundDirection::Back);
+				else
+					SoundEventBack();
 			}
 		}
 
@@ -161,4 +194,12 @@ void ASoundPuzzle::SetLightIndicator(UChildActorComponent* light){
 
 ALightIndicator* ASoundPuzzle::GetLightIndicator(){
 	return mLightInd;
+}
+
+void ASoundPuzzle::SoundIsDonePlaying() {
+	if (mSoundBuffer.Num() <= 0) 
+		return;
+
+	mSoundBuffer.RemoveAt(0);
+	mPlayNextSound = true;
 }
