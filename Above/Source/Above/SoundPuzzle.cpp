@@ -4,6 +4,7 @@
 #include "SoundPuzzle.h"
 #include "PuzzzleSlab.h"
 #include "LightIndicator.h"
+#include "AboveGamemode.h"
 
 // Sets default values
 ASoundPuzzle::ASoundPuzzle(const FObjectInitializer& objectInit):
@@ -57,6 +58,9 @@ void ASoundPuzzle::Tick( float DeltaTime )
 		if (mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
 			PuzzleCompleted = true;
+
+			// Tell gamemode we have completed puzzle
+			((AAboveGameMode*)GetWorld()->GetAuthGameMode())->SetCompleteStatus(this, true);
 		}
 		else if (!mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the wrong way"));
@@ -169,6 +173,9 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 }
 
 void ASoundPuzzle::Reset(){
+	// Tell game mode we have started puzzle
+	((AAboveGameMode*)GetWorld()->GetAuthGameMode())->SetStartedStatus(this, true);
+
 	//Don't want to crash when we try the puzzle for the first time
 	if (mWalkWay.Num() != 0){
 		for (int32 i = 0; i < 16; i++){
