@@ -28,8 +28,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
 		UBoxComponent* mOverlapBox;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
-		USkeletalMeshComponent* mSlabMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		UStaticMeshComponent* mSlabMesh;
 
 	/** Trigger on begin overlap */
 	UFUNCTION()
@@ -60,6 +60,9 @@ public:
 	/** Populate this with materials corresponding to numbers */
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mSlabTextures;
+
+	UPROPERTY(EditAnywhere, Category = Slabs)
+		TArray<UStaticMesh*> mSlabMeshes;
 
 	UFUNCTION(BlueprintCallable, Category = Index)
 		int32 GetIndex();

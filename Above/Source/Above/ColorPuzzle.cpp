@@ -15,6 +15,11 @@ AColorPuzzle::AColorPuzzle()
 
 	mMatrixBoard.Init(mMatrixSizeX * mMatrixSizeY);
 
+	for (int i = 0; i < mMatrixBoard.Num(); i++) {
+		mMatrixBoard[i] = Int32Vector3(2, 2, 2);
+		multiplyColor(&mMatrixBoard[i]);
+	}
+
 	moveBuffer = 0;
 
 	// Color initiation
@@ -45,10 +50,12 @@ AColorPuzzle::AColorPuzzle()
 void AColorPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	Int32Vector2 bob = ConvertSlideNumberToIndex(11);
 
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Magenta, FString::Printf(TEXT("Trigger: %d | %d"), bob.x, bob.y));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(ConvertSlideNumberToIndex(0))->x, GetMatrixValue(ConvertSlideNumberToIndex(0))->y, GetMatrixValue(ConvertSlideNumberToIndex(0))->z));
+	
+	Activate(0, true);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(ConvertSlideNumberToIndex(0))->x, GetMatrixValue(ConvertSlideNumberToIndex(0))->y, GetMatrixValue(ConvertSlideNumberToIndex(0))->z));
 }
 
 // Called every frame
@@ -56,14 +63,14 @@ void AColorPuzzle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-
+	
 }
 
-Int32Vector3* AColorPuzzle::GetMatrixValue(int32 x, int32 y) {
-	int32 index = x + (mMatrixSizeX * y);
+Int32Vector3* AColorPuzzle::GetMatrixValue(Int32Vector2 index) {
+	int32 realIndex = index.x + (mMatrixSizeX * index.y);
 
-	if (index < mMatrixBoard.Num())
-		return &mMatrixBoard[index];
+	if (realIndex < mMatrixBoard.Num())
+		return &mMatrixBoard[realIndex];
 
 	else
 		return nullptr;
@@ -78,10 +85,16 @@ void AColorPuzzle::Int32Flip(int32* x, int32* y) {
 void AColorPuzzle::multiplyColor(Int32Vector3* vector) {
 	vector->z = vector->x * vector->y;
 	// Todo update visuals or some shit
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Dick")));
 }
 
-void AColorPuzzle::Activate(int32 slideNum) {
-	//Int32Vector2 
+void AColorPuzzle::Activate(int32 slideNum, bool movePositiveDirection) {
+
+	if (slideNum >= 0 && slideNum <= 11) {
+		Int32Vector2 index = ConvertSlideNumberToIndex(slideNum);
+
+		ShiftSlide(slideNum, index, movePositiveDirection);
+	}
 }
 
 Int32Vector2 AColorPuzzle::ConvertSlideNumberToIndex(int32 number) {
@@ -98,4 +111,44 @@ Int32Vector2 AColorPuzzle::ConvertSlideNumberToIndex(int32 number) {
 	}
 
 	return firstInSlide;
+}
+
+void AColorPuzzle::ShiftSlide(int32 slideNum, Int32Vector2 index, bool movePositiveDirection) {
+	Int32Vector2 indexAddition;
+
+	if (slideNum <= 5) {
+		// Shift x
+		if (movePositiveDirection == true) {
+			index.x = 9;
+			indexAddition = Int32Vector2(-1, 0);
+		}
+
+		else {
+			indexAddition = Int32Vector2(1, 0);
+		}
+
+		for (int i = 1; i <= 11; i++) {
+			GetMatrixValue(index)->x = GetMatrixValue(index + indexAddition)->x;
+			multiplyColor(GetMatrixValue(index));
+			index = index - indexAddition;
+		}
+	}
+
+	else {
+		// Shift y
+		if (movePositiveDirection == true) {
+			index.y = 9;
+			indexAddition = Int32Vector2(0, -1);
+		}
+
+		else {
+			indexAddition = Int32Vector2(0, 1);
+		}
+
+		for (int i = 1; i <= 11; i++) {
+			GetMatrixValue(index)->y = GetMatrixValue(index + indexAddition)->y;
+			multiplyColor(GetMatrixValue(index));
+			index = index - indexAddition;
+		}
+	}
 }
