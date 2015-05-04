@@ -43,9 +43,11 @@ public:
 
 	/**Player End Game Trigger*/
 	UFUNCTION(BlueprintCallable, Category = EndGame)
-		void EndTrigger(AActor* player, UDestructibleComponent* destComp, UPrimitiveComponent* standPlat);
+		void EndTrigger(UDestructibleComponent* destComp, UPrimitiveComponent* standPlat);
+
 
 private:
 	TMap<AActor*, bool> CompletedPuzzleArray;
 	TMap<AActor*, bool> StartedPuzzleArray;
+	bool mTrigger;
 };
