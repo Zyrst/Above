@@ -1,8 +1,8 @@
 {ff2ffc44-8109-4f86-8810-794abf86ed10} event:/AMBMUS
 {ca33170f-d5a4-4ce0-8a70-a0510efbb0db} event:/Movement
-{bfc9c477-4c82-400d-a119-9becdc598c86} event:/Cave/Door_close
 {5bc869c0-074a-4a6e-bbf7-477ae46d8a38} event:/Cave/Button_Click
 {3c8a9677-265a-4d08-bb58-456e26f8937d} event:/Cave/Door
+{bfc9c477-4c82-400d-a119-9becdc598c86} event:/Cave/Door_close
 {baeb1a6e-333c-4ecc-bdb3-f2e31a28bc59} event:/Cave/Door_Lock
 {17522358-793d-4ded-a0f1-43d09cee73db} event:/Cave/Electrocute
 {62bd27d9-88a9-4a71-8b79-932ee9db3f08} event:/Cave/Lamp
