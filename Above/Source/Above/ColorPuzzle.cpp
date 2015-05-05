@@ -15,8 +15,19 @@ AColorPuzzle::AColorPuzzle()
 
 	mMatrixBoard.Init(mMatrixSizeX * mMatrixSizeY);
 
+	for (int32 i = 0; i < mMatrixSizeX; i++)
+		for (int32 j = 0; j < mMatrixSizeY; j++)
+			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(i, j)), Int32Vector2(i, j));
+
 	for (int i = 0; i < mMatrixBoard.Num(); i++) {
-		mMatrixBoard[i] = Int32Vector3(2, 2, 2);
+		if (mIndexMap.Find(i)->x >= 3 && mIndexMap.Find(i)->x <= 9 && mIndexMap.Find(i)->y >= 3 && mIndexMap.Find(i)->y <= 9) {
+			mMatrixBoard[i] = Int32Vector3(2, 2, 0);
+		}
+
+		else {
+			mMatrixBoard[i] = Int32Vector3(1, 1, 0);
+		}
+
 		multiplyColor(&mMatrixBoard[i]);
 	}
 
@@ -51,11 +62,16 @@ void AColorPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(ConvertSlideNumberToIndex(0))->x, GetMatrixValue(ConvertSlideNumberToIndex(0))->y, GetMatrixValue(ConvertSlideNumberToIndex(0))->z));
-	
-	Activate(0, false);
+	Activate(6, false);
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(ConvertSlideNumberToIndex(0))->x, GetMatrixValue(ConvertSlideNumberToIndex(0))->y, GetMatrixValue(ConvertSlideNumberToIndex(0))->z));
+	for (int32 x = 2; x < 4; x++) {
+		for (int32 y = 0; y < 9; y++) {
+			GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("%d, %d: %d, %d, %d"), x, y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y))].x, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y))].y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y))].z));
+		}
+	}
+
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(ConvertSlideNumberToIndex(0))->x, GetMatrixValue(ConvertSlideNumberToIndex(0))->y, GetMatrixValue(ConvertSlideNumberToIndex(0))->z));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(0)->x, GetMatrixValue(0)->y, GetMatrixValue(0)->z));
 }
 
 // Called every frame
@@ -67,7 +83,7 @@ void AColorPuzzle::Tick( float DeltaTime )
 }
 
 Int32Vector3* AColorPuzzle::GetMatrixValue(Int32Vector2 index) {
-	int32 realIndex = index.x + (mMatrixSizeX * index.y);
+	int32 realIndex = ConvertDoubleIndexToSingle(index);
 
 	if (realIndex < mMatrixBoard.Num())
 		return &mMatrixBoard[realIndex];
@@ -84,8 +100,7 @@ void AColorPuzzle::Int32Flip(int32* x, int32* y) {
 
 void AColorPuzzle::multiplyColor(Int32Vector3* vector) {
 	vector->z = vector->x * vector->y;
-	// Todo update visuals or some shit
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Dick")));
+	// Todo update visuals
 }
 
 void AColorPuzzle::Activate(int32 slideNum, bool movePositiveDirection) {
@@ -111,6 +126,10 @@ Int32Vector2 AColorPuzzle::ConvertSlideNumberToIndex(int32 number) {
 	}
 
 	return firstInSlide;
+}
+
+int32 AColorPuzzle::ConvertDoubleIndexToSingle(Int32Vector2 index) {
+	return index.x + (mMatrixSizeX * index.y);
 }
 
 void AColorPuzzle::ShiftSlide(int32 slideNum, Int32Vector2 index, bool movePositiveDirection) {
