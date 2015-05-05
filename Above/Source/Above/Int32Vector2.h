@@ -24,4 +24,12 @@ public:
 		: x(valX), y(valY) {
 
 	}
+
+	Int32Vector2 operator+(Int32Vector2 vector) {
+		return Int32Vector2(x + vector.x, y + vector.y);
+	}
+
+	Int32Vector2 operator-(Int32Vector2 vector) {
+		return Int32Vector2(x - vector.x, y - vector.y);
+	}
 };
