@@ -2,18 +2,27 @@
 {ca33170f-d5a4-4ce0-8a70-a0510efbb0db} event:/Movement
 {5bc869c0-074a-4a6e-bbf7-477ae46d8a38} event:/Cave/Button_Click
 {3c8a9677-265a-4d08-bb58-456e26f8937d} event:/Cave/Door
+{baeb1a6e-333c-4ecc-bdb3-f2e31a28bc59} event:/Cave/Door_Lock
 {17522358-793d-4ded-a0f1-43d09cee73db} event:/Cave/Electrocute
 {62bd27d9-88a9-4a71-8b79-932ee9db3f08} event:/Cave/Lamp
 {f8203028-3563-4039-989f-7408cab3a2bc} event:/Cave/Release
 {0277a550-58aa-41b4-bdf4-1a7d00e6828d} event:/Cave/Toy_click
 {18e6f495-591c-43d9-b3f8-9d911df0c153} event:/Cave/Toy_Rotate
+{34848287-1aa5-4483-bf41-b1a245de7ba1} event:/MusicPuzzle/Melody_1
+{38d8a478-e600-4d97-b74f-f1900ac4dd90} event:/MusicPuzzle/Melody_1_Puzzle
+{2558fe2f-0f0f-4608-9756-2cfd6c3bd528} event:/MusicPuzzle/Melody_2
+{e9ad89bd-158f-4589-85eb-0c1a35471c8f} event:/MusicPuzzle/Melody_2_Puzzle
+{8b917480-bf62-4fac-a984-f49ee9f3a203} event:/MusicPuzzle/Melody_3
+{2a479e96-4993-42b7-a12f-7c286dd0cc5d} event:/MusicPuzzle/Melody_3_Puzzle
+{fc846107-e2fa-4630-b7e2-087fca41e921} event:/MusicPuzzle/Solve
 {0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Old_unused/Door_old short
 {46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Old_unused/Lamp_Procedural
 {ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Old_unused/Movement_old
 {1ef143de-e429-492a-ab2f-75b8ccfd10bb} event:/SoundPuzzle/Back
+{76fcde56-0ae1-4499-8e0a-ccfce4fe7519} event:/SoundPuzzle/Forward
+{3f39bda9-100e-4134-85aa-2ac03f260a54} event:/SoundPuzzle/Lamps
 {20b70c16-81f7-4cf2-9514-72edf01c2682} event:/SoundPuzzle/Left
 {3a328f17-b9c4-4a2e-90c8-b2096de8c71c} event:/SoundPuzzle/Right
-{76fcde56-0ae1-4499-8e0a-ccfce4fe7519} event:/SoundPuzzle/Forward
 {eaba399a-7884-4f32-8fe6-e4f830e95f3b} bus:/
 {e3c75b64-ac28-4651-9217-704615c41f02} bus:/Reverb
 {79b09ee8-0f81-4297-a339-5c4304385123} bus:/Reverb grotta

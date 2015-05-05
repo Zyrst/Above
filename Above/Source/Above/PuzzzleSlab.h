@@ -47,10 +47,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Effect)
 		void ResetSlab();
 
-	/** Is correct slab open variable */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Path)
-		bool mIsCorrectSlab;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Path)
 		bool mStartSlab;
 

@@ -19,13 +19,7 @@ APuzzzleSlab::APuzzzleSlab(const FObjectInitializer& ObjectInitializer)
 	//mSlabMesh = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("Slab"));
 	//mSlabMesh->AttachParent = mRootComponent;
 	
-
-	
 	mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &APuzzzleSlab::BeginOverlapOnBox);
-
-	mIsCorrectSlab = false;
-
-	
 
 }
 
@@ -39,14 +33,15 @@ void APuzzzleSlab::BeginPlay()
 	if (mSlabTextures.Num() == 2) {
 		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
 	}
-	
+	//Make stream with random numbers depedning on their location as a seed
 	FRandomStream rng = FRandomStream(GetTransform().GetLocation().X + GetTransform().GetLocation().Y);
 	int32 rand = rng.RandHelper(3);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0, FColor::Red, FString::Printf(TEXT("Val: %d"), rand));
+	//Choose which slab it will take one
 	if (!(rand > mSlabMeshes.Num()) && mSlabMesh != nullptr){
 		mSlabMesh->SetStaticMesh(mSlabMeshes[rand]);
 	}
 	rand = rng.RandHelper(4);
+	//Random rotation
 	if (rand != 0){
 		mSlabMesh->AddLocalRotation(FRotator(0, (90 * rand), 0));
 	}
