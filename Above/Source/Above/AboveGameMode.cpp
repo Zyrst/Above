@@ -28,7 +28,6 @@ float AAboveGameMode::getZoomFoV(){
 	return ZoomF_O_V;
 }
 
-
 void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 	if (!CompletedPuzzleArray.Find(puzzle))
 		CompletedPuzzleArray.Add(puzzle);

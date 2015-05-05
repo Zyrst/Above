@@ -44,6 +44,8 @@ public:
 	/**Player End Game Trigger*/
 	UFUNCTION(BlueprintCallable, Category = EndGame)
 		void EndTrigger(UDestructibleComponent* destComp, UPrimitiveComponent* standPlat);
+	UFUNCTION(BlueprintImplementableEvent, Category = EndGame)
+		void EndCredit();
 
 
 private:
