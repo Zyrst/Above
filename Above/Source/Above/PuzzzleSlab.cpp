@@ -20,13 +20,19 @@ APuzzzleSlab::APuzzzleSlab(const FObjectInitializer& ObjectInitializer)
 	//mSlabMesh->AttachParent = mRootComponent;
 	
 	mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &APuzzzleSlab::BeginOverlapOnBox);
-
+	//mSlabMat = ObjectInitializer.CreateDefaultSubobject <UMaterialInstance>(this, TEXT("MaterialInstanceConstant'/Game/Materials/TextureChange_Inst.TextureChange_Inst'"));
+	ConstructorHelpers::FObjectFinder<UMaterial> Material(TEXT("Material'/Game/Materials/TextureChange.TextureChange'"));
+	if (Material.Object != NULL) {
+		mSlabMat = (UMaterial*)Material.Object;
+	}
 }
 
 // Called when the game starts or when spawned
 void APuzzzleSlab::BeginPlay()
 {
 	Super::BeginPlay();
+	UMaterialInstanceDynamic* mSlabMatInst = UMaterialInstanceDynamic::Create(mSlabMat, this);
+	//mSlabMesh->SetMaterial(0, mSlabMatInst);
 
 	mSlabMaterial = mSlabMesh->CreateAndSetMaterialInstanceDynamic(0);
 

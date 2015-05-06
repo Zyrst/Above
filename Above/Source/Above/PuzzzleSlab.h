@@ -50,6 +50,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Path)
 		bool mStartSlab;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Material)
+		UMaterialInstance* mDynamicMaterial;
 
 	UMaterialInstanceDynamic* mSlabMaterial;
 
@@ -68,4 +70,5 @@ public:
 
 private:
 	int32 mIndex;
+	UMaterial* mSlabMat;
 };
