@@ -33,7 +33,7 @@ void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 		CompletedPuzzleArray.Add(puzzle);
 	CompletedPuzzleArray[puzzle] = done;
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("AboveGameMode.cpp: %s completed"), *puzzle->GetName()));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("AboveGameMode.cpp: %s completed"), *puzzle->GetName()));
 }
 
 bool AAboveGameMode::GetCompleteStatus(AActor* puzzle) {
@@ -48,7 +48,7 @@ void AAboveGameMode::SetStartedStatus(AActor* puzzle, bool started) {
 		StartedPuzzleArray.Add(puzzle);
 	StartedPuzzleArray[puzzle] = started;
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("AboveGameMode.cpp: %s started"), *puzzle->GetName()));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("AboveGameMode.cpp: %s started"), *puzzle->GetName()));
 }
 
 bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
@@ -60,7 +60,7 @@ bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
 void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComponent* standPlat){
 	//Stuff to be done
 	if (!mTrigger){
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("AboveGameMode.cpp: Triggered the end"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("AboveGameMode.cpp: Triggered the end"));
 
 		destComp->ApplyDamage(1000, destComp->GetRelativeTransform().GetLocation(), destComp->GetRelativeTransform().GetLocation(),0);
 		//Make debries of old battery fall through platform
