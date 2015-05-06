@@ -23,5 +23,16 @@ public:
 	/** Pointer to button */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pointer)
 		TArray<AActor*> mButtonArray;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Variables)
+		bool mStartsOpen;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = DoorControl)
+		void OpenDoor();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = DoorControl)
+		void CloseDoor();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = DoorControl)
+		void ToggleDoor();
 };
