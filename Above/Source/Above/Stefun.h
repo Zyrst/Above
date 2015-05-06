@@ -60,7 +60,7 @@ public:
 	UFUNCTION()
 		void ToggleCrouch();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = Pause)
 		void TogglePause();
 	
 	/** The normal walking speed of the character*/
