@@ -22,6 +22,6 @@ public:
 
 	/** Pointer to button */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pointer)
-		AActor* mButton;
+		TArray<AActor*> mButtonArray;
 	
 };
