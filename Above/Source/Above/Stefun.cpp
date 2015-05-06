@@ -435,11 +435,13 @@ void AStefun::TogglePause(){
 	
 	if (mIsPaused == false){
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));
+		mController->bShowMouseCursor = true;
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
 		mIsPaused = true;
 	}
 	else if (mIsPaused == true){
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		mController->bShowMouseCursor = false;
 		mIsPaused = false;
 	}
 }
@@ -481,13 +483,13 @@ bool AStefun::FindGroundAround(FVector offset) {
 	FVector begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	FVector end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
-	DrawDebugLine(GetWorld(), traceHitResult.ImpactPoint, traceHitResult.ImpactPoint + (traceHitResult.Normal * 100), FColor::Red, false, -1.0f, 0, 2);
+	//DrawDebugLine(GetWorld(), traceHitResult.ImpactPoint, traceHitResult.ImpactPoint + (traceHitResult.Normal * 100), FColor::Red, false, -1.0f, 0, 2);
 
 	a = (1.57) - offset.HeadingAngle();
 	begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
-	DrawDebugLine(GetWorld(), traceHitResult.ImpactPoint, traceHitResult.ImpactPoint + (traceHitResult.Normal * 100), FColor::Red, false, -1.0f, 0, 2);
+	//DrawDebugLine(GetWorld(), traceHitResult.ImpactPoint, traceHitResult.ImpactPoint + (traceHitResult.Normal * 100), FColor::Red, false, -1.0f, 0, 2);
 
 	a = (1.92) - offset.HeadingAngle();
 	begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;

@@ -127,7 +127,7 @@ void ARotatingPuzzle::Activate(){
 	//mPevPos is empty so don't want nullptr which breaks the game
 	if (mPrevPos.Num() == 0){
 		mPrevPos.Push(sum);
-		if (sum == 0 || sum == 120 || sum == 240){
+		if (sum == 60 || sum == 180 || sum == 300){
 			UE_LOG(LogTemp, Log, TEXT("One new Right"))
 			mRightPos.Add(sum);
 		}
@@ -146,7 +146,7 @@ void ARotatingPuzzle::Activate(){
 		UE_LOG(LogTemp, Log, TEXT("Temp value %f"), tmp);
 		UE_LOG(LogTemp, Log, TEXT("Sum %f"), sum);
 		
-		if (tmp == 0 || tmp == 120 || tmp == 240){
+		if (tmp == 60 || tmp == 180 || tmp == 300){
 			UE_LOG(LogTemp, Log, TEXT("One new Right"));
 			if (!mRightPos.Contains(tmp)){
 				mRightPos.Add(tmp);
@@ -240,26 +240,26 @@ void ARotatingPuzzle::ActivateEmmisive(){
 		break;
 	case 1:
 		tmp = mRightPos.Last();
-		if (tmp == 0){
+		if (tmp == 60){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[1]);
 		}
-		else if (tmp == 120){
+		else if (tmp == 180){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[2]);
 		}
-		else if (tmp == 240){
+		else if (tmp == 300){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[3]);
 		}
 		break;
 	case 2:
 		tmp = mRightPos.Last();
 
-		if (tmp == 0){
+		if (tmp == 60){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[1]);
 		}
-		else if (tmp == 120){
+		else if (tmp == 180){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[2]);
 		}
-		else if (tmp == 240){
+		else if (tmp == 300){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[3]);
 		}
 		break;
