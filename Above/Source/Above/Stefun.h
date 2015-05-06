@@ -48,6 +48,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterCamera)
 		UCameraComponent* mFaceCam;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterCamera)
+		UCameraComponent* mThirdPersonCam;
+
 	//Sprint
 	UFUNCTION()
 		void EnableSprint();
@@ -97,6 +100,10 @@ public:
 	/** Size of gaps to ignore */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
 		float mGapIgnoreSize;
+
+	/** Maximum allowed slope angle */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
+		float mEdgeMaxLedge;
 
 	/** How far player should look over edge */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Edge)
@@ -151,6 +158,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Character)
 		bool DontMove;
 
+	UFUNCTION(Exec, BlueprintCallable, Category = "Debug")
+		void ToggleThirdPerson();
+
 private: 
 	bool mIsPaused;
 
@@ -174,4 +184,6 @@ private:
 	float mCurrentWindValue = 0;
 	float mWindBaseValue = 0;
 	float mSoundSpeedValue = 0;
+
+	bool mThirdPerson = false;
 };

@@ -12,7 +12,8 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mGapIgnoreSize(60),
 	mLeaningOverEdge(false),
 	mEdgeLeanAmount(50),
-	mLookDownSpeed(0){
+	mLookDownSpeed(0),
+	mEdgeMaxLedge(0.8f){
 
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,6 +21,10 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 	mFaceCam->AttachParent = GetCapsuleComponent();
 	mFaceCam->Activate();
 	mFaceCam->bUsePawnControlRotation = true;
+
+	mThirdPersonCam = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("ThirdPersonCamera"));
+	mThirdPersonCam->AttachParent = GetCapsuleComponent();
+	mThirdPersonCam->Activate();
 
 	mTrigger = nullptr;
 	mHoldTrigger = nullptr;
@@ -448,8 +453,16 @@ bool AStefun::FindGroundBelow(FVector offset) {
 	ECollisionChannel collisionChannel = ECC_WorldStatic;
 	FCollisionQueryParams traceParamaters(FName(TEXT("GroundTrace")), true, this);
 
+	bool collision = Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
+
+	float angle = FMath::Acos(FVector::DotProduct(traceHitResult.Normal, FVector(0, 0, 1)));
+
+	// No edge if slope is too great
+	if (angle > mEdgeMaxLedge)
+		collision = false;
+
 	// Return trace
-	return Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters) || FindGroundAround(offset);
+	return collision || FindGroundAround(offset);
 }
 
 
@@ -468,16 +481,19 @@ bool AStefun::FindGroundAround(FVector offset) {
 	FVector begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	FVector end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
+	DrawDebugLine(GetWorld(), traceHitResult.ImpactPoint, traceHitResult.ImpactPoint + (traceHitResult.Normal * 100), FColor::Red, false, -1.0f, 0, 2);
 
 	a = (1.57) - offset.HeadingAngle();
 	begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
+	DrawDebugLine(GetWorld(), traceHitResult.ImpactPoint, traceHitResult.ImpactPoint + (traceHitResult.Normal * 100), FColor::Red, false, -1.0f, 0, 2);
 
 	a = (1.92) - offset.HeadingAngle();
 	begin = traceStart + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	end = traceEnd + FVector(FMath::Sin(a), FMath::Cos(a), 0) * mGapIgnoreSize;
 	ret |= Player->GetWorld()->LineTraceSingle(traceHitResult, begin, end, collisionChannel, traceParamaters);
+
 
 	// Return trace
 	return	ret;
@@ -508,4 +524,20 @@ void AStefun::ChangeParameter(FName parameterName, float parameterValue) {
 	mParameterChangeValue = parameterValue;
 
 	SoundEventParameterChange();
+}
+
+void AStefun::ToggleThirdPerson() {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Toggling third person"));
+
+	mThirdPerson = !mThirdPerson;
+
+	if (mThirdPerson) {
+		mFaceCam->Deactivate();
+		mThirdPersonCam->Activate();
+	}
+	else {
+		mFaceCam->Activate();
+		mThirdPersonCam->Deactivate();
+	}
+		
 }

@@ -45,4 +45,8 @@ public:
 	Int32Vector2 ConvertSlideNumberToIndex(int32 number);
 
 	void ShiftSlide(int32 slideNum, Int32Vector2 index, bool movePositiveDirection);
+
+	TMap<int32, Int32Vector2> mIndexMap;
+
+	int32 ConvertDoubleIndexToSingle(Int32Vector2 index);
 };
