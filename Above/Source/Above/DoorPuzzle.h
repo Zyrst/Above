@@ -48,4 +48,7 @@ public:
 
 	// Pointer to player focus location
 	FVector* mPointerTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = fmod)
+		FVector mSoundLocation;
 };
