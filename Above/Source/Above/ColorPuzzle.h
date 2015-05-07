@@ -29,6 +29,7 @@ public:
 
 	int32 mMatrixSizeX;
 	int32 mMatrixSizeY;
+	int32 mMatrixEdgeSize;
 
 	TArray<Int32Vector3> mMatrixBoard;
 
