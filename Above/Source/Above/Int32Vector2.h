@@ -29,7 +29,15 @@ public:
 		return Int32Vector2(x + vector.x, y + vector.y);
 	}
 
+	void operator+=(Int32Vector2 vector) {
+		x += vector.x, y += vector.y;
+	}
+
 	Int32Vector2 operator-(Int32Vector2 vector) {
 		return Int32Vector2(x - vector.x, y - vector.y);
+	}
+
+	void operator-=(Int32Vector2 vector) {
+		x -= vector.x, y -= vector.y;
 	}
 };
