@@ -29,7 +29,8 @@ public:
 
 	int32 mMatrixSizeX;
 	int32 mMatrixSizeY;
-	int32 mMatrixEdgeSize;
+	int32 mMatrixEdgeSizeX;
+	int32 mMatrixEdgeSizeY;
 
 	TArray<Int32Vector3> mMatrixBoard;
 
@@ -43,6 +44,7 @@ public:
 
 	void Activate(int32 slideNum, bool movePositiveDirection);
 
+	/** Return second index in slide */
 	Int32Vector2 ConvertSlideNumberToIndex(int32 number);
 
 	void ShiftSlide(int32 slideNum, bool movePositiveDirection);
@@ -50,4 +52,7 @@ public:
 	TMap<int32, Int32Vector2> mIndexMap;
 
 	int32 ConvertDoubleIndexToSingle(Int32Vector2 index);
+
+	/** Prints specified part of matrix */
+	void PrintMatrix(Int32Vector2 lowerBound, Int32Vector2 upperBound);
 };
