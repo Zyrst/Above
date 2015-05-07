@@ -22,6 +22,14 @@ AColorPuzzle::AColorPuzzle()
 		for (int32 j = 0; j < mMatrixSizeY; j++)
 			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(i, j)), Int32Vector2(i, j));
 
+	mBoardSize = (mMatrixSizeX - (mMatrixEdgeSizeX * 2) + (mMatrixSizeY - (mMatrixEdgeSizeY * 2)));
+
+	mSlideOffset.Init(mBoardSize);
+
+	for (int32 i = 0; i <mBoardSize ; i++) {
+		mSlideOffset[i] = 0;
+	}
+
 	// Fill matrix
 	for (int i = 0; i < mMatrixBoard.Num(); i++) {
 		if (mIndexMap.Find(i)->x >= 3 && mIndexMap.Find(i)->x <= 8 && mIndexMap.Find(i)->y >= 3 && mIndexMap.Find(i)->y <= 8) {
@@ -66,6 +74,14 @@ void AColorPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Activate(0, false);
+	Activate(0, false);
+	Activate(0, false);
+	Activate(0, false);
+	Activate(0, false);
+	Activate(0, false);
+	Activate(0, false);
+	Activate(0, false);
 	Activate(0, false);
 	Activate(0, false);
 	Activate(0, false);
@@ -147,47 +163,56 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 	// Shift along x
 	if (slideNum <= 5) {
-		if (movePositiveDirection) {
-			index.x = mMatrixSizeX - 1;
-			indexAddition = Int32Vector2(-1, 0);
-			lowerIndexLimit = 1;
-			upperIndexLimit = 11;
-		}
+		if (mSlideOffset[slideNum] < 3 && mSlideOffset[slideNum] > -3) {
+			if (movePositiveDirection) {
+				mSlideOffset[slideNum]++;
 
-		else {
-			index.x = 0;
-			indexAddition = Int32Vector2(1, 0);
-			lowerIndexLimit = 0;
-			upperIndexLimit = 10;
-		}
+				index.x = mMatrixSizeX - 1;
+				indexAddition = Int32Vector2(-1, 0);
+				lowerIndexLimit = 1;
+				upperIndexLimit = 11;
+			}
 
-		while (index.x >= lowerIndexLimit && index.x <= upperIndexLimit) {
-			GetMatrixValue(index)->x = GetMatrixValue(index + indexAddition)->x;
-			multiplyColor(GetMatrixValue(index + indexAddition));
-			index += indexAddition;
+			else {
+				mSlideOffset[slideNum]--;
+				index.x = 0;
+				indexAddition = Int32Vector2(1, 0);
+				lowerIndexLimit = 0;
+				upperIndexLimit = 10;
+			}
+
+			while (index.x >= lowerIndexLimit && index.x <= upperIndexLimit) {
+				GetMatrixValue(index)->x = GetMatrixValue(index + indexAddition)->x;
+				multiplyColor(GetMatrixValue(index + indexAddition));
+				index += indexAddition;
+			}
 		}
 	}
 
 	// Shift along y
 	else {
-		if (movePositiveDirection) {
-			index.y = mMatrixSizeY - 1;
-			indexAddition = Int32Vector2(0, -1);
-			lowerIndexLimit = 1;
-			upperIndexLimit = 11;
-		}
+		if (mSlideOffset[slideNum] < 3 && mSlideOffset[slideNum] > -3) {
+			if (movePositiveDirection) {
+				mSlideOffset[slideNum]++;
+				index.y = mMatrixSizeY - 1;
+				indexAddition = Int32Vector2(0, -1);
+				lowerIndexLimit = 1;
+				upperIndexLimit = 11;
+			}
 
-		else {
-			index.y = 0;
-			indexAddition = Int32Vector2(0, 1);
-			lowerIndexLimit = 0;
-			upperIndexLimit = 10;
-		}
+			else {
+				mSlideOffset[slideNum]--;
+				index.y = 0;
+				indexAddition = Int32Vector2(0, 1);
+				lowerIndexLimit = 0;
+				upperIndexLimit = 10;
+			}
 
-		while (index.y >= lowerIndexLimit && index.y <= upperIndexLimit) {
-			GetMatrixValue(index)->y = GetMatrixValue(index + indexAddition)->y;
-			multiplyColor(GetMatrixValue(index));
-			index += indexAddition;
+			while (index.y >= lowerIndexLimit && index.y <= upperIndexLimit) {
+				GetMatrixValue(index)->y = GetMatrixValue(index + indexAddition)->y;
+				multiplyColor(GetMatrixValue(index));
+				index += indexAddition;
+			}
 		}
 	}
 }

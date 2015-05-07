@@ -32,6 +32,8 @@ public:
 	int32 mMatrixEdgeSizeX;
 	int32 mMatrixEdgeSizeY;
 
+	int32 mBoardSize;
+
 	TArray<Int32Vector3> mMatrixBoard;
 
 	int32 moveBuffer;
@@ -50,6 +52,8 @@ public:
 	void ShiftSlide(int32 slideNum, bool movePositiveDirection);
 
 	TMap<int32, Int32Vector2> mIndexMap;
+
+	TArray<int32> mSlideOffset;
 
 	int32 ConvertDoubleIndexToSingle(Int32Vector2 index);
 
