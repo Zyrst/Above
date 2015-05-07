@@ -19,4 +19,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Default values")
 		FName DefaultLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
+		FVector2D Resolution;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
+		int32 WindowMode;
+	UFUNCTION(BlueprintCallable, Category = Screen)
+		void SetWindow();
 };

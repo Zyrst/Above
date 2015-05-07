@@ -160,7 +160,6 @@ void AStefun::MoveForward(float val){
 			mCamCurrentLocation = FMath::Lerp<FVector, float>(mCamCurrentLocation, mCamDefaultLocation + FVector(mEdgeLeanAmount, 0, 0), 0.5f);
 			mLeaningOverEdge = true;
 			mFaceCam->SetRelativeLocation(mCamCurrentLocation);
-
 			return;
 		}
 
