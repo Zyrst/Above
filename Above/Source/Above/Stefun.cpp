@@ -435,13 +435,13 @@ void AStefun::TogglePause(){
 	
 	if (mIsPaused == false){
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		mController->bShowMouseCursor = true;
+		//mController->bShowMouseCursor = true;
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
 		mIsPaused = true;
 	}
 	else if (mIsPaused == true){
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
-		mController->bShowMouseCursor = false;
+		//mController->bShowMouseCursor = false;
 		mIsPaused = false;
 	}
 }

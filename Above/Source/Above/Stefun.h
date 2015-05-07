@@ -160,10 +160,12 @@ public:
 
 	UFUNCTION(Exec, BlueprintCallable, Category = "Debug")
 		void ToggleThirdPerson();
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pause)
+		bool mIsPaused;
+	/*UPROPERTY(EditAnywhere, BluePrintReadWrite, Category = Pause)
+		SUserWidget* widget;*/
 private: 
-	bool mIsPaused;
-
+	
 	bool FindGroundBelow(FVector offset);
 	bool FindGroundAround(FVector offset);
 	FVector mCamDefaultLocation;
