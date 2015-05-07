@@ -4,7 +4,9 @@
 
 #include "InteractionTrigger.h"
 #include "GameFramework/Character.h"
+#include "Blueprint/UserWidget.h"
 #include "Stefun.generated.h"
+
 
 UCLASS()
 class ABOVE_API AStefun : public ACharacter
@@ -162,8 +164,11 @@ public:
 		void ToggleThirdPerson();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pause)
 		bool mIsPaused;
-	/*UPROPERTY(EditAnywhere, BluePrintReadWrite, Category = Pause)
-		SUserWidget* widget;*/
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widgets")
+		TSubclassOf<class UUserWidget> PauseMenu;
+
+	UUserWidget* mPauseWidget;
 private: 
 	
 	bool FindGroundBelow(FVector offset);

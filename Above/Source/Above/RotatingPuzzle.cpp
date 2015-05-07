@@ -160,7 +160,7 @@ void ARotatingPuzzle::Activate(){
 				//Reset 
 			}
 			if (mRightPos.Num() == 3){
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("All right"));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("All right"));
 				UE_LOG(LogTemp, Log, TEXT("All right"));
 			}
 		}
@@ -180,7 +180,7 @@ void ARotatingPuzzle::Activate(){
 		mDesiredTexture = mIndicatorTextures[mRandom - 1];
 		mShouldFade = true;
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Random: %i"), mRandom));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Random: %i"), mRandom));
 	}
 	SoundEventButtonClick();
 	SoundEventRotateBegin();
