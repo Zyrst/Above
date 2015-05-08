@@ -26,4 +26,8 @@ public:
 		int32 WindowMode;
 	UFUNCTION(BlueprintCallable, Category = Screen)
 		void SetWindow();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
+		bool VSYNC;
+private:
+	UGameUserSettings* mSettings;
 };
