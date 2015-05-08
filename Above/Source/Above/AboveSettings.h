@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/WorldSettings.h"
+
 #include "AboveSettings.generated.h"
 
 /**
@@ -20,5 +21,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constants)
 		FLinearColor mHighlightColor;
+	
 
 };

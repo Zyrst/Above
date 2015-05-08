@@ -63,10 +63,6 @@ void APuzzzleSlab::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveC
 	SteppedOnSlab();
 }
 
-void APuzzzleSlab::SteppedOnSlab_Implementation() {
-
-}
-
 void APuzzzleSlab::LightUpSlab() {
 	if (mSlabTextures.Num() > 0) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));

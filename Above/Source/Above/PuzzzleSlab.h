@@ -36,7 +36,7 @@ public:
 		void BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 	/** Called when stepped on */
-	UFUNCTION(BlueprintNativeEvent, Category = Overlap)
+	UFUNCTION(BlueprintImplementableEvent, Category = Overlap)
 		void SteppedOnSlab();
 
 	/** Turns on light effects */

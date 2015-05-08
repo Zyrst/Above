@@ -71,3 +71,4 @@ void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComp
 	}
 	
 }
+

@@ -49,7 +49,8 @@ void AStefun::BeginPlay()
 	mCamDefaultLocation = mCamCurrentLocation = mFaceCam->GetRelativeTransform().GetLocation();
 
 	mController = GetWorld()->GetFirstPlayerController();
-
+	mPauseWidget = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
+	
 }
 
 // Called every frame
@@ -159,7 +160,6 @@ void AStefun::MoveForward(float val){
 			mCamCurrentLocation = FMath::Lerp<FVector, float>(mCamCurrentLocation, mCamDefaultLocation + FVector(mEdgeLeanAmount, 0, 0), 0.5f);
 			mLeaningOverEdge = true;
 			mFaceCam->SetRelativeLocation(mCamCurrentLocation);
-
 			return;
 		}
 
@@ -436,12 +436,17 @@ void AStefun::TogglePause(){
 	if (mIsPaused == false){
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
 		mController->bShowMouseCursor = true;
+		//Make sure we have a widget
+		if (mPauseWidget != nullptr)
+			mPauseWidget->AddToViewport();
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
 		mIsPaused = true;
 	}
 	else if (mIsPaused == true){
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 		mController->bShowMouseCursor = false;
+		if (mPauseWidget != nullptr)
+			mPauseWidget->RemoveFromViewport();
 		mIsPaused = false;
 	}
 }
