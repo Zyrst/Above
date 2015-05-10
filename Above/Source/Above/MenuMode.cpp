@@ -11,38 +11,42 @@ Super(ObjectInitializer){
 		HUDClass = HUD.Class;*/
 	WindowMode = 0;
 	Resolution.Set(1280, 720);
-
+	VSYNC = false;
+	
 }
 
 void AMenuMode::SetWindow(){
+	mSettings = GEngine->GameUserSettings;
 	//GEngine->GameUserSettings->RequestResolutionChange(x, y, mode, false);
 	switch (WindowMode){
 	case 0:
-		GEngine->GameUserSettings->SetScreenResolution(FIntPoint(Resolution.X, Resolution.Y));
-		GEngine->GameUserSettings->SetFullscreenMode(EWindowMode::Fullscreen);
+		if (!(mSettings->GetScreenResolution().X == Resolution.X) && !(mSettings->GetScreenResolution().Y == Resolution.Y))
+			mSettings->SetScreenResolution(FIntPoint(Resolution.X, Resolution.Y));
+		if (!(mSettings->GetFullscreenMode() == EWindowMode::Fullscreen))
+			mSettings->SetFullscreenMode(EWindowMode::Fullscreen);
 		break;
 	case 1:
-		GEngine->GameUserSettings->SetScreenResolution(FIntPoint(Resolution.X, Resolution.Y));
-		GEngine->GameUserSettings->SetFullscreenMode(EWindowMode::Windowed);
+		if (!(mSettings->GetScreenResolution().X == Resolution.X) && !(mSettings->GetScreenResolution().Y == Resolution.Y))
+			mSettings->SetScreenResolution(FIntPoint(Resolution.X, Resolution.Y));
+		if (!(mSettings->GetFullscreenMode() == EWindowMode::Windowed))
+			mSettings->SetFullscreenMode(EWindowMode::Windowed);
 		break;
 	case 2:
-		GEngine->GameUserSettings->SetScreenResolution(FIntPoint(Resolution.X, Resolution.Y));
-		GEngine->GameUserSettings->SetFullscreenMode(EWindowMode::WindowedFullscreen);
+		if (!(mSettings->GetScreenResolution().X == Resolution.X) && !(mSettings->GetScreenResolution().Y == Resolution.Y))
+			mSettings->SetScreenResolution(FIntPoint(Resolution.X, Resolution.Y));
+		if (!(mSettings->GetFullscreenMode() == EWindowMode::WindowedFullscreen))
+			mSettings->SetFullscreenMode(EWindowMode::WindowedFullscreen);
 		break;
 	}
-			
+	
+	mSettings->bUseVSync = VSYNC;
 		
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Set Res"));
+	mSettings->ConfirmVideoMode();
 		
-		GEngine->GameUserSettings->ConfirmVideoMode();
-		
-		GEngine->GameUserSettings->ApplyResolutionSettings(true);
-		GEngine->GameUserSettings->ApplyNonResolutionSettings();
-		GEngine->GameUserSettings->ApplySettings();
-		//GEngine->GameUserSettings->SetScreenResolution(GEngine->GameUserSettings->GetLastConfirmedScreenResolution());
-		//GEngine->GameUserSettings->SetFullscreenMode(GEngine->GameUserSettings->GetLastConfirmedFullscreenMode());
-		//GEngine->GameUserSettings->ApplySettings();
-		GEngine->GameUserSettings->SaveSettings();
+	mSettings->ApplyResolutionSettings(true);
+	mSettings->ApplyNonResolutionSettings();
+	mSettings->ApplySettings(true);
+	mSettings->SaveSettings();
 		
 
 }
