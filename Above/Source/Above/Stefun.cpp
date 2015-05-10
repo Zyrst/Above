@@ -509,6 +509,8 @@ bool AStefun::FindGroundAround(FVector offset) {
 
 
 float AStefun::GetMoveSpeed() {
+	return currentSpeed;
+
 	auto charmove = GetCharacterMovement();
 
 	if (charmove->IsCrouching()) {
