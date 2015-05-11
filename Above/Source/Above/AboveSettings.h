@@ -22,5 +22,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Constants)
 		FLinearColor mHighlightColor;
 	
+	/** Array for holding references to each puzzle */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = World)
+		TArray<AActor*> mPuzzles;
+
+	/** Reference to door that opens when all puzzles are done */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = World)
+		AActor* mLastDoor;
+
 
 };

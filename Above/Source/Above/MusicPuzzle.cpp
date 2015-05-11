@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "MusicPuzzle.h"
+#include "AboveGameMode.h"
 
 
 // Sets default values
@@ -45,6 +46,11 @@ void AMusicPuzzle::Activate() {
 	// Compare with correct combination
 	if (DiscIndexArray == DiscIndexRefrenceArray) {
 		PlayMusic();
+
+		// Döne
+		AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+		if (mode != nullptr)
+			mode->SetCompleteStatus(this, true);
 	}
 
 	else {

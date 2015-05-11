@@ -3,6 +3,8 @@
 #include "Above.h"
 #include "AboveGameMode.h"
 #include "Stefun.h"
+#include "AboveSettings.h"
+#include "EndDoor.h"
 
 AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer){
@@ -32,6 +34,31 @@ void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 	if (!CompletedPuzzleArray.Find(puzzle))
 		CompletedPuzzleArray.Add(puzzle);
 	CompletedPuzzleArray[puzzle] = done;
+
+	// Try getting reference array
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	if (settings != nullptr) {
+
+		// Check if same number of finieshed puzzles equals max number of puzzles
+		if (CompletedPuzzleArray.Num() >= settings->mPuzzles.Num()) {
+			bool everythingDone = true;
+
+			// Check if references match
+			for (int32 i = 0; i < CompletedPuzzleArray.Num(); i++) {
+				if (!CompletedPuzzleArray.Find(settings->mPuzzles[i]))
+					everythingDone = false;
+			}
+
+			// Puzzles are done
+			if (everythingDone) {
+				AEndDoor* endDoor = (AEndDoor*)settings->mLastDoor;
+
+				// Tell end door that puzzles are done
+				if (endDoor != nullptr)
+					endDoor->PuzzlesDone();
+			}
+		}
+	}
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("AboveGameMode.cpp: %s completed"), *puzzle->GetName()));
 }
