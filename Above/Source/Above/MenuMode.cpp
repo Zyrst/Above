@@ -10,14 +10,19 @@ Super(ObjectInitializer){
 	if (HUD.Class != NULL)
 		HUDClass = HUD.Class;*/
 	WindowMode = 0;
-	Resolution.Set(1280, 720);
-	VSYNC = false;
+	Resolution.Set(1920, 1080);
 	
+}
+void AMenuMode::OnConstruction(const FTransform& transform){
+	if (mSettings == nullptr){
+		mSettings = GEngine->GetGameUserSettings();
+		VSYNC = mSettings->IsVSyncEnabled();
+		mSettings->ApplySettings(true);
+	}
 }
 
 void AMenuMode::SetWindow(){
-	mSettings = GEngine->GameUserSettings;
-	//GEngine->GameUserSettings->RequestResolutionChange(x, y, mode, false);
+		
 	switch (WindowMode){
 	case 0:
 		if (!(mSettings->GetScreenResolution().X == Resolution.X) && !(mSettings->GetScreenResolution().Y == Resolution.Y))
@@ -38,15 +43,29 @@ void AMenuMode::SetWindow(){
 			mSettings->SetFullscreenMode(EWindowMode::WindowedFullscreen);
 		break;
 	}
+	//mSettings->bUseVSync = VSYNC;
 	
-	mSettings->bUseVSync = VSYNC;
-		
+	
 	mSettings->ConfirmVideoMode();
-		
 	mSettings->ApplyResolutionSettings(true);
 	mSettings->ApplyNonResolutionSettings();
 	mSettings->ApplySettings(true);
 	mSettings->SaveSettings();
-		
+	
 
+}
+
+void AMenuMode::EnableVsync(bool value){
+	
+	
+	mSettings->SetVSyncEnabled(value);
+	
+	VSYNC = value;
+	mSettings->ApplyNonResolutionSettings();
+	
+	mSettings->ApplySettings(true);
+	mSettings->SaveSettings();
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC value %s"),VSYNC ? TEXT("true") : TEXT("false")));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC Gamesettings %s"), mSettings->IsVSyncEnabled() ? TEXT("true") : TEXT("false")));
+	
 }

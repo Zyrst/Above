@@ -15,7 +15,7 @@ class ABOVE_API AMenuMode : public AGameMode
 	
 public:
 	AMenuMode(const class FObjectInitializer& ObjectInitializer);
-	
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Default values")
 		FName DefaultLevel;
@@ -28,6 +28,8 @@ public:
 		void SetWindow();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
 		bool VSYNC;
+	UFUNCTION(BlueprintCallable, Category = Screen)
+		void EnableVsync(bool value);
 private:
 	UGameUserSettings* mSettings;
 };
