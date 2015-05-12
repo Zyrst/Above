@@ -47,7 +47,6 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = EndGame)
 		void EndCredit();
 
-	
 
 private:
 	TMap<AActor*, bool> CompletedPuzzleArray;
