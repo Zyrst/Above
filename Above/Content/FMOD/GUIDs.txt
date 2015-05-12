@@ -1,4 +1,5 @@
 {ff2ffc44-8109-4f86-8810-794abf86ed10} event:/AMBMUS
+{8e03b2fe-1e0a-4adc-822d-d1c1a1bdf9e3} event:/Movement
 {5bc869c0-074a-4a6e-bbf7-477ae46d8a38} event:/Cave/Button_Click
 {3c8a9677-265a-4d08-bb58-456e26f8937d} event:/Cave/Door
 {bfc9c477-4c82-400d-a119-9becdc598c86} event:/Cave/Door_Close
@@ -17,15 +18,29 @@
 {fc846107-e2fa-4630-b7e2-087fca41e921} event:/MusicPuzzle/Solve
 {0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Old_unused/Door_old short
 {46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Old_unused/Lamp_Procedural
-{ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Old_unused/Movement_old
 {ca33170f-d5a4-4ce0-8a70-a0510efbb0db} event:/Old_unused/Movement_old_2manyitems
+{ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Old_unused/Movement_old
+{f6b70bc5-34cf-42b6-8465-bdbf6c666e74} event:/SoundPuzzle/Islands
 {1ef143de-e429-492a-ab2f-75b8ccfd10bb} event:/SoundPuzzle/Back
 {76fcde56-0ae1-4499-8e0a-ccfce4fe7519} event:/SoundPuzzle/Forward
 {3f39bda9-100e-4134-85aa-2ac03f260a54} event:/SoundPuzzle/Lamps
 {20b70c16-81f7-4cf2-9514-72edf01c2682} event:/SoundPuzzle/Left
 {3a328f17-b9c4-4a2e-90c8-b2096de8c71c} event:/SoundPuzzle/Right
-{8e03b2fe-1e0a-4adc-822d-d1c1a1bdf9e3} event:/Movement
+{c41951e7-2e29-4be5-b199-7dcf37f2eac4} event:/SpatialPuzzles/A_Buttons
+{42e0b810-bca1-4682-be10-85b375bd74f5} event:/SpatialPuzzles/A_Door
+{fc374b2f-e4df-49e6-84f9-0e4e04034e52} event:/SpatialPuzzles/B_Buttons
+{b9a6ca8e-63e0-4e61-958f-aa4b7165cc6e} event:/SpatialPuzzles/B_Rotation
 {eaba399a-7884-4f32-8fe6-e4f830e95f3b} bus:/
+{e8be5096-d764-417a-80d9-44777ce203d4} bus:/SFX
+{79b09ee8-0f81-4297-a339-5c4304385123} bus:/SFX/Cave
+{48733121-5888-477d-9a10-1d95c50519ca} bus:/SFX/SpatialPuzzle
+{58c53372-3d99-4961-a8ae-3ade76a5f735} bus:/SFX/SoundPuzzle
+{0f237e83-0821-4fe2-abb0-fe4cf3517d88} bus:/SFX/Outside
+{5542fae1-f4be-47b4-9a9d-0c063892f345} bus:/Music
+{59c1b937-de80-4905-8059-6f09cf4e2b64} bus:/Music/Musik
+{08e41a7d-da42-491b-bbcb-ca78719d8774} bus:/Music/Solve music
+{6b8e5fc5-0bd2-4d30-beab-8dcc51cf348d} bus:/Ambience
+{0f3405f5-adec-4f3a-9f49-d3961f925969} bus:/Ambience/Ambience
+{d02a8ed7-221f-44a2-84d7-33e920925d82} bus:/UI
 {e3c75b64-ac28-4651-9217-704615c41f02} bus:/Reverb
-{79b09ee8-0f81-4297-a339-5c4304385123} bus:/Reverb grotta
 {d84c2c47-108b-401a-85e0-1b306ab3d26d} bank:/Master Bank

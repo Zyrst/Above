@@ -10,37 +10,51 @@ AColorPuzzle::AColorPuzzle()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Initiate constants
 	mMatrixSizeX = 12;
 	mMatrixSizeY = 12;
 	mMatrixEdgeSizeX = 3;
 	mMatrixEdgeSizeY = 3;
 
+	// Initiate matrix
 	mMatrixBoard.Init(mMatrixSizeX * mMatrixSizeY);
+
+	// Board size
+	mBoardSize = Int32Vector2(mMatrixEdgeSizeX - (mMatrixEdgeSizeX * 2), mMatrixEdgeSizeY - (mMatrixEdgeSizeY * 2));
+
+	// Number center slots
+	mBoardSlots = mBoardSize.x * mBoardSize.y;
+
+	mReferenceBoard.Init(mBoardSlots);
 
 	// Add index reference
 	for (int32 i = 0; i < mMatrixSizeX; i++)
 		for (int32 j = 0; j < mMatrixSizeY; j++)
 			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(i, j)), Int32Vector2(i, j));
 
-	mBoardSize = (mMatrixSizeX - (mMatrixEdgeSizeX * 2) + (mMatrixSizeY - (mMatrixEdgeSizeY * 2)));
+	mSlideOffset.Init(mBoardSlots);
 
-	mSlideOffset.Init(mBoardSize);
-
-	for (int32 i = 0; i <mBoardSize ; i++) {
+	// Initiate slide offset
+	for (int32 i = 0; i <mBoardSlots; i++) {
 		mSlideOffset[i] = 0;
 	}
 
 	// Fill matrix
 	for (int i = 0; i < mMatrixBoard.Num(); i++) {
 		if (mIndexMap.Find(i)->x >= 3 && mIndexMap.Find(i)->x <= 8 && mIndexMap.Find(i)->y >= 3 && mIndexMap.Find(i)->y <= 8) {
-			mMatrixBoard[i] = Int32Vector3(2, 2, 0);
+			mMatrixBoard[i] = Int32Vector3(30, 40, 0);
 		}
 
 		else {
-			mMatrixBoard[i] = Int32Vector3(1, 1, 0);
+			mMatrixBoard[i] = Int32Vector3(20, 30, 0);
 		}
 
 		multiplyColor(&mMatrixBoard[i]);
+	}
+
+	// Fill reference board
+	for (int32 i = 0; i < mReferenceBoard.Num(); i++) {
+		mReferenceBoard[i] = 1200;
 	}
 
 	moveBuffer = 0;
@@ -74,23 +88,11 @@ void AColorPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-	Activate(0, false);
-
 	PrintMatrix(Int32Vector2(0, 8), Int32Vector2(11, 8));
 
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(ConvertSlideNumberToIndex(0))->x, GetMatrixValue(ConvertSlideNumberToIndex(0))->y, GetMatrixValue(ConvertSlideNumberToIndex(0))->z));
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("%d, %d, %d"), GetMatrixValue(0)->x, GetMatrixValue(0)->y, GetMatrixValue(0)->z));
+	if (ReferenceBoardMatrixIsSame()) {
+		GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("Khaaaaaaaaaaaaaaaaaaaaaan!")));
+	}
 }
 
 // Called every frame
@@ -98,7 +100,7 @@ void AColorPuzzle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	
+
 }
 
 Int32Vector3* AColorPuzzle::GetMatrixValue(Int32Vector2 index) {
@@ -106,6 +108,18 @@ Int32Vector3* AColorPuzzle::GetMatrixValue(Int32Vector2 index) {
 
 	if (realIndex > 0 && realIndex < mMatrixBoard.Num()) {
 		return &mMatrixBoard[realIndex];
+	}
+
+	else {
+		return nullptr;
+	}
+}
+
+int32* AColorPuzzle::GetReferenceBoardValue(Int32Vector2 index) {
+	int32 realIndex = ConvertDoubleIndexToSingle(index);
+
+	if (realIndex > 0 && realIndex < mReferenceBoard.Num()) {
+		return &mReferenceBoard[realIndex];
 	}
 
 	else {
@@ -124,7 +138,7 @@ void AColorPuzzle::multiplyColor(Int32Vector3* vector) {
 	// Todo update visuals
 }
 
-void AColorPuzzle::Activate(int32 slideNum, bool movePositiveDirection) {
+void AColorPuzzle::ActivateSlide(int32 slideNum, bool movePositiveDirection) {
 	if (slideNum >= 0 && slideNum <= 11) {
 		ShiftSlide(slideNum, movePositiveDirection);
 	}
@@ -223,4 +237,18 @@ void AColorPuzzle::PrintMatrix(Int32Vector2 lowerBound, Int32Vector2 upperBound)
 			GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("%d, %d: %d, %d, %d"), x, y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y))].x, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y))].y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y))].z));
 		}
 	}
+}
+
+bool AColorPuzzle::ReferenceBoardMatrixIsSame() {
+	bool isSame = true;
+
+	for (int32 x = 0; x < mBoardSize.x; x++) {
+		for (int32 y = 0; y < mBoardSize.y; y++) {
+			if (GetMatrixValue(Int32Vector2(x + mMatrixEdgeSizeX, y + mMatrixEdgeSizeY))->z != *GetReferenceBoardValue(Int32Vector2(x, y))) {
+				isSame = false;
+			}
+		}
+	}
+
+	return isSame;
 }
