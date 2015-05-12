@@ -92,6 +92,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
 		USphereComponent* mOuterSphere;
 
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventBeginRotate();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventEndRotate();
+
 private:
 	FVector mInnerTargetAngle;
 	FVector mMiddleTargetAngle;
@@ -104,6 +111,7 @@ private:
 	bool mShouldRotateOuter = false;
 	bool mShouldRotateMiddle = false;
 	bool mShouldRotateInner = false;
+	bool mShouldRotateAnything = false;
 
 	USceneComponent* mRoot;
 	
