@@ -5,6 +5,7 @@
 
 void APlayerSetting::OnConstruction(const FTransform& Transform){
 	mSettings = GEngine->GameUserSettings;
+	VSYNC = mSettings->IsVSyncEnabled();
 }
 
 void APlayerSetting::SetWindow(){
@@ -35,16 +36,45 @@ void APlayerSetting::SetWindow(){
 	mSettings->ApplyNonResolutionSettings();
 	mSettings->ApplySettings(true);
 	mSettings->SaveSettings();
+	
 }
 
 void APlayerSetting::ToggleVSync(bool value){
 	mSettings->SetVSyncEnabled(value);
 
 	VSYNC = value;
-	mSettings->ApplyNonResolutionSettings();
+	//mSettings->ApplyNonResolutionSettings();
 
 	mSettings->ApplySettings(true);
 	mSettings->SaveSettings();
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC value %s"), VSYNC ? TEXT("true") : TEXT("false")));
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC Gamesettings %s"), mSettings->IsVSyncEnabled() ? TEXT("true") : TEXT("false")));
+}
+
+void APlayerSetting::SetQuality(int32 value){
+	
+	mSettings->ScalabilityQuality.TextureQuality = value;
+	mSettings->ScalabilityQuality.EffectsQuality = value;
+	mSettings->ScalabilityQuality.ShadowQuality = value;
+	mSettings->ScalabilityQuality.PostProcessQuality = value;
+	mSettings->ScalabilityQuality.ViewDistanceQuality = value;
+	mSettings->ScalabilityQuality.AntiAliasingQuality = value;
+
+	switch (value){
+	case 0:
+		mSettings->ScalabilityQuality.ResolutionQuality = 50;
+		break;
+	case 1:
+		mSettings->ScalabilityQuality.ResolutionQuality = 71;
+		break;
+	case 2:
+		mSettings->ScalabilityQuality.ResolutionQuality = 87;
+		break;
+	case 3:
+		mSettings->ScalabilityQuality.ResolutionQuality = 100;
+		break;
+	}
+
+	mSettings->ApplySettings(true);
+	mSettings->SaveSettings();
 }

@@ -21,6 +21,8 @@ public:
 		void SetWindow();
 	UFUNCTION(BlueprintCallable, Category = VSync)
 		void ToggleVSync(bool value);
+	UFUNCTION(BlueprintCallable, Category = Graphic)
+		void SetQuality(int32 value);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
 		FVector2D Resolution;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
@@ -30,5 +32,4 @@ public:
 private:
 	UGameUserSettings* mSettings;
 
-	bool onceLoad = false;
 };
