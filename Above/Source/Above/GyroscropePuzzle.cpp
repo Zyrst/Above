@@ -53,7 +53,7 @@ void AGyroscropePuzzle::BeginPlay() {
 void AGyroscropePuzzle::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
 
-	if (!mMovementCurve)
+	if (!mMovementCurve || !mShouldRotateAnything)
 		return;
 
 	if (mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle) {
@@ -101,6 +101,10 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 		}
 	}
 
+	if (!mShouldRotateInner && !mShouldRotateMiddle && !mShouldRotateOuter) {
+		SoundEventEndRotate();
+		mShouldRotateAnything = false;
+	}
 }
 
 
@@ -136,13 +140,26 @@ void AGyroscropePuzzle::AddRotationInnerHelper(FVector amount) {
 }
 
 void AGyroscropePuzzle::ApplyRotation() {
-	if (!mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle)
+	bool callEvent = false;
+
+	if (!mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle) {
 		mShouldRotateOuter = true;
-	if (!mShouldRotateMiddle && mMiddleCurrentAngle != mMiddleTargetAngle)
+		callEvent = true;
+	}
+	if (!mShouldRotateMiddle && mMiddleCurrentAngle != mMiddleTargetAngle) {
 		mShouldRotateMiddle = true;
-	if (!mShouldRotateInner && mInnerCurrentAngle != mInnerTargetAngle)
+		callEvent = true;
+	}
+	if (!mShouldRotateInner && mInnerCurrentAngle != mInnerTargetAngle) {
 		mShouldRotateInner = true;
-}
+		callEvent = true;
+	}
+
+	if (callEvent) {
+		SoundEventBeginRotate();
+		mShouldRotateAnything = true;
+	}
+}	
 
 void AGyroscropePuzzle::ResetRotation() {
 	if (!mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle)
