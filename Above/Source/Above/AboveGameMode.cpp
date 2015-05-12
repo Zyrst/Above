@@ -44,7 +44,7 @@ void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 			bool everythingDone = true;
 
 			// Check if references match
-			for (int32 i = 0; i < CompletedPuzzleArray.Num(); i++) {
+			for (int32 i = 0; i < settings->mPuzzles.Num(); i++) {
 				if (!CompletedPuzzleArray.Find(settings->mPuzzles[i]))
 					everythingDone = false;
 			}
