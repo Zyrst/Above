@@ -1,4 +1,5 @@
 {ff2ffc44-8109-4f86-8810-794abf86ed10} event:/AMBMUS
+{8e03b2fe-1e0a-4adc-822d-d1c1a1bdf9e3} event:/Movement
 {5bc869c0-074a-4a6e-bbf7-477ae46d8a38} event:/Cave/Button_Click
 {3c8a9677-265a-4d08-bb58-456e26f8937d} event:/Cave/Door
 {bfc9c477-4c82-400d-a119-9becdc598c86} event:/Cave/Door_Close
@@ -24,7 +25,6 @@
 {3f39bda9-100e-4134-85aa-2ac03f260a54} event:/SoundPuzzle/Lamps
 {20b70c16-81f7-4cf2-9514-72edf01c2682} event:/SoundPuzzle/Left
 {3a328f17-b9c4-4a2e-90c8-b2096de8c71c} event:/SoundPuzzle/Right
-{8e03b2fe-1e0a-4adc-822d-d1c1a1bdf9e3} event:/Movement
 {eaba399a-7884-4f32-8fe6-e4f830e95f3b} bus:/
 {e3c75b64-ac28-4651-9217-704615c41f02} bus:/Reverb
 {79b09ee8-0f81-4297-a339-5c4304385123} bus:/Reverb grotta
