@@ -1,3 +1,7 @@
+{42e0b810-bca1-4682-be10-85b375bd74f5} event:/SpatialPuzzles/A_Door
+{c41951e7-2e29-4be5-b199-7dcf37f2eac4} event:/SpatialPuzzles/A_Buttons
+{fc374b2f-e4df-49e6-84f9-0e4e04034e52} event:/SpatialPuzzles/B_Buttons
+{b9a6ca8e-63e0-4e61-958f-aa4b7165cc6e} event:/SpatialPuzzles/B_Rotation
 {ff2ffc44-8109-4f86-8810-794abf86ed10} event:/AMBMUS
 {8e03b2fe-1e0a-4adc-822d-d1c1a1bdf9e3} event:/Movement
 {5bc869c0-074a-4a6e-bbf7-477ae46d8a38} event:/Cave/Button_Click
