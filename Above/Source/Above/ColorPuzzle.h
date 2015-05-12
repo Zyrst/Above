@@ -24,39 +24,42 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	/** Returns pointer to value from xy coordinates */
-	Int32Vector3* GetMatrixValue(Int32Vector2 index);
-
 	int32 mMatrixSizeX;
 	int32 mMatrixSizeY;
 	int32 mMatrixEdgeSizeX;
 	int32 mMatrixEdgeSizeY;
 
-	int32 mBoardSize;
-
-	TArray<Int32Vector3> mMatrixBoard;
+	Int32Vector2 mBoardSize;
+	int32 mBoardSlots;
 
 	int32 moveBuffer;
 
-	void Int32Flip(int32* x, int32* y);
-
-	void multiplyColor(Int32Vector3* vector);
-	
+	TArray<Int32Vector3> mMatrixBoard;
+	TMap<int32, Int32Vector2> mIndexMap;
+	TArray<int32> mSlideOffset;
 	TMap<int32, FColor*> mColorValueReference;
+	TArray<int32> mReferenceBoard;
 
-	void Activate(int32 slideNum, bool movePositiveDirection);
+	int32 ConvertDoubleIndexToSingle(Int32Vector2 index);
+
+	/** Returns pointer to value from xy coordinates */
+	Int32Vector3* GetMatrixValue(Int32Vector2 index);
+
+	int32* GetReferenceBoardValue(Int32Vector2 index);
 
 	/** Return second index in slide */
 	Int32Vector2 ConvertSlideNumberToIndex(int32 number);
 
+	void Int32Flip(int32* x, int32* y);
+
+	void multiplyColor(Int32Vector3* vector);
+
+	void ActivateSlide(int32 slideNum, bool movePositiveDirection);
+
 	void ShiftSlide(int32 slideNum, bool movePositiveDirection);
-
-	TMap<int32, Int32Vector2> mIndexMap;
-
-	TArray<int32> mSlideOffset;
-
-	int32 ConvertDoubleIndexToSingle(Int32Vector2 index);
 
 	/** Prints specified part of matrix */
 	void PrintMatrix(Int32Vector2 lowerBound, Int32Vector2 upperBound);
+
+	bool ReferenceBoardMatrixIsSame();
 };
