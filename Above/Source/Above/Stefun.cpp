@@ -552,3 +552,6 @@ void AStefun::ToggleThirdPerson() {
 		
 }
 
+void AStefun::UpdateFoV(float newFOV){
+	mFaceCam->FieldOfView = newFOV;
+}

@@ -176,6 +176,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FOV)
 		float ZoomFoV;
+
+	UFUNCTION(BlueprintCallable, Category = FOV)
+		void UpdateFoV(float newFOV);
+
 private: 
 	
 	bool FindGroundBelow(FVector offset);

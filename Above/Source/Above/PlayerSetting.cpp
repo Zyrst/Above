@@ -6,7 +6,7 @@
 void APlayerSetting::OnConstruction(const FTransform& Transform){
 	mSettings = GEngine->GameUserSettings;
 	VSYNC = mSettings->IsVSyncEnabled();
-	//GConfig->GetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
+	GConfig->GetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
 	if (StandardFoV == 0){
 		StandardFoV = 70;
 	}
@@ -87,5 +87,5 @@ void APlayerSetting::SetQuality(int32 value){
 }
 
 void APlayerSetting::SaveFoV(){
-	//GConfig->SetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
+	GConfig->SetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
 }

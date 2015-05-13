@@ -31,7 +31,7 @@ public:
 		int32 WindowMode;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VSync)
 		bool VSYNC;
-	UPROPERTY(Config,EditAnywhere, BlueprintReadWrite, Category = FOV)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FOV)
 		float StandardFoV;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FOV)
 		float ZoomFoV = 40;
