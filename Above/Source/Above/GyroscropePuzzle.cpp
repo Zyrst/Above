@@ -68,8 +68,6 @@ void AGyroscropePuzzle::BeginPlay() {
 	mInnerCurrentAngle = mInnerTargetAngle = FVector(InnerAngle, 0, 0);
 	mMiddleCurrentAngle = mMiddleTargetAngle = FVector(0, 0, MiddleAngle);
 	mOuterCurrentAngle = mOuterTargetAngle = FVector(0, OuterAngle, 0);
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Pööp: %f, %f, %f"), mOuterCurrentAngle.X, mOuterCurrentAngle.Y, mOuterCurrentAngle.Z));
 }
 
 // Called every frame
