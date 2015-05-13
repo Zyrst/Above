@@ -38,6 +38,23 @@ void AGyroscropePuzzle::OnConstruction(const FTransform& Transform) {
 	mOuterSphere->AttachParent = mRoot;
 	mMiddleSphere->AttachParent = mOuterSphere;
 	mInnerSphere->AttachParent = mMiddleSphere;
+
+	// Set angle
+	mInnerCurrentAngle = FVector(InnerAngle, 0, 0);
+	mMiddleCurrentAngle = FVector(0, 0, MiddleAngle);
+	mOuterCurrentAngle = FVector(0, OuterAngle, 0);
+
+	FRotator rot = FRotator::ZeroRotator;
+	rot.Add(mInnerCurrentAngle.X, mInnerCurrentAngle.Y, mInnerCurrentAngle.Z);
+	mInnerSphere->SetRelativeRotation(rot);
+
+	rot = FRotator::ZeroRotator;
+	rot.Add(mMiddleCurrentAngle.X, mMiddleCurrentAngle.Y, mMiddleCurrentAngle.Z);
+	mMiddleSphere->SetRelativeRotation(rot);
+	
+	rot = FRotator::ZeroRotator;
+	rot.Add(mOuterCurrentAngle.X, mOuterCurrentAngle.Y, mOuterCurrentAngle.Z);
+	mOuterSphere->SetRelativeRotation(rot);
 }
 
 // Called when the game starts or when spawned
@@ -47,6 +64,10 @@ void AGyroscropePuzzle::BeginPlay() {
 	mOuterSphere->AttachParent = mRoot;
 	mMiddleSphere->AttachParent = mOuterSphere;
 	mInnerSphere->AttachParent = mMiddleSphere;
+
+	mInnerCurrentAngle = mInnerTargetAngle = FVector(InnerAngle, 0, 0);
+	mMiddleCurrentAngle = mMiddleTargetAngle = FVector(0, 0, MiddleAngle);
+	mOuterCurrentAngle = mOuterTargetAngle = FVector(0, OuterAngle, 0);
 }
 
 // Called every frame

@@ -83,21 +83,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
 		UCurveFloat* mMovementCurve;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
-		USphereComponent* mInnerSphere;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
-		USphereComponent* mMiddleSphere;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
-		USphereComponent* mOuterSphere;
-
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventBeginRotate();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventEndRotate();
+
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float InnerAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float MiddleAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float OuterAngle;
 
 private:
 	FVector mInnerTargetAngle;
@@ -124,4 +125,8 @@ private:
 	float mOuterMoveTracker = 0;
 	float mMiddleMoveTracker = 0;
 	float mInnerMoveTracker = 0;
+
+	USphereComponent* mInnerSphere;
+	USphereComponent* mMiddleSphere;
+	USphereComponent* mOuterSphere;
 };
