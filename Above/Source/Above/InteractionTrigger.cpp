@@ -56,8 +56,8 @@ void AInteractionTrigger::StartHover() {
 	mHoverText->SetHiddenInGame(false);
 	EventStartHover();
 
-	if (mHighlightMaterial != nullptr)
-		mHighlightMaterial->SetScalarParameterValue(mHightlightParameterName, 1.0f);
+	for (int32 i = 0; i < mHighlightMaterials.Num(); i++) 
+		mHighlightMaterials[i]->SetScalarParameterValue(mHightlightParameterName, 1.0f);
 }
 
 // Hide text on end of hover
@@ -65,14 +65,16 @@ void AInteractionTrigger::EndHover() {
 	mHoverText->SetHiddenInGame(true);
 	EventEndHover();
 
-	if (mHighlightMaterial != nullptr)
-		mHighlightMaterial->SetScalarParameterValue(mHightlightParameterName, 0.0f);
+	for (int32 i = 0; i < mHighlightMaterials.Num(); i++)
+		mHighlightMaterials[i]->SetScalarParameterValue(mHightlightParameterName, 0.0f);
 }
 
 void AInteractionTrigger::SetHighlightMaterial(UMaterialInstanceDynamic* material) {
-	mHighlightMaterial = material;
+	//mHighlightMaterial = material;
+	mHighlightMaterials.Add(material);
+
 
 	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
-	if (settings != nullptr)
-		mHighlightMaterial->SetVectorParameterValue(settings->mHighlightColorParameterName, settings->mHighlightColor);
+	for (int32 i = 0; i < mHighlightMaterials.Num(); i++)
+		mHighlightMaterials[i]->SetVectorParameterValue(settings->mHighlightColorParameterName, settings->mHighlightColor);
 }
