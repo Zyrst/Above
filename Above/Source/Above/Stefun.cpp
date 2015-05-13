@@ -4,6 +4,7 @@
 #include "Stefun.h"
 #include "AboveGameMode.h"
 #include "Door.h"
+#include "PlayerSetting.h"
 
 // Sets default values
 AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
@@ -36,6 +37,8 @@ AStefun::AStefun(const FObjectInitializer& ObjectInitializer)
 
 	FallingTime = 200;
 	DontMove = false;
+
+	
 }
 
 // Called when the game starts or when spawned

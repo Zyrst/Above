@@ -6,6 +6,10 @@
 void APlayerSetting::OnConstruction(const FTransform& Transform){
 	mSettings = GEngine->GameUserSettings;
 	VSYNC = mSettings->IsVSyncEnabled();
+	//GConfig->GetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
+	if (StandardFoV == 0){
+		StandardFoV = 70;
+	}
 }
 
 void APlayerSetting::SetWindow(){
@@ -41,7 +45,6 @@ void APlayerSetting::SetWindow(){
 
 void APlayerSetting::ToggleVSync(bool value){
 	mSettings->SetVSyncEnabled(value);
-
 	VSYNC = value;
 	//mSettings->ApplyNonResolutionSettings();
 
@@ -49,6 +52,7 @@ void APlayerSetting::ToggleVSync(bool value){
 	mSettings->SaveSettings();
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC value %s"), VSYNC ? TEXT("true") : TEXT("false")));
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC Gamesettings %s"), mSettings->IsVSyncEnabled() ? TEXT("true") : TEXT("false")));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Fov:  %f"), StandardFoV));
 }
 
 void APlayerSetting::SetQuality(int32 value){
@@ -75,6 +79,13 @@ void APlayerSetting::SetQuality(int32 value){
 		break;
 	}
 
+	GConfig->SetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
+	
 	mSettings->ApplySettings(true);
 	mSettings->SaveSettings();
+	
+}
+
+void APlayerSetting::SaveFoV(){
+	//GConfig->SetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
 }

@@ -8,7 +8,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Config = GameUserSettings)
 class ABOVE_API APlayerSetting : public AInfo
 {
 	GENERATED_BODY()
@@ -23,12 +23,18 @@ public:
 		void ToggleVSync(bool value);
 	UFUNCTION(BlueprintCallable, Category = Graphic)
 		void SetQuality(int32 value);
+	UFUNCTION(BlueprintCallable, Category = FoV)
+		void SaveFoV();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
 		FVector2D Resolution;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Screen)
 		int32 WindowMode;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VSync)
 		bool VSYNC;
+	UPROPERTY(Config,EditAnywhere, BlueprintReadWrite, Category = FOV)
+		float StandardFoV;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FOV)
+		float ZoomFoV = 40;
 private:
 	UGameUserSettings* mSettings;
 
