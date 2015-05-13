@@ -51,8 +51,8 @@ public:
 		void ApplyRotation();
 
 	/** Resets rotation */
-	UFUNCTION(BlueprintCallable, Category = Puzzle)
-		void ResetRotation();
+	//UFUNCTION(BlueprintCallable, Category = Puzzle)
+	//	void ResetRotation();
 
 
 	/** Trigger that adds inner circle rotation */
@@ -83,21 +83,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
 		UCurveFloat* mMovementCurve;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
-		USphereComponent* mInnerSphere;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
-		USphereComponent* mMiddleSphere;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
-		USphereComponent* mOuterSphere;
-
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventBeginRotate();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventEndRotate();
+
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float InnerAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float MiddleAngle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float OuterAngle;
 
 private:
 	FVector mInnerTargetAngle;
@@ -108,20 +109,23 @@ private:
 	FVector mMiddleCurrentAngle;
 	FVector mOuterCurrentAngle;
 
+	float mInnerMovementBuffer;
+	float mMiddleMovementBuffer;
+	float mOuterMovementBuffer;
+
 	bool mShouldRotateOuter = false;
 	bool mShouldRotateMiddle = false;
 	bool mShouldRotateInner = false;
 	bool mShouldRotateAnything = false;
 
 	USceneComponent* mRoot;
-	
-
-	void AddRotationOuterHelper(FVector amount);
-	void AddRotationMiddleHelper(FVector amount);
-	void AddRotationInnerHelper(FVector amount);
 
 	// For tracking movement along interpolation
 	float mOuterMoveTracker = 0;
 	float mMiddleMoveTracker = 0;
 	float mInnerMoveTracker = 0;
+
+	USphereComponent* mInnerSphere;
+	USphereComponent* mMiddleSphere;
+	USphereComponent* mOuterSphere;
 };

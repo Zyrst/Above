@@ -65,7 +65,7 @@ public:
 
 	FVector* mPointerTarget;
 
-	/** Sets reference to material instance */
+	/** Adds reference to material instance */
 	UFUNCTION(BlueprintCallable, Category = Highlight)
 		void SetHighlightMaterial(UMaterialInstanceDynamic* material);
 	
@@ -74,5 +74,5 @@ public:
 		FName mHightlightParameterName = "HighlightOn";
 
 private:
-	UMaterialInstanceDynamic* mHighlightMaterial;
+	TArray<UMaterialInstanceDynamic*> mHighlightMaterials;
 };

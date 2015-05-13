@@ -7,6 +7,7 @@
 #include "Int32Vector2.h"
 #include "Int32Vector3.h"
 #include "GameFramework/Actor.h"
+#include "TriFVector.h"
 #include "ColorPuzzle.generated.h"
 
 UCLASS()
@@ -16,7 +17,7 @@ class ABOVE_API AColorPuzzle : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	AColorPuzzle();
+	AColorPuzzle(const FObjectInitializer& ObjectInitializer);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -31,16 +32,39 @@ public:
 
 	Int32Vector2 mBoardSize;
 	int32 mBoardSlots;
+	int32 mNumberOfSlides;
 
 	int32 moveBuffer;
+
+	USceneComponent* mRoot;
+
+	USphereComponent* mSlide0;
+	USphereComponent* mSlide1;
+	USphereComponent* mSlide2;
+	USphereComponent* mSlide3;
+	USphereComponent* mSlide4;
+	USphereComponent* mSlide5;
+	USphereComponent* mSlide6;
+	USphereComponent* mSlide7;
+	USphereComponent* mSlide8;
+	USphereComponent* mSlide9;
+	USphereComponent* mSlide10;
+	USphereComponent* mSlide11;
+
+	/** Movement curve */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+		UCurveFloat* mMovementCurve;
+
+	TArray<USphereComponent*> mSlideRootArray;
 
 	TArray<Int32Vector3> mMatrixBoard;
 	TMap<int32, Int32Vector2> mIndexMap;
 	TArray<int32> mSlideOffset;
 	TMap<int32, FColor*> mColorValueReference;
 	TArray<int32> mReferenceBoard;
+	TArray<TriFVector> mSlidePositionArray;
 
-	int32 ConvertDoubleIndexToSingle(Int32Vector2 index);
+	int32 ConvertDoubleIndexToSingle(Int32Vector2 index, int32 matrixSizeX);
 
 	/** Returns pointer to value from xy coordinates */
 	Int32Vector3* GetMatrixValue(Int32Vector2 index);
@@ -54,7 +78,11 @@ public:
 
 	void multiplyColor(Int32Vector3* vector);
 
-	void ActivateSlide(int32 slideNum, bool movePositiveDirection);
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void CheckCombination();
+
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void ActivateSlide(int32 slideNum, bool movePositiveDirection);
 
 	void ShiftSlide(int32 slideNum, bool movePositiveDirection);
 

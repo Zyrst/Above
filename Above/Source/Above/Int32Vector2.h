@@ -3,16 +3,13 @@
 #pragma once
 #include "Above.h"
 
-/**
-*
-*/
 struct Int32Vector2 {
 public:
-	int32 x;
-	int32 y;
+	int32 x, y = 0;
 
 	// More constructors
 	Int32Vector2::Int32Vector2() {
+
 	}
 
 	Int32Vector2::Int32Vector2(int32 value)
