@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Stefun.generated.h"
 
+class PlayerSetting;
 
 UCLASS()
 class ABOVE_API AStefun : public ACharacter
@@ -169,6 +170,16 @@ public:
 		TSubclassOf<class UUserWidget> PauseMenu;
 
 	UUserWidget* mPauseWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FOV)
+		float StandardFoV;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FOV)
+		float ZoomFoV;
+
+	UFUNCTION(BlueprintCallable, Category = FOV)
+		void UpdateFoV(float newFOV);
+
 private: 
 	
 	bool FindGroundBelow(FVector offset);
@@ -193,4 +204,5 @@ private:
 	float mSoundSpeedValue = 0;
 
 	bool mThirdPerson = false;
+
 };

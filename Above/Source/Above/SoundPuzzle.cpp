@@ -20,6 +20,7 @@ void ASoundPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 	mSteps = 0;
+	mPressedButton = false;
 }
 
 // Called every frame
@@ -55,7 +56,7 @@ void ASoundPuzzle::Tick( float DeltaTime )
 
 	if (mSteps == 16){
 
-		if (mWalkingWay.Equals(mRightWay)){
+		if (mWalkingWay.Equals(mRightWay) && mPressedButton){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
 			PuzzleCompleted = true;
 

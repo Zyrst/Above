@@ -6,6 +6,7 @@
 #include "LightIndicator.generated.h"
 
 class APuzzleSlabIndicatorLight;
+class ASoundPuzzle;
 
 UCLASS()
 class ABOVE_API ALightIndicator : public AActor
@@ -43,7 +44,8 @@ public:
 	/** Event called when puzzle is activated */
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "fmod")
 		void SoundEventActivate();
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+		ASoundPuzzle* puzzle;
 private:	
 	TArray<APuzzleSlabIndicatorLight*> mLights;
 	UStaticMeshComponent* mLightIndMesh;
