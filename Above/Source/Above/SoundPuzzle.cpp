@@ -21,6 +21,7 @@ void ASoundPuzzle::BeginPlay()
 	Super::BeginPlay();
 	mSteps = 0;
 	mPressedButton = false;
+	mWentRightWay = false;
 }
 
 // Called every frame
@@ -55,16 +56,19 @@ void ASoundPuzzle::Tick( float DeltaTime )
 	}
 
 	if (mSteps == 16){
-
-		if (mWalkingWay.Equals(mRightWay) && mPressedButton){
+		mAllSteps = true;
+		if (mWalkingWay.Equals(mRightWay)){
+			mWentRightWay = true;
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
-			PuzzleCompleted = true;
+			if (mPressedButton)
+				PuzzleCompleted = true;
 
 			// Tell gamemode we have completed puzzle
 			((AAboveGameMode*)GetWorld()->GetAuthGameMode())->SetCompleteStatus(this, true);
 		}
 		else if (!mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the wrong way"));
+			
 		}
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mWalkingWay);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mRightWay);
@@ -91,7 +95,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 
 	//Make sure we don't have a null pointer
 	if (tmpSlab != nullptr){
-		if (mSteps < 16 && !PuzzleCompleted ){
+		if (mSteps < 16 && !mWentRightWay ){
 			//Make sure we start from the begining of the puzzle
 			if (mSteps == 0 && tmpSlab->mStartSlab){
 				Reset();
@@ -189,7 +193,8 @@ void ASoundPuzzle::Reset(){
 		mWalkWay.Empty(16);
 		mLightInd->Reset();
 		mCorPathSteps = 0;
-
+		mAllSteps = false;
+		mPressedButton = false;
 	}
 	
 	mWalkingWay = NULL;

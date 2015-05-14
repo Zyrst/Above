@@ -72,7 +72,8 @@ public:
 		bool mPressedButton;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
 		bool PuzzleCompleted = false;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+		bool mAllSteps = false;
 private:
 	int32 mSteps;
 	int32 mCorPathSteps;
@@ -84,6 +85,7 @@ private:
 	ALightIndicator* mLightInd;
 
 	bool mDoneOnce = false;
+	bool mWentRightWay;
 
 	TArray<SoundDirection> mSoundBuffer;
 	bool mPlayNextSound = true;

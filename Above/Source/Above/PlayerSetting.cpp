@@ -50,9 +50,6 @@ void APlayerSetting::ToggleVSync(bool value){
 
 	mSettings->ApplySettings(true);
 	mSettings->SaveSettings();
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC value %s"), VSYNC ? TEXT("true") : TEXT("false")));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("VSYNC Gamesettings %s"), mSettings->IsVSyncEnabled() ? TEXT("true") : TEXT("false")));
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Fov:  %f"), StandardFoV));
 }
 
 void APlayerSetting::SetQuality(int32 value){
@@ -79,8 +76,6 @@ void APlayerSetting::SetQuality(int32 value){
 		break;
 	}
 
-	GConfig->SetFloat(TEXT("Above.PlayerSetting"), TEXT("StandardFoV"), StandardFoV, GGameUserSettingsIni);
-	
 	mSettings->ApplySettings(true);
 	mSettings->SaveSettings();
 	
