@@ -299,17 +299,11 @@ void AStefun::OnStopJump(){
 }
 
 void AStefun::SetZoom(){
-	AAboveGameMode* mode;
-	mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
-	float FoV = mode->getZoomFoV();
-	mFaceCam->FieldOfView = FoV;
+	mFaceCam->FieldOfView = ZoomFoV;
 }
 
 void AStefun::UnSetZoom(){
-	AAboveGameMode* mode; 
-	mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
-	float FoV = mode->getStandardFoV();
-	mFaceCam->FieldOfView = FoV;
+	mFaceCam->FieldOfView = StandardFoV;
 }
 
 void AStefun::EnableSprint(){
@@ -554,4 +548,5 @@ void AStefun::ToggleThirdPerson() {
 
 void AStefun::UpdateFoV(float newFOV){
 	mFaceCam->FieldOfView = newFOV;
+	StandardFoV = newFOV;
 }

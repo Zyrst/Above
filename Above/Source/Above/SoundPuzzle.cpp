@@ -59,7 +59,8 @@ void ASoundPuzzle::Tick( float DeltaTime )
 		mAllSteps = true;
 		if (mWalkingWay.Equals(mRightWay)){
 			mWentRightWay = true;
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
+			if (Debug)
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
 			if (mPressedButton)
 				PuzzleCompleted = true;
 
@@ -70,8 +71,11 @@ void ASoundPuzzle::Tick( float DeltaTime )
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the wrong way"));
 			
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mWalkingWay);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mRightWay);
+		if (Debug){
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mWalkingWay);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mRightWay);
+		}
+		
 		mSteps = 0;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, mWalkingWay);
 	}
@@ -123,14 +127,17 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 				
 			}
 
-			auto rootLocation = slab->GetAttachmentRoot()->RelativeLocation;
+			FVector rootLocation = slab->GetAttachmentRoot()->RelativeLocation;
 			FVector tmpPos = slab->GetRelativeTransform().GetLocation();
-			//UE_LOG(LogTemp, Warning, TEXT("Location Root: %s"), *rootLocation.ToString());
-			//UE_LOG(LogTemp, Warning, TEXT("Location Slab: %s"), *tmpPos.ToString());
+
 			//Next slab position, initialize with a zero vector
 			FVector tmpNextPos;
 			tmpNextPos = tmpNextPos.ZeroVector;
-			UE_LOG(LogTemp, Warning, TEXT("mCorPathSteps: %d"), mCorPathSteps);
+			if (Debug){
+				UE_LOG(LogTemp, Warning, TEXT("Location Root: %s"), *rootLocation.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("Location Slab: %s"), *tmpPos.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("mCorPathSteps: %d"), mCorPathSteps);
+			}
 			if (mCorPathSteps < 16){
 				//Get relative from scene component in the blueprint
 				auto tmp = mCorPathSlabs[(mCorPathSteps)]->GetTransform().GetRelativeTransform(slab->GetAttachmentRoot()->GetComponentTransform());

@@ -16,12 +16,6 @@ ALightIndicator::ALightIndicator()
 void ALightIndicator::BeginPlay()
 {
 	Super::BeginPlay();
-	/*for (TActorIterator<AActor> itr(GetWorld()); itr; ++itr){
-		APuzzleSlabIndicatorLight* tmp = Cast<APuzzleSlabIndicatorLight>(*itr);
-		if (tmp != nullptr){
-			mLights.Push(tmp);
-		}
-	}*/
 	mOnceLoad = false;
 	TArray<UStaticMeshComponent*> Components;
 	this->GetComponents<UStaticMeshComponent>(Components);
@@ -48,17 +42,7 @@ void ALightIndicator::Tick( float DeltaTime )
 }
 
 void ALightIndicator::Reduce(){
-	//mLights[mLampsOff++]->LightOff();
 	LampsOn++;
-	//Test to see if preloading texture worked
-	/*if (!mOnceLoad){
-		for (int32 i = 0; i < mShellTexture.Num(); i++){
-			//mShellTexture[i]->NeverStream = true;
-			mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[i]);
-			mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[i]);
-		}
-		mOnceLoad = true;
-	}*/
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
 
@@ -71,9 +55,6 @@ void ALightIndicator::Reduce(){
 }
 
 void ALightIndicator::Reset(){
-	/*for (int32 i = 0; i < mLights.Num(); i++){
-		mLights[i]->Reset();
-	}*/
 	LampsOn = 0;
 	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
 	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);

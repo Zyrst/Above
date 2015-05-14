@@ -121,14 +121,14 @@ void ARotatingPuzzle::Activate(){
 	mRandom = FMath::RandHelper(5);
 	//Don't want zero so + 1 so it always moves atleast one spot
 	mRandom += 1;
-	UE_LOG(LogTemp, Log, TEXT("Random: %d"), mRandom);
+	//UE_LOG(LogTemp, Log, TEXT("Random: %d"), mRandom);
 	float sum = 0;
 	sum = 60 * (mRandom);
 	//mPevPos is empty so don't want nullptr which breaks the game
 	if (mPrevPos.Num() == 0){
 		mPrevPos.Push(sum);
 		if (sum == 60 || sum == 180 || sum == 300){
-			UE_LOG(LogTemp, Log, TEXT("One new Right"))
+			//UE_LOG(LogTemp, Log, TEXT("One new Right"))
 			mRightPos.Add(sum);
 		}
 	}
@@ -143,11 +143,11 @@ void ARotatingPuzzle::Activate(){
 		}
 		mPrevPos.Add(tmp);
 		//GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString::Printf(TEXT("Value: %f"), tmp));
-		UE_LOG(LogTemp, Log, TEXT("Temp value %f"), tmp);
-		UE_LOG(LogTemp, Log, TEXT("Sum %f"), sum);
+		/*UE_LOG(LogTemp, Log, TEXT("Temp value %f"), tmp);
+		UE_LOG(LogTemp, Log, TEXT("Sum %f"), sum);*/
 		
 		if (tmp == 60 || tmp == 180 || tmp == 300){
-			UE_LOG(LogTemp, Log, TEXT("One new Right"));
+			//UE_LOG(LogTemp, Log, TEXT("One new Right"));
 			if (!mRightPos.Contains(tmp)){
 				mRightPos.Add(tmp);
 				//Light up the right slot
@@ -155,16 +155,16 @@ void ARotatingPuzzle::Activate(){
 			
 			else if (mRightPos.Contains(tmp)){
 				//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Duplicate same value"));
-				UE_LOG(LogTemp, Log, TEXT("Duplicate value"));
+				//UE_LOG(LogTemp, Log, TEXT("Duplicate value"));
 				mRightPos.Empty();
 				//Reset 
 			}
-			if (mRightPos.Num() == 3){
+			/*if (mRightPos.Num() == 3){
 				//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("All right"));
 				UE_LOG(LogTemp, Log, TEXT("All right"));
-			}
+			}*/
 		}
-		UE_LOG(LogTemp, Log, TEXT("Size of Right Pos: %d"), mRightPos.Num());
+		//UE_LOG(LogTemp, Log, TEXT("Size of Right Pos: %d"), mRightPos.Num());
 	}
 	
 
