@@ -84,11 +84,22 @@ public:
 		UCurveFloat* mMovementCurve;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
-		void SoundEventBeginRotate();
+		void SoundEventBeginOuterRotate();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
-		void SoundEventEndRotate();
+		void SoundEventBeginMiddleRotate();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventBeginInnerRotate();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventEndOuterRotate();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventEndMiddleRotate();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventEndInnerRotate();
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
