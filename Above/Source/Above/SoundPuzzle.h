@@ -74,6 +74,10 @@ public:
 		bool PuzzleCompleted = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
 		bool mAllSteps = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
+		bool Debug = false;
+
 private:
 	int32 mSteps;
 	int32 mCorPathSteps;

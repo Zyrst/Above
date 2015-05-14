@@ -13,7 +13,7 @@ void APlayerSetting::OnConstruction(const FTransform& Transform){
 }
 
 void APlayerSetting::SetWindow(){
-
+	
 	switch (WindowMode){
 	case 0:
 		if (!(mSettings->GetScreenResolution().X == Resolution.X) && !(mSettings->GetScreenResolution().Y == Resolution.Y))
@@ -46,8 +46,6 @@ void APlayerSetting::SetWindow(){
 void APlayerSetting::ToggleVSync(bool value){
 	mSettings->SetVSyncEnabled(value);
 	VSYNC = value;
-	//mSettings->ApplyNonResolutionSettings();
-
 	mSettings->ApplySettings(true);
 	mSettings->SaveSettings();
 }

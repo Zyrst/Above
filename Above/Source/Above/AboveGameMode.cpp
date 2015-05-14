@@ -22,14 +22,6 @@ AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer
 	mTrigger = false;
 }
 
-float AAboveGameMode::getStandardFoV(){
-	return StandardF_O_V;
-}
-
-float AAboveGameMode::getZoomFoV(){
-	return ZoomF_O_V;
-}
-
 void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 	if (!CompletedPuzzleArray.Find(puzzle))
 		CompletedPuzzleArray.Add(puzzle);

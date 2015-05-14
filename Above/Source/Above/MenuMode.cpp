@@ -12,5 +12,6 @@ Super(ObjectInitializer){
 	
 }
 void AMenuMode::OnConstruction(const FTransform& transform){
+	//Load saved settings , might want to do this somewhere else
 	GEngine->GetGameUserSettings()->LoadSettings();
 }
