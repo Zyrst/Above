@@ -20,6 +20,8 @@ void ASoundPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 	mSteps = 0;
+	mPressedButton = false;
+	mWentRightWay = false;
 }
 
 // Called every frame
@@ -54,19 +56,26 @@ void ASoundPuzzle::Tick( float DeltaTime )
 	}
 
 	if (mSteps == 16){
-
+		mAllSteps = true;
 		if (mWalkingWay.Equals(mRightWay)){
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
-			PuzzleCompleted = true;
+			mWentRightWay = true;
+			if (Debug)
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the right way"));
+			if (mPressedButton)
+				PuzzleCompleted = true;
 
 			// Tell gamemode we have completed puzzle
 			((AAboveGameMode*)GetWorld()->GetAuthGameMode())->SetCompleteStatus(this, true);
 		}
 		else if (!mWalkingWay.Equals(mRightWay)){
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("Went the wrong way"));
+			
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mWalkingWay);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mRightWay);
+		if (Debug){
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mWalkingWay);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, mRightWay);
+		}
+		
 		mSteps = 0;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, mWalkingWay);
 	}
@@ -90,7 +99,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 
 	//Make sure we don't have a null pointer
 	if (tmpSlab != nullptr){
-		if (mSteps < 16 && !PuzzleCompleted ){
+		if (mSteps < 16 && !mWentRightWay ){
 			//Make sure we start from the begining of the puzzle
 			if (mSteps == 0 && tmpSlab->mStartSlab){
 				Reset();
@@ -118,14 +127,17 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 				
 			}
 
-			auto rootLocation = slab->GetAttachmentRoot()->RelativeLocation;
+			FVector rootLocation = slab->GetAttachmentRoot()->RelativeLocation;
 			FVector tmpPos = slab->GetRelativeTransform().GetLocation();
-			//UE_LOG(LogTemp, Warning, TEXT("Location Root: %s"), *rootLocation.ToString());
-			//UE_LOG(LogTemp, Warning, TEXT("Location Slab: %s"), *tmpPos.ToString());
+
 			//Next slab position, initialize with a zero vector
 			FVector tmpNextPos;
 			tmpNextPos = tmpNextPos.ZeroVector;
-			UE_LOG(LogTemp, Warning, TEXT("mCorPathSteps: %d"), mCorPathSteps);
+			if (Debug){
+				UE_LOG(LogTemp, Warning, TEXT("Location Root: %s"), *rootLocation.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("Location Slab: %s"), *tmpPos.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("mCorPathSteps: %d"), mCorPathSteps);
+			}
 			if (mCorPathSteps < 16){
 				//Get relative from scene component in the blueprint
 				auto tmp = mCorPathSlabs[(mCorPathSteps)]->GetTransform().GetRelativeTransform(slab->GetAttachmentRoot()->GetComponentTransform());
@@ -188,7 +200,8 @@ void ASoundPuzzle::Reset(){
 		mWalkWay.Empty(16);
 		mLightInd->Reset();
 		mCorPathSteps = 0;
-
+		mAllSteps = false;
+		mPressedButton = false;
 	}
 	
 	mWalkingWay = NULL;

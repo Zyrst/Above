@@ -56,6 +56,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "fmod")
 		void SoundIsDonePlaying();
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundButtonPressed();
 
 	/**Set and get lightindicator*/
 	UFUNCTION(BlueprintCallable, Category = LightIndicator)
@@ -66,6 +68,15 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "fmod")
 		bool BufferSound = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+		bool mPressedButton;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+		bool PuzzleCompleted = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+		bool mAllSteps = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
+		bool Debug = false;
 
 private:
 	int32 mSteps;
@@ -77,8 +88,8 @@ private:
 	
 	ALightIndicator* mLightInd;
 
-	bool PuzzleCompleted = false;
 	bool mDoneOnce = false;
+	bool mWentRightWay;
 
 	TArray<SoundDirection> mSoundBuffer;
 	bool mPlayNextSound = true;

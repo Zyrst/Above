@@ -90,6 +90,8 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 			mShouldRotateOuter = false;
 			mOuterMoveTracker = 0;
 		}
+
+		SoundEventEndOuterRotate();
 	}
 
 	if (mShouldRotateMiddle && mMiddleCurrentAngle != mMiddleTargetAngle) {
@@ -105,6 +107,8 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 			mShouldRotateMiddle = false;
 			mMiddleMoveTracker = 0;
 		}
+
+		SoundEventEndMiddleRotate();
 	}
 	
 	if (mShouldRotateInner && mInnerCurrentAngle != mInnerTargetAngle) {
@@ -120,68 +124,81 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 			mShouldRotateInner = false;
 			mInnerMoveTracker = 0;
 		}
+
+		SoundEventEndInnerRotate();
 	}
 
 	if (!mShouldRotateInner && !mShouldRotateMiddle && !mShouldRotateOuter) {
-		SoundEventEndRotate();
+		//SoundEventEndRotate();
 		mShouldRotateAnything = false;
 	}
 }
 
 
 void AGyroscropePuzzle::AddOuterRotation() {
-	AddRotationOuterHelper(FVector(0, mMoveAmount, 0));
-}
-void AGyroscropePuzzle::AddMiddleRotation() {
-	AddRotationMiddleHelper(FVector(0, 0, mMoveAmount));
-}
-void AGyroscropePuzzle::AddInnerRotation() {
-	AddRotationInnerHelper(FVector(mMoveAmount, 0, 0));
-}
-
-
-void AGyroscropePuzzle::AddRotationOuterHelper(FVector amount) {
 	if (mShouldRotateOuter)
 		return;
-	mOuterTargetAngle += amount;
-	//AddRotationMiddleHelper(amount);
+	
+	mOuterMovementBuffer += mMoveAmount;
+	if (mOuterMovementBuffer >= 360)
+		mOuterMovementBuffer -= 360;
 }
-void AGyroscropePuzzle::AddRotationMiddleHelper(FVector amount) {
+void AGyroscropePuzzle::AddMiddleRotation() {
 	if (mShouldRotateMiddle)
 		return;
-	
-	mMiddleTargetAngle += amount;
-	//AddRotationInnerHelper(amount);
+
+	mMiddleMovementBuffer += mMoveAmount;
+	if (mMiddleMovementBuffer >= 360)
+		mMiddleMovementBuffer -= 360;
 }
-void AGyroscropePuzzle::AddRotationInnerHelper(FVector amount) {
+void AGyroscropePuzzle::AddInnerRotation() {
 	if (mShouldRotateInner)
 		return;
 
-	mInnerTargetAngle += amount;
+	mInnerMovementBuffer += mMoveAmount;
+	if (mInnerMovementBuffer >= 360)
+		mInnerMovementBuffer -= 360;
 }
+
 
 void AGyroscropePuzzle::ApplyRotation() {
 	bool callEvent = false;
 
-	if (!mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle) {
+	if (!mShouldRotateOuter && mOuterCurrentAngle.Y != mOuterTargetAngle.Y + mOuterMovementBuffer) {
 		mShouldRotateOuter = true;
 		callEvent = true;
+
+		mOuterTargetAngle.Y += mOuterMovementBuffer;
+		mOuterMovementBuffer = 0;
+
+		SoundEventBeginOuterRotate();
 	}
-	if (!mShouldRotateMiddle && mMiddleCurrentAngle != mMiddleTargetAngle) {
+	if (!mShouldRotateMiddle && mMiddleCurrentAngle.Z != mMiddleTargetAngle.Z + mMiddleMovementBuffer) {
 		mShouldRotateMiddle = true;
 		callEvent = true;
+
+		mMiddleTargetAngle.Z += mMiddleMovementBuffer;
+		mMiddleMovementBuffer = 0;
+
+		SoundEventBeginMiddleRotate();
 	}
-	if (!mShouldRotateInner && mInnerCurrentAngle != mInnerTargetAngle) {
+	if (!mShouldRotateInner && mInnerCurrentAngle.X != mInnerTargetAngle.X + mInnerMovementBuffer) {
 		mShouldRotateInner = true;
 		callEvent = true;
+
+		mInnerTargetAngle.X += mInnerMovementBuffer;
+		mInnerMovementBuffer = 0;
+
+		SoundEventBeginInnerRotate();
 	}
 
 	if (callEvent) {
-		SoundEventBeginRotate();
+		//SoundEventBeginRotate();
 		mShouldRotateAnything = true;
 	}
 }	
 
+/*
 void AGyroscropePuzzle::ResetRotation() {
 	if (!mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle)
 		mShouldRotateOuter = true;
@@ -189,8 +206,9 @@ void AGyroscropePuzzle::ResetRotation() {
 		mShouldRotateMiddle = true;
 	if (!mShouldRotateInner && mInnerCurrentAngle != mInnerTargetAngle)
 		mShouldRotateInner = true;
-
-	mOuterTargetAngle = FVector(0, 0, 0);
-	mMiddleTargetAngle = FVector(0, 0, 0);
-	mInnerTargetAngle = FVector(0, 0, 0);
+	
+	mOuterTargetAngle = mOuterTargetAngle = FVector(0, OuterAngle, 0);
+	mMiddleTargetAngle = FVector(0, 0, MiddleAngle);
+	mInnerTargetAngle = FVector(InnerAngle, 0, 0);
 }
+*/
