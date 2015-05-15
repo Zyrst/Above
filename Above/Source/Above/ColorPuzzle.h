@@ -36,6 +36,8 @@ public:
 
 	int32 moveBuffer;
 
+	float mMovementSpeed;
+
 	USceneComponent* mRoot;
 
 	USphereComponent* mSlide0;
@@ -63,6 +65,7 @@ public:
 	TMap<int32, FColor*> mColorValueReference;
 	TArray<int32> mReferenceBoard;
 	TArray<TriFVector> mSlidePositionArray;
+	TArray<UMaterialInstanceDynamic*> mDynamicMaterialArray;
 
 	int32 ConvertDoubleIndexToSingle(Int32Vector2 index, int32 matrixSizeX);
 
@@ -70,6 +73,8 @@ public:
 	Int32Vector3* GetMatrixValue(Int32Vector2 index);
 
 	int32* GetReferenceBoardValue(Int32Vector2 index);
+
+	UMaterialInstanceDynamic* GetMaterialPointer(Int32Vector2 index);
 
 	/** Return second index in slide */
 	Int32Vector2 ConvertSlideNumberToIndex(int32 number);

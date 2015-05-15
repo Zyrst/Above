@@ -16,6 +16,8 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	mMatrixEdgeSizeX = 3;
 	mMatrixEdgeSizeY = 3;
 
+	mMovementSpeed = 1.f;
+
 	mRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, TEXT("Root"));
 	mRoot->SetMobility(EComponentMobility::Static);
 	RootComponent = mRoot;
@@ -144,14 +146,37 @@ void AColorPuzzle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+	//GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("%f"), DeltaTime));
+
 	for (int32 i = 0; i < mSlidePositionArray.Num(); i++) {
 		if (mSlidePositionArray[i].x != mSlidePositionArray[i].z) {
-			FVector delta = FMath::Lerp(mSlidePositionArray[i].x, mSlidePositionArray[i].z, mMovementCurve->GetFloatValue(5));
+			FVector delta;
 
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Magenta, FString::Printf(TEXT("Arse")));
 
+			mSlidePositionArray[i].y.X += mMovementSpeed * DeltaTime;
+			mSlidePositionArray[i].y.Y += mMovementSpeed * DeltaTime;
+			mSlidePositionArray[i].y.Z += mMovementSpeed * DeltaTime;
 
-			if (mSlidePositionArray[i].y == mSlidePositionArray[i].z) {
-				mSlidePositionArray[i].x = mSlidePositionArray[i].z;
+			delta.X = FMath::Lerp(mSlidePositionArray[i].x.X, mSlidePositionArray[i].z.X, mMovementCurve->GetFloatValue(mSlidePositionArray[i].y.X));
+			delta.Y = FMath::Lerp(mSlidePositionArray[i].x.Y, mSlidePositionArray[i].z.Y, mMovementCurve->GetFloatValue(mSlidePositionArray[i].y.Y));
+			delta.Z = FMath::Lerp(mSlidePositionArray[i].x.Z, mSlidePositionArray[i].z.Z, mMovementCurve->GetFloatValue(mSlidePositionArray[i].y.Z));
+
+			mSlideRootArray[i]->SetRelativeTransform(FTransform(mSlideRootArray[i]->GetRelativeTransform().Rotator(), delta, mSlideRootArray[i]->GetRelativeTransform().GetScale3D()));
+
+			if (mSlidePositionArray[i].y.X >= 1.f) {
+				mSlidePositionArray[i].x.X = mSlidePositionArray[i].z.X;
+				mSlidePositionArray[i].y.X = 0;
+			}
+
+			if (mSlidePositionArray[i].y.Y >= 1.f) {
+				mSlidePositionArray[i].x.Y = mSlidePositionArray[i].z.Y;
+				mSlidePositionArray[i].y.Y = 0;
+			}
+
+			if (mSlidePositionArray[i].y.Z >= 1.f) {
+				mSlidePositionArray[i].x.Z = mSlidePositionArray[i].z.Z;
+				mSlidePositionArray[i].y.Z = 0;
 			}
 		}
 	}
@@ -181,6 +206,10 @@ int32* AColorPuzzle::GetReferenceBoardValue(Int32Vector2 index) {
 	}
 }
 
+UMaterialInstanceDynamic* GetMaterialPointer(Int32Vector2 index) {
+
+}
+
 void AColorPuzzle::Int32Flip(int32* x, int32* y) {
 	moveBuffer = *x;
 	*x = *y;
@@ -199,10 +228,12 @@ void AColorPuzzle::CheckCombination() {
 }
 
 void AColorPuzzle::ActivateSlide(int32 slideNum, bool movePositiveDirection) {
-	GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("Poooooooop!")));
+	GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Red, FString::Printf(TEXT("%d"), movePositiveDirection));
 
 	if (slideNum >= 0 && slideNum <= 11) {
-		ShiftSlide(slideNum, movePositiveDirection);
+		if (mSlidePositionArray[slideNum].x == mSlidePositionArray[slideNum].z) {
+			ShiftSlide(slideNum, movePositiveDirection);
+		}
 	}
 }
 
@@ -239,56 +270,63 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 	// Shift along x
 	if (slideNum <= 5) {
-		if (mSlideOffset[slideNum] < 3 && mSlideOffset[slideNum] > -3) {
-			if (movePositiveDirection) {
+		if (movePositiveDirection) {
+			if (mSlideOffset[slideNum] < mMatrixEdgeSizeX) {
+				mSlidePositionArray[slideNum].z -= FVector(2, 0, 0);
 				mSlideOffset[slideNum]++;
-
 				index.x = mMatrixSizeX - 1;
 				indexAddition = Int32Vector2(-1, 0);
 				lowerIndexLimit = 1;
 				upperIndexLimit = 11;
 			}
+		}
 
-			else {
+		else {
+			if (mSlideOffset[slideNum] > -mMatrixEdgeSizeX) {
+				mSlidePositionArray[slideNum].z += FVector(2, 0, 0);
 				mSlideOffset[slideNum]--;
 				index.x = 0;
 				indexAddition = Int32Vector2(1, 0);
 				lowerIndexLimit = 0;
 				upperIndexLimit = 10;
 			}
+		}
 
-			while (index.x >= lowerIndexLimit && index.x <= upperIndexLimit) {
-				GetMatrixValue(index)->x = GetMatrixValue(index + indexAddition)->x;
-				multiplyColor(GetMatrixValue(index + indexAddition));
-				index += indexAddition;
-			}
+		while (index.x >= lowerIndexLimit && index.x <= upperIndexLimit) {
+			GetMatrixValue(index)->x = GetMatrixValue(index + indexAddition)->x;
+			multiplyColor(GetMatrixValue(index + indexAddition));
+			index += indexAddition;
 		}
 	}
 
 	// Shift along y
 	else {
-		if (mSlideOffset[slideNum] < 3 && mSlideOffset[slideNum] > -3) {
-			if (movePositiveDirection) {
+		if (movePositiveDirection) {
+			if (mSlideOffset[slideNum] < mMatrixEdgeSizeY) {
+				mSlidePositionArray[slideNum].z -= FVector(0, 2, 0);
 				mSlideOffset[slideNum]++;
 				index.y = mMatrixSizeY - 1;
 				indexAddition = Int32Vector2(0, -1);
 				lowerIndexLimit = 1;
 				upperIndexLimit = 11;
 			}
+		}
 
-			else {
+		else {
+			if (mSlideOffset[slideNum] > -mMatrixEdgeSizeY) {
+				mSlidePositionArray[slideNum].z += FVector(0, 2, 0);
 				mSlideOffset[slideNum]--;
 				index.y = 0;
 				indexAddition = Int32Vector2(0, 1);
 				lowerIndexLimit = 0;
 				upperIndexLimit = 10;
 			}
+		}
 
-			while (index.y >= lowerIndexLimit && index.y <= upperIndexLimit) {
-				GetMatrixValue(index)->y = GetMatrixValue(index + indexAddition)->y;
-				multiplyColor(GetMatrixValue(index));
-				index += indexAddition;
-			}
+		while (index.y >= lowerIndexLimit && index.y <= upperIndexLimit) {
+			GetMatrixValue(index)->y = GetMatrixValue(index + indexAddition)->y;
+			multiplyColor(GetMatrixValue(index));
+			index += indexAddition;
 		}
 	}
 }
