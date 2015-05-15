@@ -27,7 +27,7 @@ public:
 		bool RotationActivation = false;
 
 	/** Activate when pressing or stepping? */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RotationActivation, meta = (EditCondition = "RotationActivation"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RotationActivation)
 		bool ActivateWhenSteppedOn = false;
 
 	/** How many rotation modes on button */
@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Puzzle)
 		void OnActivate();
 
+	/** Event called when button is activated for rotation */
+	UFUNCTION(BlueprintImplementableEvent, Category = Puzzle)
+		void OnInitiateRotationActivate();
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
@@ -57,9 +60,16 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
 		UStaticMeshComponent* mPressMesh;
 
+	UFUNCTION()
+		void BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION(BlueprintCallable, Category = Misc)
+		int32 GetCurrentMode();
 
 private:
 	int32 mCurrentMode = 0;
 
 	USceneComponent* mRootComponent;
+	FVector mInteractionTriggerPosition;
+	FVector mOverlapBoxPosition;
 };

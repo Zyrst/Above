@@ -3,8 +3,10 @@
 #include "Above.h"
 #include "GyroscopeButton.h"
 
+#include <limits>
 
-// Sets default values
+
+// Sets default pööp
 AGyroscopeButton::AGyroscopeButton(const FObjectInitializer& ObjectInitializer): 
 	Super(ObjectInitializer){
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -25,6 +27,8 @@ AGyroscopeButton::AGyroscopeButton(const FObjectInitializer& ObjectInitializer):
 	mInteractionTrigger->AttachParent	= mRootComponent;
 	mStepMesh->AttachParent				= mRootComponent;
 	mPressMesh->AttachParent			= mRootComponent;
+
+	mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &AGyroscopeButton::BeginOverlapOnBox);
 }
 
 void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
@@ -32,23 +36,31 @@ void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
 
 	if (ActivateWhenSteppedOn) {
 		mOverlapBox->SetVisibility(true);
-		mInteractionTrigger->SetVisibility(false);
-		mInteractionTrigger->Deactivate();
+		mOverlapBox->Activate();
+		
+		mOverlapBox->SetRelativeLocation(FVector(0, 0, 0));
+
+		//mInteractionTriggerPosition = mInteractionTrigger->RelativeLocation;
+		mInteractionTrigger->SetRelativeLocation(FVector(0, 0, -500000));
 
 		mStepMesh->SetVisibility(true);
 		mPressMesh->SetVisibility(false);
 	}
 	else {
 		mOverlapBox->SetVisibility(false);
-		mInteractionTrigger->SetVisibility(true);
-		mInteractionTrigger->Activate();
+		mOverlapBox->Deactivate();
+
+		//mOverlapBoxPosition = mOverlapBox->RelativeLocation;
+		mOverlapBox->SetRelativeLocation(FVector(0, 0, -500000));
+
+		mInteractionTrigger->SetRelativeLocation(FVector(0, 0, 0));
 
 		mStepMesh->SetVisibility(false);
 		mPressMesh->SetVisibility(true);
 	}
 	
 	mOverlapBox->AttachParent			= mRootComponent;
-	mInteractionTrigger->AttachParent	= mRootComponent;
+	//mInteractionTrigger->AttachParent	= mRootComponent;
 	mStepMesh->AttachParent				= mRootComponent;
 	mPressMesh->AttachParent			= mRootComponent;
 }
@@ -66,6 +78,23 @@ void AGyroscopeButton::Tick( float DeltaTime ) {
 void AGyroscopeButton::Activate() {
 	mCurrentMode++;
 	mCurrentMode %= NumberOfModes;
-	OnActivate();
+
+	if (RotationActivation)
+		OnInitiateRotationActivate();
+	else
+		OnActivate();
 }
 
+void AGyroscopeButton::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	if (!ActivateWhenSteppedOn)
+		return;
+
+	if (RotationActivation)
+		OnInitiateRotationActivate();
+	else
+		OnActivate();
+}
+
+int32 AGyroscopeButton::GetCurrentMode() {
+	return mCurrentMode;
+}
