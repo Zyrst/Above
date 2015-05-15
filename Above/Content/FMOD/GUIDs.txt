@@ -18,6 +18,7 @@
 {8b917480-bf62-4fac-a984-f49ee9f3a203} event:/MusicPuzzle/Melody_3
 {2a479e96-4993-42b7-a12f-7c286dd0cc5d} event:/MusicPuzzle/Melody_3_Puzzle
 {fc846107-e2fa-4630-b7e2-087fca41e921} event:/MusicPuzzle/Solve
+{f6b70bc5-34cf-42b6-8465-bdbf6c666e74} event:/MusicPuzzle/Islands
 {0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Old_unused/Door_old short
 {46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Old_unused/Lamp_Procedural
 {ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Old_unused/Movement_old
@@ -25,7 +26,6 @@
 {54dd155d-0566-4e7f-8b61-623c836e3afd} event:/SoundPuzzle/Activation
 {1ef143de-e429-492a-ab2f-75b8ccfd10bb} event:/SoundPuzzle/Back
 {76fcde56-0ae1-4499-8e0a-ccfce4fe7519} event:/SoundPuzzle/Forward
-{f6b70bc5-34cf-42b6-8465-bdbf6c666e74} event:/SoundPuzzle/Islands
 {3f39bda9-100e-4134-85aa-2ac03f260a54} event:/SoundPuzzle/Lamps
 {20b70c16-81f7-4cf2-9514-72edf01c2682} event:/SoundPuzzle/Left
 {3a328f17-b9c4-4a2e-90c8-b2096de8c71c} event:/SoundPuzzle/Right
