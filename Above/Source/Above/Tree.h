@@ -20,10 +20,11 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	UFUNCTION(BlueprintCallable, Category = Update)
 	void UpdateTree(int32 value);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Emmisive)
-		TArray<UTexture2D*> EmmisiveTex;
+		TArray<UTexture2D*> EmissiveTex;
 private:
 	UMaterialInstanceDynamic* mTreeMatInst;
 	UStaticMeshComponent* mTreeMesh;

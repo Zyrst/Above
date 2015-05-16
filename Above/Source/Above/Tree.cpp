@@ -20,7 +20,7 @@ void ATree::BeginPlay()
 	this->GetComponents<UStaticMeshComponent>(Components);
 	for (int32 i = 0; i < Components.Num(); i++){
 		UStaticMeshComponent* mesh = Components[i];
-		if (mesh->GetName() == "Island_Testrun_polySurface2"){
+		if (mesh->GetName() == "treewithleaves_polySurface2"){
 			mTreeMesh = Components[i];
 		}
 	}
@@ -39,13 +39,13 @@ void ATree::Tick( float DeltaTime )
 void ATree::UpdateTree(int32 value){
 	switch (value){
 	case 0:
-		mTreeMatInst->SetTextureParameterValue("Emmisive_0", EmmisiveTex[value]);
+		mTreeMatInst->SetTextureParameterValue("Emissive_0", EmissiveTex[value]);
 		break;
 	case 1:
-		mTreeMatInst->SetTextureParameterValue("Emmisive_1", EmmisiveTex[value]);
+		mTreeMatInst->SetTextureParameterValue("Emissive_1", EmissiveTex[value]);
 		break;
 	case 2:
-		mTreeMatInst->SetTextureParameterValue("Emmisive_2", EmmisiveTex[value]);
+		mTreeMatInst->SetTextureParameterValue("Emissive_2", EmissiveTex[value]);
 		break;
 	}
 }
