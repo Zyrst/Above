@@ -3,7 +3,10 @@
 #pragma once
 
 #include "GameFramework/GameMode.h"
+#include "Tree.h"
 #include "AboveGameMode.generated.h"
+
+class AAboveSettings;
 
 /**
  * 
@@ -15,6 +18,8 @@ class ABOVE_API AAboveGameMode : public AGameMode
 
 public:
 	AAboveGameMode(const class FObjectInitializer& ObjectInitializer);
+	
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 	/** Sets complete status on puzzle */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
@@ -37,10 +42,16 @@ public:
 		void EndTrigger(UDestructibleComponent* destComp, UPrimitiveComponent* standPlat);
 	UFUNCTION(BlueprintImplementableEvent, Category = EndGame)
 		void EndCredit();
-
-
+	UFUNCTION()
+		void ActivateTreeEmmisive(AActor* puzzle);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tree)
+		AActor* Tree_BP;
+	
 private:
 	TMap<AActor*, bool> CompletedPuzzleArray;
 	TMap<AActor*, bool> StartedPuzzleArray;
 	bool mTrigger;
+
+	ATree* mTree;
+	AAboveSettings* mSettings;
 };

@@ -5,6 +5,7 @@
 #include "Stefun.h"
 #include "AboveSettings.h"
 #include "EndDoor.h"
+#include "Tree.h"
 
 AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer){
@@ -22,28 +23,37 @@ AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer
 	mTrigger = false;
 }
 
+void AAboveGameMode::OnConstruction(const FTransform& transform){
+	mSettings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	if (mSettings != nullptr){
+		mTree = (ATree*)mSettings->mTree;
+		if (mTree != nullptr)
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT(" Able to cast class"));
+	}
+}
+
 void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
+	
 	if (!CompletedPuzzleArray.Find(puzzle))
 		CompletedPuzzleArray.Add(puzzle);
 	CompletedPuzzleArray[puzzle] = done;
+	ActivateTreeEmmisive(puzzle);
 
 	// Try getting reference array
-	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
-	if (settings != nullptr) {
-
+	if (mSettings != nullptr) {
 		// Check if same number of finieshed puzzles equals max number of puzzles
-		if (CompletedPuzzleArray.Num() >= settings->mPuzzles.Num()) {
+		if (CompletedPuzzleArray.Num() >= mSettings->mPuzzles.Num()) {
 			bool everythingDone = true;
 
 			// Check if references match
-			for (int32 i = 0; i < settings->mPuzzles.Num(); i++) {
-				if (!CompletedPuzzleArray.Find(settings->mPuzzles[i]))
+			for (int32 i = 0; i < mSettings->mPuzzles.Num(); i++) {
+				if (!CompletedPuzzleArray.Find(mSettings->mPuzzles[i]))
 					everythingDone = false;
 			}
 
 			// Puzzles are done
 			if (everythingDone) {
-				AEndDoor* endDoor = (AEndDoor*)settings->mLastDoor;
+				AEndDoor* endDoor = (AEndDoor*)mSettings->mLastDoor;
 
 				// Tell end door that puzzles are done
 				if (endDoor != nullptr)
@@ -91,3 +101,16 @@ void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComp
 	
 }
 
+void AAboveGameMode::ActivateTreeEmmisive(AActor* puzzle){
+	FString name= puzzle->GetName();
+
+	if (name.Contains("Sound")){
+		mTree->UpdateTree(0);
+	}
+	else if (name.Contains("Gyro")){
+		mTree->UpdateTree(1);
+	}
+	else if (name.Contains("Color")){
+		mTree->UpdateTree(2);
+	}
+}

@@ -29,6 +29,7 @@ public:
 	/** Reference to door that opens when all puzzles are done */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = World)
 		AActor* mLastDoor;
-
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = World)
+		AActor* mTree;
+	
 };
