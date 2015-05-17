@@ -25,10 +25,9 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	int32 mMatrixSizeX;
-	int32 mMatrixSizeY;
-	int32 mMatrixEdgeSizeX;
-	int32 mMatrixEdgeSizeY;
+	Int32Vector2 mMatrixSize;
+	Int32Vector2 mMatrixEdgeSize;
+	Int32Vector2 mMaxSlideOffset;
 
 	Int32Vector2 mBoardSize;
 	int32 mBoardSlots;

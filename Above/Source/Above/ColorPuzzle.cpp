@@ -11,10 +11,9 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bCanEverTick = true;
 
 	// Initiate constants
-	mMatrixSizeX = 12;
-	mMatrixSizeY = 12;
-	mMatrixEdgeSizeX = 3;
-	mMatrixEdgeSizeY = 3;
+	mMatrixSize = Int32Vector2(18, 18);
+	mMatrixEdgeSize = Int32Vector2(6, 6);
+	mMaxSlideOffset = Int32Vector2(3, 3);
 
 	mMovementSpeed = 1.f;
 
@@ -64,7 +63,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	FLinearColor tmpColorRed = FLinearColor(255, 0, 0);
 	FLinearColor tmpColorYellow = FLinearColor(255, 255, 0);
 	FLinearColor tmpColorBlue = FLinearColor(0, 0, 255);
-	FLinearColor tmpColorOrange = FLinearColor(255, 128, 0);
+	FLinearColor tmpColorOrange = FLinearColor(1, 0.1, 0);
 	FLinearColor tmpColorPurple = FLinearColor(255, 0, 255);
 	FLinearColor tmpColorGreen = FLinearColor(0, 255, 0);
 
@@ -79,18 +78,18 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	mColorValueReference.Add(1200, tmpColorGreen);
 
 	// Initiate matrix
-	mMatrixBoard.Init(mMatrixSizeX * mMatrixSizeY);
+	mMatrixBoard.Init(mMatrixSize.x * mMatrixSize.y);
 
 	// Board size
-	mBoardSize = Int32Vector2(mMatrixSizeX - (mMatrixEdgeSizeX * 2), mMatrixSizeY - (mMatrixEdgeSizeY * 2));
+	mBoardSize = Int32Vector2(mMatrixSize.x - (mMatrixEdgeSize.x * 2), mMatrixSize.y - (mMatrixEdgeSize.y * 2));
 
 	// Number center slots
 	mBoardSlots = mBoardSize.x * mBoardSize.y;
 
 	// Add index reference
-	for (int32 x = 0; x < mMatrixSizeX; x++)
-		for (int32 y = 0; y < mMatrixSizeY; y++)
-			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSizeX), Int32Vector2(x, y));
+	for (int32 x = 0; x < mMatrixSize.x; x++)
+		for (int32 y = 0; y < mMatrixSize.y; y++)
+			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSize.x), Int32Vector2(x, y));
 
 	mNumberOfSlides = mBoardSize.x + mBoardSize.y;
 
@@ -103,20 +102,25 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 
 	// Fill matrix
 	for (int i = 0; i < mMatrixBoard.Num(); i++) {
-		mMatrixBoard[i] = Int32Vector3(20, 20, 0);
+		int32 rand = FMath::RandHelper(3);
 
-		/*
-		if (mIndexMap.Find(i)->x >= 3 && mIndexMap.Find(i)->x <= 8 && mIndexMap.Find(i)->y >= 3 && mIndexMap.Find(i)->y <= 8) {
-			mMatrixBoard[i] = Int32Vector3(20, 20, 0);
-		}
+		switch (rand) {
+		case 0:
+			mMatrixBoard[i] = Int32Vector3(20, 30, 0);
+			break;
 
-		else {
-			mMatrixBoard[i] = Int32Vector3(30, 30, 0);
+		case 1:
+			mMatrixBoard[i] = Int32Vector3(30, 40, 0);
+			break;
+
+		case 2:
+			mMatrixBoard[i] = Int32Vector3(40, 20, 0);
+			break;
+
+		default:
+			break;
 		}
-		*/
 	}
-
-	mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(3, 3), mMatrixSizeX)] = Int32Vector3(40, 40, 0);
 
 	// Fill reference board
 	mReferenceBoard.Init(mBoardSlots);
@@ -223,7 +227,7 @@ void AColorPuzzle::Tick( float DeltaTime )
 }
 
 Int32Vector3* AColorPuzzle::GetMatrixValue(Int32Vector2 index) {
-	int32 realIndex = ConvertDoubleIndexToSingle(index, mMatrixSizeX);
+	int32 realIndex = ConvertDoubleIndexToSingle(index, mMatrixSize.x);
 
 	if (realIndex >= 0 && realIndex < mMatrixBoard.Num()) {
 		return &mMatrixBoard[realIndex];
@@ -265,8 +269,8 @@ void AColorPuzzle::Int32Flip(int32* x, int32* y) {
 }
 
 void AColorPuzzle::multiplyColor() {
-	for (int32 x = 0; x < mMatrixSizeX; x++) {
-		for (int32 y = 0; y < mMatrixSizeY; y++) {
+	for (int32 x = 0; x < mMatrixSize.x; x++) {
+		for (int32 y = 0; y < mMatrixSize.y; y++) {
 			Int32Vector3* vector = GetMatrixValue(Int32Vector2(x, y));
 			vector->z = vector->x * vector->y;
 		}
@@ -275,12 +279,12 @@ void AColorPuzzle::multiplyColor() {
 	for (int32 x = 0; x < mBoardSize.x; x++) {
 		for (int32 y = 0; y < mBoardSize.y; y++) {
 			mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetVectorParameterValue("Color",
-				*mColorValueReference.Find(GetMatrixValue(Int32Vector2(x + mMatrixEdgeSizeX, y + mMatrixEdgeSizeY))->z));
+				*mColorValueReference.Find(GetMatrixValue(Int32Vector2(x + mMatrixEdgeSize.x, y + mMatrixEdgeSize.y))->z));
 		}
 	}
 
-	GEngine->ClearOnScreenDebugMessages();
-	PrintMatrix(Int32Vector2(3, 0), Int32Vector2(3, 11));
+	//GEngine->ClearOnScreenDebugMessages();
+	//PrintMatrix(Int32Vector2(6, 3), Int32Vector2(6, 14));
 }
 
 void AColorPuzzle::CheckCombination() {
@@ -292,7 +296,7 @@ void AColorPuzzle::CheckCombination() {
 void AColorPuzzle::ActivateSlide(int32 slideNum, bool movePositiveDirection) {
 	//GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Red, FString::Printf(TEXT("%d"), movePositiveDirection));
 
-	if (slideNum >= 0 && slideNum <= 11) {
+	if (slideNum >= 0 && slideNum <= mNumberOfSlides) {
 		if (mSlidePositionArray[slideNum].x == mSlidePositionArray[slideNum].z) {
 			ShiftSlide(slideNum, movePositiveDirection);
 		}
@@ -304,11 +308,11 @@ Int32Vector2 AColorPuzzle::ConvertSlideNumberToIndex(int32 number) {
 
 	if (number <= 5) {
 		firstInSlide.x = 0;
-		firstInSlide.y = mMatrixSizeY - 1 - mMatrixEdgeSizeY - number;
+		firstInSlide.y = mMatrixSize.y - 1 - mMatrixEdgeSize.y - number;
 	}
 
 	else {
-		firstInSlide.x = number - mMatrixEdgeSizeX;
+		firstInSlide.x = number;
 		firstInSlide.y = 0;
 	}
 
@@ -333,28 +337,28 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	// Shift along x
 	if (slideNum <= 5) {
 		if (movePositiveDirection) {
-			if (mSlideOffset[slideNum] < mMatrixEdgeSizeX) {
+			if (mSlideOffset[slideNum] < mMaxSlideOffset.x) {
 				mSlidePositionArray[slideNum].z -= FVector(2, 0, 0);
 				mSlideOffset[slideNum]++;
-				index.x = mMatrixSizeX - 1;
+				index.x = mMatrixSize.x - 1;
 				indexAddition = Int32Vector2(-1, 0);
 				lowerIndexLimit = 1;
-				upperIndexLimit = 11;
+				upperIndexLimit = mMatrixSize.x - 1;
 			}
 		}
 
 		else {
-			if (mSlideOffset[slideNum] > -mMatrixEdgeSizeX) {
+			if (mSlideOffset[slideNum] > -mMaxSlideOffset.x) {
 				mSlidePositionArray[slideNum].z += FVector(2, 0, 0);
 				mSlideOffset[slideNum]--;
 				index.x = 0;
 				indexAddition = Int32Vector2(1, 0);
 				lowerIndexLimit = 0;
-				upperIndexLimit = 10;
+				upperIndexLimit = mMatrixSize.x - 2;
 			}
 		}
 
-		while (index.x >= lowerIndexLimit && index.x <= upperIndexLimit) {
+		while (index.x >= lowerIndexLimit && index.x <= upperIndexLimit && lowerIndexLimit != upperIndexLimit) {
 			GetMatrixValue(index)->x = GetMatrixValue(index + indexAddition)->x;
 			index += indexAddition;
 		}
@@ -363,28 +367,28 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	// Shift along y
 	else {
 		if (movePositiveDirection) {
-			if (mSlideOffset[slideNum] < mMatrixEdgeSizeY) {
+			if (mSlideOffset[slideNum] < mMaxSlideOffset.y) {
 				mSlidePositionArray[slideNum].z += FVector(0, 2, 0);
 				mSlideOffset[slideNum]++;
-				index.y = mMatrixSizeY - 1;
+				index.y = mMatrixSize.y - 1;
 				indexAddition = Int32Vector2(0, -1);
 				lowerIndexLimit = 1;
-				upperIndexLimit = 11;
+				upperIndexLimit = mMatrixSize.y - 1;
 			}
 		}
 
 		else {
-			if (mSlideOffset[slideNum] > -mMatrixEdgeSizeY) {
+			if (mSlideOffset[slideNum] > -mMaxSlideOffset.y) {
 				mSlidePositionArray[slideNum].z -= FVector(0, 2, 0);
 				mSlideOffset[slideNum]--;
 				index.y = 0;
 				indexAddition = Int32Vector2(0, 1);
 				lowerIndexLimit = 0;
-				upperIndexLimit = 10;
+				upperIndexLimit = mMatrixSize.y - 2;
 			}
 		}
 
-		while (index.y >= lowerIndexLimit && index.y <= upperIndexLimit) {
+		while (index.y >= lowerIndexLimit && index.y <= upperIndexLimit && lowerIndexLimit != upperIndexLimit) {
 			GetMatrixValue(index)->y = GetMatrixValue(index + indexAddition)->y;
 			index += indexAddition;
 		}
@@ -396,7 +400,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 void AColorPuzzle::PrintMatrix(Int32Vector2 lowerBound, Int32Vector2 upperBound) {
 	for (int32 x = lowerBound.x; x <= upperBound.x; x++) {
 		for (int32 y = lowerBound.y; y <= upperBound.y; y++) {
-			GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("%d, %d: %d, %d, %d"), x, y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSizeX)].x, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSizeX)].y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSizeX)].z));
+			GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("%d, %d: %d, %d, %d"), x, y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSize.x)].x, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSize.x)].y, mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSize.x)].z));
 		}
 	}
 }
@@ -406,7 +410,7 @@ bool AColorPuzzle::ReferenceBoardMatrixIsSame() {
 
 	for (int32 x = 0; x < mBoardSize.x; x++) {
 		for (int32 y = 0; y < mBoardSize.y; y++) {
-			Int32Vector3* matrix = GetMatrixValue(Int32Vector2(x + mMatrixEdgeSizeX, y + mMatrixEdgeSizeY));
+			Int32Vector3* matrix = GetMatrixValue(Int32Vector2(x + mMatrixEdgeSize.x, y + mMatrixEdgeSize.y));
 			int32* referenceBoard = GetReferenceBoardValue(Int32Vector2(x, y));
 
 			if (matrix != nullptr && referenceBoard != nullptr) {
