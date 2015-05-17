@@ -53,6 +53,9 @@ public:
 	USphereComponent* mSlide10;
 	USphereComponent* mSlide11;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		UStaticMeshComponent* mTableMesh;
+
 	/** Movement curve */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 		UCurveFloat* mMovementCurve;
@@ -62,10 +65,10 @@ public:
 	TArray<Int32Vector3> mMatrixBoard;
 	TMap<int32, Int32Vector2> mIndexMap;
 	TArray<int32> mSlideOffset;
-	TMap<int32, FColor*> mColorValueReference;
+	TMap<int32, FLinearColor> mColorValueReference;
 	TArray<int32> mReferenceBoard;
 	TArray<TriFVector> mSlidePositionArray;
-	TArray<UMaterialInstanceDynamic*> mDynamicMaterialArray;
+	TArray<UMaterialInstanceDynamic*> mMaterialMatrix;
 
 	int32 ConvertDoubleIndexToSingle(Int32Vector2 index, int32 matrixSizeX);
 
@@ -74,14 +77,14 @@ public:
 
 	int32* GetReferenceBoardValue(Int32Vector2 index);
 
-	UMaterialInstanceDynamic* GetMaterialPointer(Int32Vector2 index);
+	UMaterialInterface* GetMaterialPointer(Int32Vector2 index);
 
 	/** Return second index in slide */
 	Int32Vector2 ConvertSlideNumberToIndex(int32 number);
 
 	void Int32Flip(int32* x, int32* y);
 
-	void multiplyColor(Int32Vector3* vector);
+	void multiplyColor();
 
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void CheckCombination();

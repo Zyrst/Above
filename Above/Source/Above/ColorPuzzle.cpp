@@ -60,6 +60,24 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	mSlideRootArray.Add(mSlide10);
 	mSlideRootArray.Add(mSlide11);
 
+	// Color initiation
+	FLinearColor tmpColorRed = FLinearColor(255, 0, 0);
+	FLinearColor tmpColorYellow = FLinearColor(255, 255, 0);
+	FLinearColor tmpColorBlue = FLinearColor(0, 0, 255);
+	FLinearColor tmpColorOrange = FLinearColor(255, 128, 0);
+	FLinearColor tmpColorPurple = FLinearColor(255, 0, 255);
+	FLinearColor tmpColorGreen = FLinearColor(0, 255, 0);
+
+	mColorValueReference.Add(20, tmpColorRed);
+	mColorValueReference.Add(400, tmpColorRed);
+	mColorValueReference.Add(30, tmpColorYellow);
+	mColorValueReference.Add(900, tmpColorYellow);
+	mColorValueReference.Add(40, tmpColorBlue);
+	mColorValueReference.Add(1600, tmpColorBlue);
+	mColorValueReference.Add(600, tmpColorOrange);
+	mColorValueReference.Add(800, tmpColorPurple);
+	mColorValueReference.Add(1200, tmpColorGreen);
+
 	// Initiate matrix
 	mMatrixBoard.Init(mMatrixSizeX * mMatrixSizeY);
 
@@ -69,12 +87,10 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	// Number center slots
 	mBoardSlots = mBoardSize.x * mBoardSize.y;
 
-	mReferenceBoard.Init(mBoardSlots);
-
 	// Add index reference
-	for (int32 i = 0; i < mMatrixSizeX; i++)
-		for (int32 j = 0; j < mMatrixSizeY; j++)
-			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(i, j), mMatrixSizeX), Int32Vector2(i, j));
+	for (int32 x = 0; x < mMatrixSizeX; x++)
+		for (int32 y = 0; y < mMatrixSizeY; y++)
+			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSizeX), Int32Vector2(x, y));
 
 	mNumberOfSlides = mBoardSize.x + mBoardSize.y;
 
@@ -87,46 +103,31 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 
 	// Fill matrix
 	for (int i = 0; i < mMatrixBoard.Num(); i++) {
+		mMatrixBoard[i] = Int32Vector3(20, 20, 0);
+
+		/*
 		if (mIndexMap.Find(i)->x >= 3 && mIndexMap.Find(i)->x <= 8 && mIndexMap.Find(i)->y >= 3 && mIndexMap.Find(i)->y <= 8) {
-			mMatrixBoard[i] = Int32Vector3(30, 40, 0);
+			mMatrixBoard[i] = Int32Vector3(20, 20, 0);
 		}
 
 		else {
-			mMatrixBoard[i] = Int32Vector3(20, 30, 0);
+			mMatrixBoard[i] = Int32Vector3(30, 30, 0);
 		}
-
-		multiplyColor(&mMatrixBoard[i]);
+		*/
 	}
 
+	mMatrixBoard[ConvertDoubleIndexToSingle(Int32Vector2(3, 3), mMatrixSizeX)] = Int32Vector3(40, 40, 0);
+
 	// Fill reference board
+	mReferenceBoard.Init(mBoardSlots);
 	for (int32 i = 0; i < mReferenceBoard.Num(); i++) {
 		mReferenceBoard[i] = 1200;
 	}
 
+	// Initiate materials
+	mMaterialMatrix.Init(mBoardSlots);
+
 	moveBuffer = 0;
-
-	// Color initiation
-	FColor tmpColorRed = FColor(255, 0, 0);
-	FColor tmpColorYellow = FColor(255, 255, 0);
-	FColor tmpColorBlue = FColor(0, 0, 255);
-	FColor tmpColorOrange = FColor(255, 128, 0);
-	FColor tmpColorPurple = FColor(255, 0, 255);
-	FColor tmpColorGreen = FColor(0, 255, 0);
-
-	mColorValueReference.Add(20, &tmpColorRed);
-	mColorValueReference.Add(400, &tmpColorRed);
-
-	mColorValueReference.Add(30, &tmpColorYellow);
-	mColorValueReference.Add(900, &tmpColorYellow);
-
-	mColorValueReference.Add(40, &tmpColorBlue);
-	mColorValueReference.Add(1600, &tmpColorBlue);
-
-	mColorValueReference.Add(600, &tmpColorOrange);
-
-	mColorValueReference.Add(800, &tmpColorPurple);
-
-	mColorValueReference.Add(1200, &tmpColorGreen);
 
 	// Initiate slide movement array
 	mSlidePositionArray.Init(mNumberOfSlides);
@@ -139,6 +140,45 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 void AColorPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(1);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(3, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(2);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 3), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(3);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(3, 3), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(4);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(0, 3), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(5);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(0, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(6);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(2, 3), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(7);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(2, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(8);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(5, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(9);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(5, 3), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(10);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(4, 3), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(11);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(4, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(12);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(0, 5), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(13);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(0, 4), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(14);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 5), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(15);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 4), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(16);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(2, 5), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(17);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(2, 4), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(18);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(5, 4), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(19);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(5, 5), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(20);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(3, 4), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(21);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(4, 5), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(22);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(4, 4), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(23);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(3, 5), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(24);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(0, 1), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(25);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(0, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(26);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(2, 1), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(27);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 1), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(28);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(3, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(29);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(3, 1), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(30);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(2, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(31);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(5, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(32);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(5, 1), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(33);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(4, 1), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(34);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(4, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(35);
+	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(36);
+
+	multiplyColor();
 }
 
 // Called every frame
@@ -206,8 +246,16 @@ int32* AColorPuzzle::GetReferenceBoardValue(Int32Vector2 index) {
 	}
 }
 
-UMaterialInstanceDynamic* GetMaterialPointer(Int32Vector2 index) {
+UMaterialInterface* AColorPuzzle::GetMaterialPointer(Int32Vector2 index) {
+	int32 realIndex = ConvertDoubleIndexToSingle(index, mBoardSize.x);
 
+	if (realIndex >= 0 && realIndex < mMaterialMatrix.Num()) {
+		return mMaterialMatrix[realIndex];
+	}
+
+	else {
+		return nullptr;
+	}
 }
 
 void AColorPuzzle::Int32Flip(int32* x, int32* y) {
@@ -216,9 +264,23 @@ void AColorPuzzle::Int32Flip(int32* x, int32* y) {
 	*x = moveBuffer;
 }
 
-void AColorPuzzle::multiplyColor(Int32Vector3* vector) {
-	vector->z = vector->x * vector->y;
-	// Todo update visuals
+void AColorPuzzle::multiplyColor() {
+	for (int32 x = 0; x < mMatrixSizeX; x++) {
+		for (int32 y = 0; y < mMatrixSizeY; y++) {
+			Int32Vector3* vector = GetMatrixValue(Int32Vector2(x, y));
+			vector->z = vector->x * vector->y;
+		}
+	}
+
+	for (int32 x = 0; x < mBoardSize.x; x++) {
+		for (int32 y = 0; y < mBoardSize.y; y++) {
+			mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetVectorParameterValue("Color",
+				*mColorValueReference.Find(GetMatrixValue(Int32Vector2(x + mMatrixEdgeSizeX, y + mMatrixEdgeSizeY))->z));
+		}
+	}
+
+	GEngine->ClearOnScreenDebugMessages();
+	PrintMatrix(Int32Vector2(3, 0), Int32Vector2(3, 11));
 }
 
 void AColorPuzzle::CheckCombination() {
@@ -228,7 +290,7 @@ void AColorPuzzle::CheckCombination() {
 }
 
 void AColorPuzzle::ActivateSlide(int32 slideNum, bool movePositiveDirection) {
-	GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Red, FString::Printf(TEXT("%d"), movePositiveDirection));
+	//GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Red, FString::Printf(TEXT("%d"), movePositiveDirection));
 
 	if (slideNum >= 0 && slideNum <= 11) {
 		if (mSlidePositionArray[slideNum].x == mSlidePositionArray[slideNum].z) {
@@ -265,8 +327,8 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	Int32Vector2 indexAddition;
 
 	// Upper and lower bounds including maximum allowed number
-	int32 lowerIndexLimit;
-	int32 upperIndexLimit;
+	int32 lowerIndexLimit = 0;
+	int32 upperIndexLimit = 0;
 
 	// Shift along x
 	if (slideNum <= 5) {
@@ -294,7 +356,6 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 		while (index.x >= lowerIndexLimit && index.x <= upperIndexLimit) {
 			GetMatrixValue(index)->x = GetMatrixValue(index + indexAddition)->x;
-			multiplyColor(GetMatrixValue(index + indexAddition));
 			index += indexAddition;
 		}
 	}
@@ -303,7 +364,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	else {
 		if (movePositiveDirection) {
 			if (mSlideOffset[slideNum] < mMatrixEdgeSizeY) {
-				mSlidePositionArray[slideNum].z -= FVector(0, 2, 0);
+				mSlidePositionArray[slideNum].z += FVector(0, 2, 0);
 				mSlideOffset[slideNum]++;
 				index.y = mMatrixSizeY - 1;
 				indexAddition = Int32Vector2(0, -1);
@@ -314,7 +375,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 		else {
 			if (mSlideOffset[slideNum] > -mMatrixEdgeSizeY) {
-				mSlidePositionArray[slideNum].z += FVector(0, 2, 0);
+				mSlidePositionArray[slideNum].z -= FVector(0, 2, 0);
 				mSlideOffset[slideNum]--;
 				index.y = 0;
 				indexAddition = Int32Vector2(0, 1);
@@ -325,10 +386,11 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 		while (index.y >= lowerIndexLimit && index.y <= upperIndexLimit) {
 			GetMatrixValue(index)->y = GetMatrixValue(index + indexAddition)->y;
-			multiplyColor(GetMatrixValue(index));
 			index += indexAddition;
 		}
 	}
+
+	multiplyColor();
 }
 
 void AColorPuzzle::PrintMatrix(Int32Vector2 lowerBound, Int32Vector2 upperBound) {
