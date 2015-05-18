@@ -101,6 +101,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	}
 
 	// Fill matrix
+	/*
 	for (int i = 0; i < mMatrixBoard.Num(); i++) {
 		int32 rand = FMath::RandHelper(3);
 
@@ -121,15 +122,177 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 			break;
 		}
 	}
+	*/
 
-	//*GetMatrixValue(Int32Vector2(0, 0)) = Int32Vector3(20, 30, 0);
+	//RÖD
+	//*GetMatrixValue(Int32Vector2(0, 0)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(6, 14)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(7, 14)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(8, 14)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(9, 14)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(10, 14)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(11, 14)) = Int32Vector3(40, 40, 0);
 
+	*GetMatrixValue(Int32Vector2(6, 13)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(7, 13)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(8, 13)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(9, 13)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(10, 13)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(11, 13)) = Int32Vector3(20, 20, 0);
+
+	*GetMatrixValue(Int32Vector2(6, 12)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(7, 12)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(8, 12)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(9, 12)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(10, 12)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(11, 12)) = Int32Vector3(20, 20, 0);
+
+	*GetMatrixValue(Int32Vector2(3, 11)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(4, 11)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(5, 11)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(6, 11)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(7, 11)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(8, 11)) = Int32Vector3(20, 30, 0);
+	*GetMatrixValue(Int32Vector2(9, 11)) = Int32Vector3(40, 20, 0);
+	*GetMatrixValue(Int32Vector2(10, 11)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(11, 11)) = Int32Vector3(30, 40, 0);
+	*GetMatrixValue(Int32Vector2(12, 11)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(13, 11)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(14, 11)) = Int32Vector3(30, 30, 0);
+
+	*GetMatrixValue(Int32Vector2(3, 10)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(4, 10)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(5, 10)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(6, 10)) = Int32Vector3(20, 40, 0);
+	*GetMatrixValue(Int32Vector2(7, 10)) = Int32Vector3(40, 30, 0);
+	*GetMatrixValue(Int32Vector2(8, 10)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(9, 10)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(10, 10)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(11, 10)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(12, 10)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(13, 10)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(14, 10)) = Int32Vector3(40, 40, 0);
+
+	*GetMatrixValue(Int32Vector2(3, 9)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(4, 9)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(5, 9)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(6, 9)) = Int32Vector3(30, 40, 0);
+	*GetMatrixValue(Int32Vector2(7, 9)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(8, 9)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(9, 9)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(10, 9)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(11, 9)) = Int32Vector3(30, 40, 0);
+	*GetMatrixValue(Int32Vector2(12, 9)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(13, 9)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(14, 9)) = Int32Vector3(30, 30, 0);
+
+	*GetMatrixValue(Int32Vector2(3, 8)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(4, 8)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(5, 8)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(6, 8)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(7, 8)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(8, 8)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(9, 8)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(10, 8)) = Int32Vector3(30, 40, 0);
+	*GetMatrixValue(Int32Vector2(11, 8)) = Int32Vector3(20, 40, 0);
+	*GetMatrixValue(Int32Vector2(12, 8)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(13, 8)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(14, 8)) = Int32Vector3(40, 40, 0);
+
+	*GetMatrixValue(Int32Vector2(3, 7)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(4, 7)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(5, 7)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(6, 7)) = Int32Vector3(20, 30, 0);
+	*GetMatrixValue(Int32Vector2(7, 7)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(8, 7)) = Int32Vector3(30, 20, 0);
+	*GetMatrixValue(Int32Vector2(9, 7)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(10, 7)) = Int32Vector3(30, 40, 0);
+	*GetMatrixValue(Int32Vector2(11, 7)) = Int32Vector3(40, 30, 0);
+	*GetMatrixValue(Int32Vector2(12, 7)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(13, 7)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(14, 7)) = Int32Vector3(20, 20, 0);
+
+	*GetMatrixValue(Int32Vector2(3, 6)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(4, 6)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(5, 6)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(6, 6)) = Int32Vector3(40, 20, 0);
+	*GetMatrixValue(Int32Vector2(7, 6)) = Int32Vector3(30, 40, 0);
+	*GetMatrixValue(Int32Vector2(8, 6)) = Int32Vector3(40, 20, 0);
+	*GetMatrixValue(Int32Vector2(9, 6)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(10, 6)) = Int32Vector3(40, 30, 0);
+	*GetMatrixValue(Int32Vector2(11, 6)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(12, 6)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(13, 6)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(14, 6)) = Int32Vector3(20, 20, 0);
+
+	*GetMatrixValue(Int32Vector2(6, 5)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(7, 5)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(8, 5)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(9, 5)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(10, 5)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(11, 5)) = Int32Vector3(40, 40, 0);
+
+	*GetMatrixValue(Int32Vector2(6, 4)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(7, 4)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(8, 4)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(9, 4)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(10, 4)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(11, 4)) = Int32Vector3(20, 20, 0);
+
+	*GetMatrixValue(Int32Vector2(6, 3)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(7, 3)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(8, 3)) = Int32Vector3(40, 40, 0);
+	*GetMatrixValue(Int32Vector2(9, 3)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(10, 3)) = Int32Vector3(20, 20, 0);
+	*GetMatrixValue(Int32Vector2(11, 3)) = Int32Vector3(40, 40, 0);
 
 	// Fill reference board
 	mReferenceBoard.Init(mBoardSlots);
 	for (int32 i = 0; i < mReferenceBoard.Num(); i++) {
-		mReferenceBoard[i] = 1200;
+		mReferenceBoard[i] = 0;
 	}
+	
+	*GetReferenceBoardValue(Int32Vector2(0, 0)) = 900;
+	*GetReferenceBoardValue(Int32Vector2(1, 0)) = 800;
+	*GetReferenceBoardValue(Int32Vector2(2, 0)) = 800;
+	*GetReferenceBoardValue(Int32Vector2(3, 0)) = 900;
+	*GetReferenceBoardValue(Int32Vector2(4, 0)) = 1600;
+	*GetReferenceBoardValue(Int32Vector2(5, 0)) = 900;
+
+	*GetReferenceBoardValue(Int32Vector2(0, 1)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(1, 1)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(2, 1)) = 900;
+	*GetReferenceBoardValue(Int32Vector2(3, 1)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(4, 1)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(5, 1)) = 1200;
+
+	*GetReferenceBoardValue(Int32Vector2(0, 2)) = 1600;
+	*GetReferenceBoardValue(Int32Vector2(1, 2)) = 600;
+	*GetReferenceBoardValue(Int32Vector2(2, 2)) = 600;
+	*GetReferenceBoardValue(Int32Vector2(3, 2)) = 900;
+	*GetReferenceBoardValue(Int32Vector2(4, 2)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(5, 2)) = 800;
+
+	*GetReferenceBoardValue(Int32Vector2(0, 3)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(1, 3)) = 600;
+	*GetReferenceBoardValue(Int32Vector2(2, 3)) = 900;
+	*GetReferenceBoardValue(Int32Vector2(3, 3)) = 800;
+	*GetReferenceBoardValue(Int32Vector2(4, 3)) = 800;
+	*GetReferenceBoardValue(Int32Vector2(5, 3)) = 600;
+
+	*GetReferenceBoardValue(Int32Vector2(0, 4)) = 600;
+	*GetReferenceBoardValue(Int32Vector2(1, 4)) = 600;
+	*GetReferenceBoardValue(Int32Vector2(2, 4)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(3, 4)) = 900;
+	*GetReferenceBoardValue(Int32Vector2(4, 4)) = 800;
+	*GetReferenceBoardValue(Int32Vector2(5, 4)) = 800;
+
+	*GetReferenceBoardValue(Int32Vector2(0, 5)) = 1200;
+	*GetReferenceBoardValue(Int32Vector2(1, 5)) = 600;
+	*GetReferenceBoardValue(Int32Vector2(2, 5)) = 600;
+	*GetReferenceBoardValue(Int32Vector2(3, 5)) = 400;
+	*GetReferenceBoardValue(Int32Vector2(4, 5)) = 800;
+	*GetReferenceBoardValue(Int32Vector2(5, 5)) = 600;
 
 	// Initiate materials
 	mMaterialMatrix.Init(mBoardSlots);
@@ -383,7 +546,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	if (slideNum <= 5) {
 		if (movePositiveDirection) {
 			if (mSlideOffset[slideNum] < mMaxSlideOffset.x) {
-				mSlidePositionArray[slideNum].z -= FVector(2, 0, 0);
+				mSlidePositionArray[slideNum].z -= FVector(3, 0, 0);
 				mSlideOffset[slideNum]++;
 				index.x = mMatrixSize.x - 1;
 				indexAddition = Int32Vector2(-1, 0);
@@ -394,7 +557,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 		else {
 			if (mSlideOffset[slideNum] > -mMaxSlideOffset.x) {
-				mSlidePositionArray[slideNum].z += FVector(2, 0, 0);
+				mSlidePositionArray[slideNum].z += FVector(3, 0, 0);
 				mSlideOffset[slideNum]--;
 				index.x = 0;
 				indexAddition = Int32Vector2(1, 0);
@@ -413,7 +576,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	else {
 		if (movePositiveDirection) {
 			if (mSlideOffset[slideNum] < mMaxSlideOffset.y) {
-				mSlidePositionArray[slideNum].z += FVector(0, 2, 0);
+				mSlidePositionArray[slideNum].z += FVector(0, 3, 0);
 				mSlideOffset[slideNum]++;
 				index.y = mMatrixSize.y - 1;
 				indexAddition = Int32Vector2(0, -1);
@@ -424,7 +587,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 		else {
 			if (mSlideOffset[slideNum] > -mMaxSlideOffset.y) {
-				mSlidePositionArray[slideNum].z -= FVector(0, 2, 0);
+				mSlidePositionArray[slideNum].z -= FVector(0, 3, 0);
 				mSlideOffset[slideNum]--;
 				index.y = 0;
 				indexAddition = Int32Vector2(0, 1);
