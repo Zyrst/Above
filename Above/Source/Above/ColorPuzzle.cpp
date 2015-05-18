@@ -60,12 +60,12 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	mSlideRootArray.Add(mSlide11);
 
 	// Color initiation
-	FLinearColor tmpColorRed = FLinearColor(255, 0, 0);
-	FLinearColor tmpColorYellow = FLinearColor(255, 255, 0);
-	FLinearColor tmpColorBlue = FLinearColor(0, 0, 255);
+	FLinearColor tmpColorRed = FLinearColor(1, 0, 0);
+	FLinearColor tmpColorYellow = FLinearColor(1, 1, 0);
+	FLinearColor tmpColorBlue = FLinearColor(0, 0, 1);
 	FLinearColor tmpColorOrange = FLinearColor(1, 0.1, 0);
-	FLinearColor tmpColorPurple = FLinearColor(255, 0, 255);
-	FLinearColor tmpColorGreen = FLinearColor(0, 255, 0);
+	FLinearColor tmpColorPurple = FLinearColor(1, 0, 1);
+	FLinearColor tmpColorGreen = FLinearColor(0, 1, 0);
 
 	mColorValueReference.Add(20, tmpColorRed);
 	mColorValueReference.Add(400, tmpColorRed);
@@ -121,6 +121,9 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 			break;
 		}
 	}
+
+	//*GetMatrixValue(Int32Vector2(0, 0)) = Int32Vector3(20, 30, 0);
+
 
 	// Fill reference board
 	mReferenceBoard.Init(mBoardSlots);
