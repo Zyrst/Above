@@ -53,6 +53,7 @@ void ALamp::BeginPlay(){
 		}
 	}
 
+	/*
 	TArray<UActorComponent*> components;
 	this->GetComponents(components);
 	for (int32 i = 0; i < components.Max(); i++) {
@@ -61,6 +62,7 @@ void ALamp::BeginPlay(){
 			break;
 		}
 	}
+	*/
 
 	TArray<USphereComponent*> colliders;
 	this->GetComponents(colliders);
@@ -132,11 +134,12 @@ void ALamp::Tick( float DeltaTime ){
 	else if (mAction && !mActionKill) {
 		mAction		= false;
 		mActionKill = false;
-		if (mFireflyParticles != NULL)
-			mFireflyParticles->Deactivate();
+		//if (mFireflyParticles != NULL)
+		//	mFireflyParticles->Deactivate();
 
 		mSoundIntensity = 2;
 		SoundEventIntensityChange();
+		EventOnReset();
 	}
 }
 
@@ -173,8 +176,8 @@ void ALamp::ActivateSecond() {
 	mAction			= true;
 	mActionKill		= false;
 	mKillTimer		= mKillingDuration;
-	if (mFireflyParticles != NULL)
-		mFireflyParticles->Activate();
+	//if (mFireflyParticles != NULL)
+	//	mFireflyParticles->Activate();
 
 	// Call sound events
 	SoundEventFireflyRelease();
