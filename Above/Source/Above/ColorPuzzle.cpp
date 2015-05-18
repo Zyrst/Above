@@ -227,6 +227,36 @@ void AColorPuzzle::Tick( float DeltaTime )
 			}
 		}
 	}
+
+
+	if (!mLerp)
+		return;
+
+	mLerpTime += (mBlendSpeed * DeltaTime);
+
+	// Start lerping
+	for (int32 x = 0; x < mBoardSize.x; x++) {
+		for (int32 y = 0; y < mBoardSize.y; y++) {
+			if (mColorCurve != NULL)
+				mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetScalarParameterValue("ColorBlend", mColorCurve->GetFloatValue(mLerpTime));
+			else
+				mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetScalarParameterValue("ColorBlend", mLerpTime);
+		}
+	}
+
+	if (mLerpTime >= 1.0f) {
+		mLerp = false;
+		
+		for (int32 x = 0; x < mBoardSize.x; x++) {
+			for (int32 y = 0; y < mBoardSize.y; y++) {
+				FLinearColor temp;
+				mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->GetVectorParameterValue("Color2", temp);
+				mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetVectorParameterValue("Color1", temp);
+				mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetScalarParameterValue("ColorBlend", 0);
+			}
+		}
+
+	}
 }
 
 Int32Vector3* AColorPuzzle::GetMatrixValue(Int32Vector2 index) {
@@ -290,10 +320,13 @@ void AColorPuzzle::multiplyColor() {
 
 	for (int32 x = 0; x < mBoardSize.x; x++) {
 		for (int32 y = 0; y < mBoardSize.y; y++) {
-			mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetVectorParameterValue("Color",
+			mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetVectorParameterValue("Color2",
 				*mColorValueReference.Find(GetMatrixValue(Int32Vector2(x + mMatrixEdgeSize.x, y + mMatrixEdgeSize.y))->z));
 		}
 	}
+
+	mLerp = true;
+	mLerpTime = 0;
 
 	//GEngine->ClearOnScreenDebugMessages();
 	//PrintMatrix(Int32Vector2(6, 3), Int32Vector2(6, 14));
