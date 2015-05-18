@@ -238,6 +238,11 @@ Int32Vector3* AColorPuzzle::GetMatrixValue(Int32Vector2 index) {
 	}
 }
 
+void AColorPuzzle::SetMatrixValue(int32 indexX, int32 indexY, int32 x, int32 y) {
+	GetMatrixValue(Int32Vector2(indexX, indexY))->x = x;
+	GetMatrixValue(Int32Vector2(indexX, indexY))->y = y;
+}
+
 int32* AColorPuzzle::GetReferenceBoardValue(Int32Vector2 index) {
 	int32 realIndex = ConvertDoubleIndexToSingle(index, mBoardSize.x);
 
@@ -248,6 +253,10 @@ int32* AColorPuzzle::GetReferenceBoardValue(Int32Vector2 index) {
 	else {
 		return nullptr;
 	}
+}
+
+void AColorPuzzle::SetReferenceBoardValue(int32 indexX, int32 indexY, int32 value) {
+	*GetReferenceBoardValue(Int32Vector2(indexX, indexY)) = value;
 }
 
 UMaterialInterface* AColorPuzzle::GetMaterialPointer(Int32Vector2 index) {
