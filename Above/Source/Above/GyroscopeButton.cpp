@@ -36,11 +36,11 @@ void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
 
 	if (ActivateWhenSteppedOn) {
 		mOverlapBox->SetVisibility(true);
-		mOverlapBox->Activate();
+		//mOverlapBox->Activate();
 		
 		mOverlapBox->SetRelativeLocation(FVector(0, 0, 0));
 
-		//mInteractionTriggerPosition = mInteractionTrigger->RelativeLocation;
+		//mInteractionTriggerPosition = mInteractionTrigger->GetComponentLocation();
 		mInteractionTrigger->SetRelativeLocation(FVector(0, 0, -500000));
 
 		mStepMesh->SetVisibility(true);
@@ -48,9 +48,9 @@ void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
 	}
 	else {
 		mOverlapBox->SetVisibility(false);
-		mOverlapBox->Deactivate();
+		//mOverlapBox->Deactivate();
 
-		//mOverlapBoxPosition = mOverlapBox->RelativeLocation;
+		//mOverlapBoxPosition = mOverlapBox->GetComponentLocation();
 		mOverlapBox->SetRelativeLocation(FVector(0, 0, -500000));
 
 		mInteractionTrigger->SetRelativeLocation(FVector(0, 0, 0));
@@ -59,10 +59,10 @@ void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
 		mPressMesh->SetVisibility(true);
 	}
 	
-	mOverlapBox->AttachParent			= mRootComponent;
+	//mOverlapBox->AttachParent			= mRootComponent;
 	//mInteractionTrigger->AttachParent	= mRootComponent;
-	mStepMesh->AttachParent				= mRootComponent;
-	mPressMesh->AttachParent			= mRootComponent;
+	//mStepMesh->AttachParent				= mRootComponent;
+	//mPressMesh->AttachParent			= mRootComponent;
 }
 
 // Called when the game starts or when spawned
@@ -76,23 +76,20 @@ void AGyroscopeButton::Tick( float DeltaTime ) {
 }
 
 void AGyroscopeButton::Activate() {
-	mCurrentMode++;
-	mCurrentMode %= NumberOfModes;
-
 	if (RotationActivation)
 		OnInitiateRotationActivate();
-	else
+	else {
+		mCurrentMode++;
+		mCurrentMode %= NumberOfModes;
 		OnActivate();
+	}
 }
 
 void AGyroscopeButton::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (!ActivateWhenSteppedOn)
 		return;
 
-	if (RotationActivation)
-		OnInitiateRotationActivate();
-	else
-		OnActivate();
+	Activate();
 }
 
 int32 AGyroscopeButton::GetCurrentMode() {
