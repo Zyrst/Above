@@ -59,6 +59,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 		UCurveFloat* mMovementCurve;
 
+	/** Color curve */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+		UCurveFloat* mColorCurve;
+
+	/** Color curve */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+		float mBlendSpeed = 0.5f;
+
+
 	TArray<USphereComponent*> mSlideRootArray;
 
 	TArray<Int32Vector3> mMatrixBoard;
@@ -74,7 +83,13 @@ public:
 	/** Returns pointer to value from xy coordinates */
 	Int32Vector3* GetMatrixValue(Int32Vector2 index);
 
+	UFUNCTION(BlueprintCallable, Category = Matrix)
+		void SetMatrixValue(int32 indexX, int32 indexY, int32 x, int32 y);
+
 	int32* GetReferenceBoardValue(Int32Vector2 index);
+
+	UFUNCTION(BlueprintCallable, Category = Matrix)
+		void SetReferenceBoardValue(int32 indexX, int32 indexY, int32 value);
 
 	UMaterialInterface* GetMaterialPointer(Int32Vector2 index);
 
@@ -97,4 +112,8 @@ public:
 	void PrintMatrix(Int32Vector2 lowerBound, Int32Vector2 upperBound);
 
 	bool ReferenceBoardMatrixIsSame();
+
+private:
+	bool mLerp = true;
+	float mLerpTime = 0;
 };

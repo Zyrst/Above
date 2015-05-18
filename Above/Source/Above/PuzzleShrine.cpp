@@ -28,7 +28,7 @@ void APuzzleShrine::Tick( float DeltaTime )
 }
 
 void APuzzleShrine::Activate() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Activate"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Activate"));
 
 	PlayMusic();
 }

@@ -119,11 +119,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "fmod")
 		float GetPlayedStatus();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Animation")
+		void EventOnReset();
+
 private:
 	bool mAction, mActionKill, mTrackPlayer;
 	float mKillTimer;
 
-	UActorComponent* mFireflyParticles;
 	USphereComponent* mSphereCollider;
 	AActor* mPlayerReference;
 
