@@ -201,7 +201,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 
 	*GetMatrixValue(Int32Vector2(3, 7)) = Int32Vector3(30, 30, 0);
 	*GetMatrixValue(Int32Vector2(4, 7)) = Int32Vector3(40, 40, 0);
-	*GetMatrixValue(Int32Vector2(5, 7)) = Int32Vector3(30, 30, 0);
+	*GetMatrixValue(Int32Vector2(5, 7)) = Int32Vector3(20, 20, 0);
 	*GetMatrixValue(Int32Vector2(6, 7)) = Int32Vector3(20, 30, 0);
 	*GetMatrixValue(Int32Vector2(7, 7)) = Int32Vector3(30, 20, 0);
 	*GetMatrixValue(Int32Vector2(8, 7)) = Int32Vector3(30, 20, 0);
@@ -261,7 +261,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 
 	*GetReferenceBoardValue(Int32Vector2(0, 1)) = 1200;
 	*GetReferenceBoardValue(Int32Vector2(1, 1)) = 1200;
-	*GetReferenceBoardValue(Int32Vector2(2, 1)) = 900;
+	*GetReferenceBoardValue(Int32Vector2(2, 1)) = 800;
 	*GetReferenceBoardValue(Int32Vector2(3, 1)) = 1200;
 	*GetReferenceBoardValue(Int32Vector2(4, 1)) = 1200;
 	*GetReferenceBoardValue(Int32Vector2(5, 1)) = 1200;
