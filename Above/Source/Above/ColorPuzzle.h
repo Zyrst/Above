@@ -74,7 +74,13 @@ public:
 	/** Returns pointer to value from xy coordinates */
 	Int32Vector3* GetMatrixValue(Int32Vector2 index);
 
+	UFUNCTION(BlueprintCallable, Category = Matrix)
+		void SetMatrixValue(int32 indexX, int32 indexY, int32 x, int32 y);
+
 	int32* GetReferenceBoardValue(Int32Vector2 index);
+
+	UFUNCTION(BlueprintCallable, Category = Matrix)
+		void SetReferenceBoardValue(int32 indexX, int32 indexY, int32 value);
 
 	UMaterialInterface* GetMaterialPointer(Int32Vector2 index);
 

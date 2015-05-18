@@ -331,9 +331,11 @@ void AStefun::Interact(){
 		mTrigger->Interact();
 	}
 
+	/*
 	else{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("No trigger selected"));
 	}
+	*/
 }
 
 void AStefun::HoverOverObject() {
