@@ -22,17 +22,21 @@ public:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-	/** Whether to control rotation for each gyroscope part, or to activate rotation on gyroscope */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
-		bool RotationActivation = false;
+	/** Is it this button which initiates rotation? */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RotationActivation)
+		bool InitiatesRotation = false;
 
 	/** Activate when pressing or stepping? */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RotationActivation)
 		bool ActivateWhenSteppedOn = false;
 
 	/** How many rotation modes on button */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults, meta = (EditCondition = "!RotationActivation"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
 		int32 NumberOfModes = 12;
+
+	/** Which button is it? */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
+		int32 ButtonIndex = 1;
 
 
 	/** Called when pressing button */
@@ -65,6 +69,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Misc)
 		int32 GetCurrentMode();
+
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventModeChange(int32 buttonNumber, int32 mode, bool activatesRotation);
 
 private:
 	int32 mCurrentMode = 0;
