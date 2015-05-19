@@ -78,7 +78,7 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 		return;
 
 	if (mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle) {
-		mOuterMoveTracker += mRotationSpeed;
+		mOuterMoveTracker += mRotationSpeed * DeltaTime;
 		FVector angle = FMath::Lerp(mOuterCurrentAngle, mOuterTargetAngle, mMovementCurve->GetFloatValue(mOuterMoveTracker));
 
 		FRotator rot = FRotator::ZeroRotator;
@@ -89,9 +89,9 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 			mOuterCurrentAngle = mOuterTargetAngle;
 			mShouldRotateOuter = false;
 			mOuterMoveTracker = 0;
-		}
 
-		SoundEventEndOuterRotate();
+			SoundEventEndOuterRotate();
+		}
 	}
 
 	if (mShouldRotateMiddle && mMiddleCurrentAngle != mMiddleTargetAngle) {
@@ -106,9 +106,9 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 			mMiddleCurrentAngle = mMiddleTargetAngle;
 			mShouldRotateMiddle = false;
 			mMiddleMoveTracker = 0;
+			
+			SoundEventEndMiddleRotate();
 		}
-
-		SoundEventEndMiddleRotate();
 	}
 	
 	if (mShouldRotateInner && mInnerCurrentAngle != mInnerTargetAngle) {
@@ -123,9 +123,9 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 			mInnerCurrentAngle = mInnerTargetAngle;
 			mShouldRotateInner = false;
 			mInnerMoveTracker = 0;
-		}
 
-		SoundEventEndInnerRotate();
+			SoundEventEndInnerRotate();
+		}
 	}
 
 	if (!mShouldRotateInner && !mShouldRotateMiddle && !mShouldRotateOuter) {

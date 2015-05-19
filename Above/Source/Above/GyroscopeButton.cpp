@@ -76,13 +76,14 @@ void AGyroscopeButton::Tick( float DeltaTime ) {
 }
 
 void AGyroscopeButton::Activate() {
-	if (RotationActivation)
-		OnInitiateRotationActivate();
-	else {
+	if (!InitiatesRotation) {
 		mCurrentMode++;
 		mCurrentMode %= NumberOfModes;
-		OnActivate();
 	}
+
+	OnActivate();
+	
+	SoundEventModeChange(ButtonIndex, mCurrentMode, InitiatesRotation);
 }
 
 void AGyroscopeButton::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
