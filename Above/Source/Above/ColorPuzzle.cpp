@@ -13,7 +13,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	// Initiate constants
 	mMatrixSize = Int32Vector2(18, 18);
 	mMatrixEdgeSize = Int32Vector2(6, 6);
-	mMaxSlideOffset = Int32Vector2(3, 3);
+	mMaxSlideOffset = Int32Vector2(2, 2);
 
 	mMovementSpeed = 1.f;
 
