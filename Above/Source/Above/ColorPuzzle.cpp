@@ -101,31 +101,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	}
 
 	// Fill matrix
-	/*
-	for (int i = 0; i < mMatrixBoard.Num(); i++) {
-		int32 rand = FMath::RandHelper(3);
-
-		switch (rand) {
-		case 0:
-			mMatrixBoard[i] = Int32Vector3(20, 30, 0);
-			break;
-
-		case 1:
-			mMatrixBoard[i] = Int32Vector3(30, 40, 0);
-			break;
-
-		case 2:
-			mMatrixBoard[i] = Int32Vector3(40, 20, 0);
-			break;
-
-		default:
-			break;
-		}
-	}
-	*/
-
 	//RÖD
-	//*GetMatrixValue(Int32Vector2(0, 0)) = Int32Vector3(20, 20, 0);
 	*GetMatrixValue(Int32Vector2(6, 14)) = Int32Vector3(20, 20, 0);
 	*GetMatrixValue(Int32Vector2(7, 14)) = Int32Vector3(40, 40, 0);
 	*GetMatrixValue(Int32Vector2(8, 14)) = Int32Vector3(20, 20, 0);

@@ -78,7 +78,7 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 		return;
 
 	if (mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle) {
-		mOuterMoveTracker += mRotationSpeed;
+		mOuterMoveTracker += mRotationSpeed * DeltaTime;
 		FVector angle = FMath::Lerp(mOuterCurrentAngle, mOuterTargetAngle, mMovementCurve->GetFloatValue(mOuterMoveTracker));
 
 		FRotator rot = FRotator::ZeroRotator;
