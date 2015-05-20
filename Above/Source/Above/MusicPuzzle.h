@@ -42,5 +42,23 @@ public:
 	// Correct combination
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
 	TArray<int32> DiscIndexRefrenceArray;
+
+	/** Movement curve */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		UCurveFloat* mMovementCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		TArray<UStaticMeshComponent*> mDiscArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
+		float mDiscRadius = 100;
+
+	int32 mNumberOfDiscs;
+
+	float mRotationSpeed;
+
+	TArray<FVector> mDiscTargetAngle;
+	TArray<FVector> mDiscCurrentAngle;
+	TArray<float> mDiscMoveTracker;
 	
 };
