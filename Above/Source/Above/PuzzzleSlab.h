@@ -59,6 +59,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mSlabTextures;
 
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mEmissiveTex;
+	UPROPERTY(EditAnywhere, Category = Material)
+		TArray<UTexture2D*> mNormalTex;
+
 	UPROPERTY(EditAnywhere, Category = Slabs)
 		TArray<UStaticMesh*> mSlabMeshes;
 
@@ -71,4 +76,5 @@ public:
 private:
 	int32 mIndex;
 	UMaterial* mSlabMat;
+	int32 mSlabNum;
 };
