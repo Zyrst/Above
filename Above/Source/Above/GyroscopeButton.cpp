@@ -14,49 +14,55 @@ AGyroscopeButton::AGyroscopeButton(const FObjectInitializer& ObjectInitializer):
 
 	mRootComponent = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, TEXT("root"));
 	
-	mOverlapBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("StepCollider"));
-
-	mInteractionTrigger = ObjectInitializer.CreateDefaultSubobject<UChildActorComponent>(this, TEXT("InteractionTrigger"));
-
-	mStepMesh = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("StepMesh"));
-	mPressMesh = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("PressMesh"));
+	//mOverlapBox = ObjectInitializer.CreateDefaultSubobject<UBoxComponent>(this, TEXT("StepCollider"));
+	//mInteractionTrigger = ObjectInitializer.CreateDefaultSubobject<UChildActorComponent>(this, TEXT("InteractionTrigger"));
+	//mStepMesh = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("StepMesh"));
 	
+	for (int32 i = 0; i < mPressMeshes.Num(); i++) {
+		mPressMeshes[i] = ObjectInitializer.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("PressMesh" + i));
+		mPressMeshes[i]->AttachParent = mRootComponent;
+	}
+
 	SetRootComponent(mRootComponent);
 	
-	mOverlapBox->AttachParent			= mRootComponent;
-	mInteractionTrigger->AttachParent	= mRootComponent;
-	mStepMesh->AttachParent				= mRootComponent;
-	mPressMesh->AttachParent			= mRootComponent;
-
-	mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &AGyroscopeButton::BeginOverlapOnBox);
+	//mOverlapBox->AttachParent			= mRootComponent;
+	//mInteractionTrigger->AttachParent	= mRootComponent;
+	//mStepMesh->AttachParent				= mRootComponent;
 }
 
 void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
 	Super::OnConstruction(Transform);
 
 	if (ActivateWhenSteppedOn) {
-		mOverlapBox->SetVisibility(true);
-		//mOverlapBox->Activate();
 		
-		mOverlapBox->SetRelativeLocation(FVector(0, 0, 0));
+		//if (mOverlapBox != NULL) {
+		//	mOverlapBoxPosition = mOverlapBox->GetRelativeTransform().GetLocation();
+		//	mOverlapBox->SetRelativeLocation(mOverlapBoxPosition);
+		//}
 
-		//mInteractionTriggerPosition = mInteractionTrigger->GetComponentLocation();
-		mInteractionTrigger->SetRelativeLocation(FVector(0, 0, -500000));
+		//if (mInteractionTrigger != NULL)
+		//	mInteractionTrigger->SetRelativeLocation(FVector(0, 0, -500000));
 
-		mStepMesh->SetVisibility(true);
-		mPressMesh->SetVisibility(false);
+		if (mStepMesh != NULL)
+			mStepMesh->SetVisibility(true);
+
+		for (int32 i = 0; i < mPressMeshes.Num(); i++)
+			mPressMeshes[i]->SetVisibility(false);
 	}
 	else {
-		mOverlapBox->SetVisibility(false);
-		//mOverlapBox->Deactivate();
+		//if (mOverlapBox != NULL)
+		//	mOverlapBox->SetRelativeLocation(FVector(0, 0, -500000));
 
-		//mOverlapBoxPosition = mOverlapBox->GetComponentLocation();
-		mOverlapBox->SetRelativeLocation(FVector(0, 0, -500000));
+		//if (mInteractionTrigger != NULL) {
+		//	mInteractionTriggerPosition = mInteractionTrigger->GetRelativeTransform().GetLocation();
+		//	mInteractionTrigger->SetRelativeLocation(mInteractionTriggerPosition);
+		//}
 
-		mInteractionTrigger->SetRelativeLocation(FVector(0, 0, 0));
-
-		mStepMesh->SetVisibility(false);
-		mPressMesh->SetVisibility(true);
+		if (mStepMesh != NULL)
+			mStepMesh->SetVisibility(false);
+	
+		for (int32 i = 0; i < mPressMeshes.Num(); i++)
+			mPressMeshes[i]->SetVisibility(true);
 	}
 	
 	//mOverlapBox->AttachParent			= mRootComponent;
@@ -68,17 +74,51 @@ void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
 // Called when the game starts or when spawned
 void AGyroscopeButton::BeginPlay() {
 	Super::BeginPlay();
+
+	if (mOverlapBox != NULL)
+		mOverlapBox->OnComponentBeginOverlap.AddDynamic(this, &AGyroscopeButton::BeginOverlapOnBox);
 }
 
 // Called every frame
 void AGyroscopeButton::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
+
+
+	if (!mShouldRotate)
+		return;
+
+	mRotateTracker += mRotateSpeed * DeltaTime;
+
+	if (mRotationCurve != NULL) {
+
+		FVector angle = FMath::Lerp(mCurrentAngle, mTargetAngle, mRotationCurve->GetFloatValue(mRotateTracker));
+
+		FRotator rot = FRotator::ZeroRotator;
+		rot.Add(angle.X, angle.Y, angle.Z);
+		
+		mRotateMesh->SetRelativeRotation(rot);
+	}
+	else {
+		
+	}
+
+	if (mRotateTracker >= 1.0f) {
+		mCurrentAngle = mTargetAngle;
+		mShouldRotate = false;
+		mRotateTracker = 0;
+	}
 }
 
 void AGyroscopeButton::Activate() {
+	if (mShouldRotate)
+		return;
+
 	if (!InitiatesRotation) {
 		mCurrentMode++;
 		mCurrentMode %= NumberOfModes;
+
+		mShouldRotate = true;
+		mTargetAngle = mCurrentAngle + FVector(0, (360 / NumberOfModes), 0);
 	}
 
 	OnActivate();

@@ -95,7 +95,7 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 	}
 
 	if (mShouldRotateMiddle && mMiddleCurrentAngle != mMiddleTargetAngle) {
-		mMiddleMoveTracker += mRotationSpeed;
+		mMiddleMoveTracker += mRotationSpeed * DeltaTime;
 		FVector angle = FMath::Lerp(mMiddleCurrentAngle, mMiddleTargetAngle, mMovementCurve->GetFloatValue(mMiddleMoveTracker));
 
 		FRotator rot = FRotator::ZeroRotator;
@@ -112,7 +112,7 @@ void AGyroscropePuzzle::Tick( float DeltaTime ) {
 	}
 	
 	if (mShouldRotateInner && mInnerCurrentAngle != mInnerTargetAngle) {
-		mInnerMoveTracker += mRotationSpeed;
+		mInnerMoveTracker += mRotationSpeed * DeltaTime;
 		FVector angle = FMath::Lerp(mInnerCurrentAngle, mInnerTargetAngle, mMovementCurve->GetFloatValue(mInnerMoveTracker));
 
 		FRotator rot = FRotator::ZeroRotator;

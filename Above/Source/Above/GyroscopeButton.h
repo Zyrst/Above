@@ -61,9 +61,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
 		UStaticMeshComponent* mStepMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
-		UStaticMeshComponent* mPressMesh;
-
 	UFUNCTION()
 		void BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
@@ -74,10 +71,28 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventModeChange(int32 buttonNumber, int32 mode, bool activatesRotation);
 
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "mesh")
+		TArray<UStaticMeshComponent*> mPressMeshes;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "mesh")
+		UStaticMeshComponent* mRotateMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "mesh")
+		UCurveFloat* mRotationCurve;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Trigger)
+		float mRotateSpeed = 1;
+
 private:
 	int32 mCurrentMode = 0;
 
 	USceneComponent* mRootComponent;
 	FVector mInteractionTriggerPosition;
 	FVector mOverlapBoxPosition;
+
+	bool mShouldRotate = false;
+	float mRotateTracker = 0;
+	FVector mCurrentAngle = FVector(0, 0, 0);
+	FVector mTargetAngle = FVector(0, 0, 0);
 };
