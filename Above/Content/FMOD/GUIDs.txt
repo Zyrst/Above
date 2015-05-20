@@ -1,3 +1,5 @@
+{5f377a7f-565a-468c-aff1-ec5736ec376b} event:/ColorPuzzle/Finish
+{1e298d27-bf9a-4a8b-91e6-1081207a40f6} event:/ColorPuzzle/Interaction
 {ff2ffc44-8109-4f86-8810-794abf86ed10} event:/AMBMUS
 {f4789e25-1463-4490-b881-4bd2cbb1b145} event:/LastRoomMusic
 {8e03b2fe-1e0a-4adc-822d-d1c1a1bdf9e3} event:/Movement
@@ -10,7 +12,9 @@
 {f8203028-3563-4039-989f-7408cab3a2bc} event:/Cave/Release
 {0277a550-58aa-41b4-bdf4-1a7d00e6828d} event:/Cave/Toy_click
 {18e6f495-591c-43d9-b3f8-9d911df0c153} event:/Cave/Toy_Rotate
+{985e7d5b-780c-43fe-af60-b237ce6fe702} event:/EndingRoom/Door
 {c46185cb-0fce-4f0f-aa3b-579256fa5624} event:/EndingRoom/Battery
+{f6b70bc5-34cf-42b6-8465-bdbf6c666e74} event:/MusicPuzzle/Islands
 {34848287-1aa5-4483-bf41-b1a245de7ba1} event:/MusicPuzzle/Melody_1
 {38d8a478-e600-4d97-b74f-f1900ac4dd90} event:/MusicPuzzle/Melody_1_Puzzle
 {2558fe2f-0f0f-4608-9756-2cfd6c3bd528} event:/MusicPuzzle/Melody_2
@@ -18,7 +22,6 @@
 {8b917480-bf62-4fac-a984-f49ee9f3a203} event:/MusicPuzzle/Melody_3
 {2a479e96-4993-42b7-a12f-7c286dd0cc5d} event:/MusicPuzzle/Melody_3_Puzzle
 {fc846107-e2fa-4630-b7e2-087fca41e921} event:/MusicPuzzle/Solve
-{f6b70bc5-34cf-42b6-8465-bdbf6c666e74} event:/MusicPuzzle/Islands
 {0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Old_unused/Door_old short
 {46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Old_unused/Lamp_Procedural
 {ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Old_unused/Movement_old
@@ -51,10 +54,13 @@
 {5542fae1-f4be-47b4-9a9d-0c063892f345} bus:/Music
 {59c1b937-de80-4905-8059-6f09cf4e2b64} bus:/Music/Musik
 {08e41a7d-da42-491b-bbcb-ca78719d8774} bus:/Music/Solve music
+{e10d245b-68dc-4827-8aa5-5afd88fffbef} bus:/Outside
 {e8be5096-d764-417a-80d9-44777ce203d4} bus:/SFX
 {79b09ee8-0f81-4297-a339-5c4304385123} bus:/SFX/Cave
 {0f237e83-0821-4fe2-abb0-fe4cf3517d88} bus:/SFX/Outside
 {58c53372-3d99-4961-a8ae-3ade76a5f735} bus:/SFX/SoundPuzzle
 {48733121-5888-477d-9a10-1d95c50519ca} bus:/SFX/SpatialPuzzle
+{bc963d38-8142-40d1-a4f7-d7634a4dd2e2} bus:/SFX/EndingRoom
+{627e04b6-0845-4262-a78d-9e8d9bbcf44a} bus:/SFX/ColorPuzzle
 {d02a8ed7-221f-44a2-84d7-33e920925d82} bus:/UI
 {d84c2c47-108b-401a-85e0-1b306ab3d26d} bank:/Master Bank
