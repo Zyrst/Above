@@ -81,7 +81,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Animation)
 		void StartMoveSlide();
 
-	UFUNCTION(BlueprintImplementableEvent, Category = Animation)
+	UFUNCTION(BlueprintImplementableEvent, Category = Event)
 		void PuzzleDone();
 
 	int32 ConvertDoubleIndexToSingle(Int32Vector2 index, int32 matrixSizeX);

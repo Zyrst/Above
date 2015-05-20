@@ -473,7 +473,7 @@ void AColorPuzzle::multiplyColor() {
 
 void AColorPuzzle::CheckCombination() {
 	if (ReferenceBoardMatrixIsSame()) {
-		GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("Khaaaaaaaaaaaaaaaaaaaaaan!")));
+		PuzzleDone();
 	}
 }
 

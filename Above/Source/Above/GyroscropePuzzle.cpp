@@ -198,6 +198,14 @@ void AGyroscropePuzzle::ApplyRotation() {
 	}
 }	
 
+void AGyroscropePuzzle::Finished() {
+	// Rotate 180 degrees
+	mOuterTargetAngle.Y = 180;
+	mShouldRotateOuter = true;
+	mShouldRotateAnything = true;
+	SoundEventPuzzleFinished();
+}
+
 /*
 void AGyroscropePuzzle::ResetRotation() {
 	if (!mShouldRotateOuter && mOuterCurrentAngle != mOuterTargetAngle)
