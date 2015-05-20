@@ -50,6 +50,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Puzzle)
 		void ApplyRotation();
 
+	/** Called when puzzle is finished */
+	UFUNCTION(BlueprintCallable, Category = Puzzle)
+		void Finished();
+
+
+
 	/** Resets rotation */
 	//UFUNCTION(BlueprintCallable, Category = Puzzle)
 	//	void ResetRotation();
@@ -70,6 +76,10 @@ public:
 	/** Trigger that initiates rotation */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Triggers)
 		AActor* mActivateRotationTrigger;
+
+	/** Trigger that initiates rotation when puzzle is done */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Triggers)
+		AActor* mFinishTrigger;
 
 	/** How fast pieces should rotate */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
@@ -100,6 +110,11 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventEndInnerRotate();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventPuzzleFinished();
+
+
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")

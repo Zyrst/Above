@@ -102,6 +102,9 @@ void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComp
 }
 
 void AAboveGameMode::ActivateTreeEmmisive(AActor* puzzle){
+	if (mTree == nullptr)
+		return;
+	
 	FString name= puzzle->GetName();
 
 	if (name.Contains("Sound")){
