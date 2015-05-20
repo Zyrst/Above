@@ -483,6 +483,7 @@ void AColorPuzzle::ActivateSlide(int32 slideNum, bool movePositiveDirection) {
 	if (slideNum >= 0 && slideNum <= mNumberOfSlides) {
 		if (mSlidePositionArray[slideNum].x == mSlidePositionArray[slideNum].z) {
 			ShiftSlide(slideNum, movePositiveDirection);
+			StartMoveSlide();
 		}
 	}
 }
