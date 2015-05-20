@@ -36,15 +36,18 @@ void APuzzzleSlab::BeginPlay()
 
 	mSlabMaterial = mSlabMesh->CreateAndSetMaterialInstanceDynamic(0);
 
-	if (mSlabTextures.Num() == 2) {
+	/*if (mSlabTextures.Num() == 2) {
 		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
-	}
+	}*/
 	//Make stream with random numbers depedning on their location as a seed
 	FRandomStream rng = FRandomStream(GetTransform().GetLocation().X + GetTransform().GetLocation().Y);
 	int32 rand = rng.RandHelper(3);
+	mSlabNum = rand;
 	//Choose which slab it will take one
 	if (!(rand > mSlabMeshes.Num()) && mSlabMesh != nullptr){
 		mSlabMesh->SetStaticMesh(mSlabMeshes[rand]);
+		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[rand]);
+		mSlabMaterial->SetTextureParameterValue("NormalTexture", mNormalTex[rand]);
 	}
 	rand = rng.RandHelper(4);
 	//Random rotation
@@ -64,16 +67,18 @@ void APuzzzleSlab::BeginOverlapOnBox(class AActor* OtherActor, class UPrimitiveC
 }
 
 void APuzzzleSlab::LightUpSlab() {
-	if (mSlabTextures.Num() > 0) {
+	if (mEmissiveTex.Num() > 0) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab is lit, trust me brah"));
-		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[1]);
+		//mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[1]);
+		mSlabMaterial->SetTextureParameterValue("EmissiveTexture", mEmissiveTex[mSlabNum]);
 	}
 }
 
 void APuzzzleSlab::ResetSlab() {
-	if (mSlabTextures.Num() == 2) {
+	if (mEmissiveTex.Num() > 0) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
-		mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
+		//mSlabMaterial->SetTextureParameterValue("BaseTexture", mSlabTextures[0]);
+		mSlabMaterial->SetTextureParameterValue("EmissiveTexture", mEmissiveTex[3]);
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Slab reset"));
 }
