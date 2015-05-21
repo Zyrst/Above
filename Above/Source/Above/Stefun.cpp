@@ -219,6 +219,7 @@ void AStefun::MoveForward(float val){
 			if (currentSpeed > 0.0f && !mStrafing){
 				currentSpeed -= 20.0f;
 				GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+				//Decrease speed and keep moving until 0
 				if (mForward)
 					AddMovementInput(direction, 1);
 				else
@@ -273,7 +274,7 @@ void AStefun::MoveRight(float val){
 			if (currentSpeed > 0.0f && !mMoveForward){
 				currentSpeed -= 20.0f;
 				GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-
+				//Decrease movement over time
 				if (mRight)
 					AddMovementInput(direction, 1);
 				else
@@ -438,7 +439,7 @@ void AStefun::TogglePause(){
 		//Make sure we have a widget
 		if (mPauseWidget != nullptr)
 			mPauseWidget->AddToViewport();
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
 		mIsPaused = true;
 	}
 	else if (mIsPaused == true){

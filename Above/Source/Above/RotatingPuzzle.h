@@ -89,7 +89,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Material)
 		TArray<UTexture2D*> mButtonEmissive;
 
-	void ActivateEmmisive();
+	void ActivateEmissive();
 
 private:
 	bool mRotate;
