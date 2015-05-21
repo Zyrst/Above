@@ -83,7 +83,11 @@ public:
 
 	/** How fast pieces should rotate */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
-		float mRotationSpeed = 0.01;
+		float mRotationSpeed = 0.33;
+
+	/** How fast pieces should rotate when puzzle is done */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
+		float mFinishedRotationSpeed = 0.09;
 
 	/** How much pieces should rotate each time */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
@@ -126,6 +130,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
 		float OuterAngle;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cinematic")
+		bool CinematicMode = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cinematic")
+		float InnerSpeed = 10;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cinematic")
+		float MiddleSpeed = 9;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cinematic")
+		float OuterSpeed = 5;
+
 private:
 	FVector mInnerTargetAngle;
 	FVector mMiddleTargetAngle;
@@ -154,4 +171,12 @@ private:
 	USphereComponent* mInnerSphere;
 	USphereComponent* mMiddleSphere;
 	USphereComponent* mOuterSphere;
+
+	bool mLastRotation = false;
+	bool mDone = false;
+	
+	void RegularUpdate(float DeltaTime);
+	void CinematicUpdate(float DeltaTime);
+	void UpdateRotation(float DeltaTime);
+
 };
