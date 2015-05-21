@@ -16,14 +16,16 @@
 {985e7d5b-780c-43fe-af60-b237ce6fe702} event:/EndingRoom/Door
 {f6b70bc5-34cf-42b6-8465-bdbf6c666e74} event:/MusicPuzzle/Islands
 {34848287-1aa5-4483-bf41-b1a245de7ba1} event:/MusicPuzzle/Melody_1
-{38d8a478-e600-4d97-b74f-f1900ac4dd90} event:/MusicPuzzle/Melody_1_Puzzle
 {2558fe2f-0f0f-4608-9756-2cfd6c3bd528} event:/MusicPuzzle/Melody_2
-{e9ad89bd-158f-4589-85eb-0c1a35471c8f} event:/MusicPuzzle/Melody_2_Puzzle
 {8b917480-bf62-4fac-a984-f49ee9f3a203} event:/MusicPuzzle/Melody_3
-{2a479e96-4993-42b7-a12f-7c286dd0cc5d} event:/MusicPuzzle/Melody_3_Puzzle
+{873fa2bf-b622-433a-a3f8-90fcb7685839} event:/MusicPuzzle/Melody_Puzzle
+{34052cff-98d6-4f90-b84f-96bb3b9da070} event:/MusicPuzzle/Rotation
 {fc846107-e2fa-4630-b7e2-087fca41e921} event:/MusicPuzzle/Solve
 {0e58792c-62f2-4a3a-bd9c-465a84dbf0d6} event:/Old_unused/Door_old short
 {46b9bd46-41a5-428e-9c4b-c211f424bb8f} event:/Old_unused/Lamp_Procedural
+{38d8a478-e600-4d97-b74f-f1900ac4dd90} event:/Old_unused/Melody_1_Puzzle
+{e9ad89bd-158f-4589-85eb-0c1a35471c8f} event:/Old_unused/Melody_2_Puzzle
+{2a479e96-4993-42b7-a12f-7c286dd0cc5d} event:/Old_unused/Melody_3_Puzzle
 {ee4398eb-fcb4-46f8-81e5-f8cf3ace504c} event:/Old_unused/Movement_old
 {ca33170f-d5a4-4ce0-8a70-a0510efbb0db} event:/Old_unused/Movement_old_2manyitems
 {54dd155d-0566-4e7f-8b61-623c836e3afd} event:/SoundPuzzle/Activation
@@ -32,13 +34,13 @@
 {3f39bda9-100e-4134-85aa-2ac03f260a54} event:/SoundPuzzle/Lamps
 {20b70c16-81f7-4cf2-9514-72edf01c2682} event:/SoundPuzzle/Left
 {3a328f17-b9c4-4a2e-90c8-b2096de8c71c} event:/SoundPuzzle/Right
-{ffd5b21a-d308-4e08-9678-ae7ce2583243} event:/SpatialPuzzles/A_Door_Hologram
 {c41951e7-2e29-4be5-b199-7dcf37f2eac4} event:/SpatialPuzzles/A_Buttons
 {42e0b810-bca1-4682-be10-85b375bd74f5} event:/SpatialPuzzles/A_Door
+{ffd5b21a-d308-4e08-9678-ae7ce2583243} event:/SpatialPuzzles/A_Door_Hologram
 {1c33980e-fd07-4028-8de8-64efee601689} event:/SpatialPuzzles/B_Activation
 {fc374b2f-e4df-49e6-84f9-0e4e04034e52} event:/SpatialPuzzles/B_Button_1
-{8bce1f6f-c4c4-4bfe-9f0f-9abee5570e5c} event:/SpatialPuzzles/B_Button_2
-{2ade84eb-d7f4-473a-b60b-90c7d10303d6} event:/SpatialPuzzles/B_Button_3
+{ad1663be-bdb9-4663-b21d-a57c5a2c709a} event:/SpatialPuzzles/B_Button_2
+{73e93715-877c-4206-9225-820aa86b8f0d} event:/SpatialPuzzles/B_Button_3
 {b9a6ca8e-63e0-4e61-958f-aa4b7165cc6e} event:/SpatialPuzzles/B_Rotation
 {43f9dc19-59b2-442e-b9f7-e7bb32f91f0a} event:/SpatialPuzzles/Finish
 {d87d9ca6-eac9-48e6-9979-b14eecbd961a} event:/SpatialPuzzles/Island_rotation
@@ -53,15 +55,25 @@
 {e3c75b64-ac28-4651-9217-704615c41f02} bus:/Reverb
 {6b8e5fc5-0bd2-4d30-beab-8dcc51cf348d} bus:/Ambience
 {0f3405f5-adec-4f3a-9f49-d3961f925969} bus:/Ambience/Ambience
+{a5f8f8e8-80b1-4b34-b6fe-555ec5ce1735} bus:/Irrelevant
 {5542fae1-f4be-47b4-9a9d-0c063892f345} bus:/Music
-{59c1b937-de80-4905-8059-6f09cf4e2b64} bus:/Music/Musik
+{59c1b937-de80-4905-8059-6f09cf4e2b64} bus:/Music/Send_Music
 {08e41a7d-da42-491b-bbcb-ca78719d8774} bus:/Music/Solve music
 {e8be5096-d764-417a-80d9-44777ce203d4} bus:/SFX
 {79b09ee8-0f81-4297-a339-5c4304385123} bus:/SFX/Cave
 {627e04b6-0845-4262-a78d-9e8d9bbcf44a} bus:/SFX/ColorPuzzle
 {bc963d38-8142-40d1-a4f7-d7634a4dd2e2} bus:/SFX/EndingRoom
 {0f237e83-0821-4fe2-abb0-fe4cf3517d88} bus:/SFX/Outside
+{0b9a19ac-3989-4c90-a099-0829c248f7ed} bus:/SFX/SideChainDucking
+{2fc6c135-0e4b-4b95-8d49-99df1c7aef1b} bus:/SFX/SideChainDucking/FinishStings
 {58c53372-3d99-4961-a8ae-3ade76a5f735} bus:/SFX/SoundPuzzle
 {48733121-5888-477d-9a10-1d95c50519ca} bus:/SFX/SpatialPuzzle
+{c505a9ba-9b97-49d7-bdc9-6cf6f273ecec} bus:/SFX/Verbz
+{068c03fe-2828-4e8b-8a49-4b2424a567ef} bus:/SFX/Verbz/Cave
+{d9ac1782-9400-4c77-97a0-30261b4e65ab} bus:/SFX/Verbz/ColorPuzzle
+{5810d90f-e5bd-4284-aafb-f4da4d0b97fc} bus:/SFX/Verbz/EndingRoom
+{42b0818c-af8c-40cc-b6e5-22b5ae41fcc6} bus:/SFX/Verbz/Outside
+{7068363d-9bd4-4f4a-95c7-70265018efeb} bus:/SFX/Verbz/SoundPuzzle
+{199c7540-0fe6-4702-8825-3f5f43bceac9} bus:/SFX/Verbz/SpatialPuzzle
 {d02a8ed7-221f-44a2-84d7-33e920925d82} bus:/UI
 {d84c2c47-108b-401a-85e0-1b306ab3d26d} bank:/Master Bank
