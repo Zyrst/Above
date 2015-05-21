@@ -55,8 +55,11 @@ Above/Intermediate/*
 # Cache files for the editor to use
 Above/DerivedDataCache/*
 
+#Personal Maps
 Above/Content/Maps/*
 
+#Fucking shit emissive that keeps changing for no goddamn reason
+Above/Content/Models_and_textures/Props_interactable/Toy_and_table/Texture_toy/Emissive/*
 
 # Mac Artifacts
 .DS_Store
