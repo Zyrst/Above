@@ -512,7 +512,7 @@ float AStefun::GetMoveSpeed() {
 
 	if (charmove->IsCrouching()) {
 		mSoundSpeedValue = FMath::Lerp(mSoundSpeedValue, charmove->MaxWalkSpeedCrouched, 0.5f);
-		return mSoundSpeedValue;
+		return mSoundSpeedValue / 100;
 	}
 
 	mSoundSpeedValue = FMath::Lerp(mSoundSpeedValue, charmove->MaxWalkSpeed, 0.5f);
