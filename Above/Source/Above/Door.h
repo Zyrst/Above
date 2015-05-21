@@ -24,6 +24,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
 		float mCollisionRadius = 40;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
-	TArray<UMaterialInstanceDynamic*> mMaterialMatrix;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		UStaticMeshComponent* mDoorMesh;
+
+	TArray<UMaterialInstanceDynamic*> mMaterialArray;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Material)
+		void LightMaterial(int32 index);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Material)
+		void UnLightMaterial(int32 index);
 };
