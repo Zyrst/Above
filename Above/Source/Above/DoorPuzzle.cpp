@@ -39,7 +39,6 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector& vectorPointer) 
 	if (!mButtonOrder.Contains(triggerNum)) {
 		mButtonOrder.Push(triggerNum);
 		LightButton(triggerNum);
-
 		SoundEventButtonInteract(mButtonOrder.Num());
 	}
 
@@ -66,6 +65,9 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector& vectorPointer) 
 
 // Empty pressed buttons on let go of mouse button
 void ADoorPuzzle::EndHoldButton() {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Dropped trigger"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Dropped trigger"));
+	for (int32 i = 0; i < mButtonOrder.Num(); i++) {
+		UnLightButton(i);
+	}
 	mButtonOrder.Empty();
 }
