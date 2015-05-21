@@ -27,8 +27,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 		UStaticMeshComponent* mDoorMesh;
 
-	TArray<UMaterialInstanceDynamic*> mMaterialArray;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = Material)
 		void LightMaterial(int32 index);
 
