@@ -43,15 +43,17 @@ void ALightIndicator::Tick( float DeltaTime )
 
 void ALightIndicator::Reduce(){
 	LampsOn++;
-	mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
-	mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
+	if (LampsOn <= 16) {
+		mLightMaterial->SetTextureParameterValue("Texture1", mShellTexture[LampsOn]);
+		mLightMaterial->SetTextureParameterValue("Emmisive", mEmmisiveTexture[LampsOn]);
 
-	if (LampsOn == 16)
-		mLightMaterial->SetScalarParameterValue("TexturePhase", 0.99f);
-	else
-		mLightMaterial->SetScalarParameterValue("TexturePhase", (float)LampsOn / 16.0f);
+		if (LampsOn == 16)
+			mLightMaterial->SetScalarParameterValue("TexturePhase", 0.99f);
+		else
+			mLightMaterial->SetScalarParameterValue("TexturePhase", (float)LampsOn / 16.0f);
 
-	SoundEventLightLit();
+		SoundEventLightLit();
+	}
 }
 
 void ALightIndicator::Reset(){

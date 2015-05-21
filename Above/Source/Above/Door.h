@@ -24,4 +24,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
 		float mCollisionRadius = 40;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
+	TArray<UMaterialInstanceDynamic*> mMaterialMatrix;
 };
