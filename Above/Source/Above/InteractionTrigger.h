@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "DoorPuzzle.h"
 #include <string>
 #include "GameFramework/Actor.h"
 #include "InteractionTrigger.generated.h"
@@ -72,6 +73,9 @@ public:
 	/** Name of parameter to change to get hightlight */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Hightlight)
 		FName mHightlightParameterName = "HighlightOn";
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interaction)
+		ADoorPuzzle* mPuzzleLockRef;
 
 private:
 	TArray<UMaterialInstanceDynamic*> mHighlightMaterials;

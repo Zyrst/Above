@@ -24,16 +24,15 @@ void ADoorPuzzle::BeginPlay()
 void ADoorPuzzle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-	/*
+
 	if (mPointerTarget != nullptr) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mPointerTarget->ToString()));
-		DrawDebugLine(GetWorld(), FVector(0, 0, 0), *mPointerTarget, FColor(0, 0, 255), false, -1, 0, 12.333);
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mPointerTarget->ToString()));
+		DrawDebugLine(GetWorld(), this->GetActorLocation(), *mPointerTarget, FColor(0, 0, 255), false, -1, 0, 3);
 	}
-	*/
 }
  
 void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector& vectorPointer) {
-	mPointerTarget = &vectorPointer;
+	//mPointerTarget = &vectorPointer;
 
 	// Check if button is already pressed
 	if (!mButtonOrder.Contains(triggerNum)) {
@@ -70,4 +69,5 @@ void ADoorPuzzle::EndHoldButton() {
 		UnLightButton(i);
 	}
 	mButtonOrder.Empty();
+	mPointerTarget = nullptr;
 }
