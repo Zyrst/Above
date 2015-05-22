@@ -40,6 +40,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = texture)
 		UMaterialInstanceDynamic* mMaterial;
 
+	/** Use this if kanelbulle should be used with color puzzle */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = puzzle)
+		AActor* mColorPuzzleReference;
+
 private:
 	bool mShouldAnimate = false;
 	float mAnimateTracker = 0;

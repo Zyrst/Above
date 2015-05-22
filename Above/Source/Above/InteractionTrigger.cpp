@@ -45,6 +45,10 @@ void AInteractionTrigger::Tick( float DeltaTime )
 
 void AInteractionTrigger::SetPointerTarget(FVector& vectorPointer) {
 	mPointerTarget = &vectorPointer;
+
+	if (mPuzzleLockRef != nullptr) {
+		mPuzzleLockRef->mPointerTarget = mPointerTarget;
+	}
 }
 
 FVector& AInteractionTrigger::GetPointerTarget() {

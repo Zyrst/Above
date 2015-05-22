@@ -80,7 +80,7 @@ void ARotatingPuzzle::Tick( float DeltaTime )
 			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, FString::Printf(TEXT("mCurrent %f"), mCurrent));
 			mRotate = false;
 			mOldTarget = mTarget;
-			ActivateEmmisive();
+			ActivateEmissive();
 			Reset();
 			SoundEventRotateEnd();
 		}
@@ -122,8 +122,7 @@ void ARotatingPuzzle::Activate(){
 	//Don't want zero so + 1 so it always moves atleast one spot
 	mRandom += 1;
 	//UE_LOG(LogTemp, Log, TEXT("Random: %d"), mRandom);
-	float sum = 0;
-	sum = 60 * (mRandom);
+	float sum = 60 * (mRandom);
 	//mPevPos is empty so don't want nullptr which breaks the game
 	if (mPrevPos.Num() == 0){
 		mPrevPos.Push(sum);
@@ -147,26 +146,18 @@ void ARotatingPuzzle::Activate(){
 		UE_LOG(LogTemp, Log, TEXT("Sum %f"), sum);*/
 		
 		if (tmp == 60 || tmp == 180 || tmp == 300){
-			//UE_LOG(LogTemp, Log, TEXT("One new Right"));
 			if (!mRightPos.Contains(tmp)){
 				mRightPos.Add(tmp);
 				//Light up the right slot
 			}
 			
 			else if (mRightPos.Contains(tmp)){
-				//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Duplicate same value"));
-				//UE_LOG(LogTemp, Log, TEXT("Duplicate value"));
-				mRightPos.Empty();
 				//Reset 
+				mRightPos.Empty();
+				
 			}
-			/*if (mRightPos.Num() == 3){
-				//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("All right"));
-				UE_LOG(LogTemp, Log, TEXT("All right"));
-			}*/
 		}
-		//UE_LOG(LogTemp, Log, TEXT("Size of Right Pos: %d"), mRightPos.Num());
 	}
-	
 
 	//Calc the target with the formula using arc length formula
 	mCalcTarget = mBase * ((sum / 360));
@@ -230,8 +221,8 @@ void ARotatingPuzzle::Reset(){
 }
 
 
-void ARotatingPuzzle::ActivateEmmisive(){
-	
+void ARotatingPuzzle::ActivateEmissive(){
+	/*If empty , set blank textures. Else look at the last one and add that texture*/
 	float tmp;
 	switch (mRightPos.Num()){
 	case 0:
@@ -263,6 +254,7 @@ void ARotatingPuzzle::ActivateEmmisive(){
 			mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[3]);
 		}
 		break;
+		/*Add the "Final texture"*/
 	case 3:
 		mDishMeshMaterial->SetTextureParameterValue("Emmisive", mLightUp[4]);
 		mDishMeshMaterial->SetTextureParameterValue("Emmisive2", mLightUp[0]);

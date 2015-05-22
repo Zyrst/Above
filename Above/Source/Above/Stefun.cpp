@@ -219,6 +219,7 @@ void AStefun::MoveForward(float val){
 			if (currentSpeed > 0.0f && !mStrafing){
 				currentSpeed -= 20.0f;
 				GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+				//Decrease speed and keep moving until 0
 				if (mForward)
 					AddMovementInput(direction, 1);
 				else
@@ -273,7 +274,7 @@ void AStefun::MoveRight(float val){
 			if (currentSpeed > 0.0f && !mMoveForward){
 				currentSpeed -= 20.0f;
 				GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-
+				//Decrease movement over time
 				if (mRight)
 					AddMovementInput(direction, 1);
 				else
@@ -330,12 +331,6 @@ void AStefun::Interact(){
 		mTrigger->SetPointerTarget(mTargetPos);
 		mTrigger->Interact();
 	}
-
-	/*
-	else{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("No trigger selected"));
-	}
-	*/
 }
 
 void AStefun::HoverOverObject() {
@@ -438,7 +433,7 @@ void AStefun::TogglePause(){
 		//Make sure we have a widget
 		if (mPauseWidget != nullptr)
 			mPauseWidget->AddToViewport();
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
 		mIsPaused = true;
 	}
 	else if (mIsPaused == true){
@@ -512,7 +507,7 @@ float AStefun::GetMoveSpeed() {
 
 	if (charmove->IsCrouching()) {
 		mSoundSpeedValue = FMath::Lerp(mSoundSpeedValue, charmove->MaxWalkSpeedCrouched, 0.5f);
-		return mSoundSpeedValue;
+		return mSoundSpeedValue / 100;
 	}
 
 	mSoundSpeedValue = FMath::Lerp(mSoundSpeedValue, charmove->MaxWalkSpeed, 0.5f);
