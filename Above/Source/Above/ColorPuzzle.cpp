@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "ColorPuzzle.h"
+#include "AboveGameMode.h"
 
 
 // Sets default values
@@ -474,6 +475,10 @@ void AColorPuzzle::multiplyColor() {
 void AColorPuzzle::CheckCombination() {
 	if (ReferenceBoardMatrixIsSame()) {
 		PuzzleDone();
+
+		AAboveGameMode* gameMode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
+		if (gameMode != nullptr) 
+			gameMode->SetCompleteStatus(this, true);
 	}
 }
 

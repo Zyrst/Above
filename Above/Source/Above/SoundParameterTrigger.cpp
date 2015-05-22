@@ -91,13 +91,13 @@ void ASoundParameterTrigger::Tick( float DeltaTime ){
 
 
 void ASoundParameterTrigger::OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-
-	
 	AStefun* sCast = Cast<AStefun>(OtherActor);
 	if (sCast == nullptr)
 		return;
 
-	if (!mPuzzleDoneTrigger) {
+	OnOverlapBeginEvent(sCast);
+
+	if (!mPuzzleDoneTrigger && !EndTrigger) {
 		sCast->ChangeParameter(mEnterParameterName, mEnterParameterValue);
 		return;
 	}
@@ -120,13 +120,13 @@ void ASoundParameterTrigger::OnOverlapBegin(class AActor* OtherActor, class UPri
 }
 
 void ASoundParameterTrigger::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
-
-	
 	AStefun* sCast = Cast<AStefun>(OtherActor);
 	if (sCast == nullptr)
 		return;
 
-	if (!mPuzzleDoneTrigger) {
+	OnOverlapEndEvent(sCast);
+
+	if (!mPuzzleDoneTrigger && !EndTrigger) {
 		sCast->ChangeParameter(mExitParameterName, mExitParameterValue);
 		return;
 	}

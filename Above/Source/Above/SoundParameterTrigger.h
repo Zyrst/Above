@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "SoundParameterTrigger.generated.h"
 
+class AStefun;
+
 UCLASS()
 class ABOVE_API ASoundParameterTrigger : public AActor
 {
@@ -84,6 +86,15 @@ public:
 	UFUNCTION()
 		void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Events")
+		bool EndTrigger = false;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Events")
+		void OnOverlapBeginEvent(AStefun* stefun);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Events")
+		void OnOverlapEndEvent(AStefun* stefun);
 
 private:
 	UBoxComponent* mRootComponent;
