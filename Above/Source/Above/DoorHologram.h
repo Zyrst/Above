@@ -23,7 +23,7 @@ public:
 	/** Pointer to button */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Pointer)
 		TArray<AActor*> mButtonArray;
-
+	/** Should it be open at start*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Start)
 		bool mStartOpen;
 };
