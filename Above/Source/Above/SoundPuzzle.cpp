@@ -28,7 +28,7 @@ void ASoundPuzzle::BeginPlay()
 void ASoundPuzzle::Tick( float DeltaTime )
 {
 	// Do this before updating blueprint
-	if (mSoundBuffer.Num() > 0 && mPlayNextSound && BufferSound) {
+	if (mSoundBuffer.Num() > 0 && mPlayNextSound && BufferSound && !PuzzleCompleted) {
 		mPlayNextSound = false;
 		switch (mSoundBuffer[0]) {
 		case SoundDirection::Forward:
@@ -98,8 +98,8 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 	APuzzzleSlab* tmpSlab = Cast<APuzzzleSlab>(slab->ChildActor);
 
 	//Make sure we don't have a null pointer
-	if (tmpSlab != nullptr){
-		if (mSteps < 16 && !mWentRightWay ){
+	if (tmpSlab != nullptr && !PuzzleCompleted){
+		if (mSteps < 16 && !mWentRightWay){
 			//Make sure we start from the begining of the puzzle
 			if (mSteps == 0 && tmpSlab->mStartSlab){
 				Reset();
