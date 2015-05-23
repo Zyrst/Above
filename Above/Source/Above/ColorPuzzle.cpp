@@ -488,7 +488,6 @@ void AColorPuzzle::ActivateSlide(int32 slideNum, bool movePositiveDirection) {
 	if (slideNum >= 0 && slideNum <= mNumberOfSlides) {
 		if (mSlidePositionArray[slideNum].x == mSlidePositionArray[slideNum].z) {
 			ShiftSlide(slideNum, movePositiveDirection);
-			StartMoveSlide();
 		}
 	}
 }
@@ -528,17 +527,20 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	if (slideNum <= 5) {
 		if (movePositiveDirection) {
 			if (mSlideOffset[slideNum] < mMaxSlideOffset.x) {
+				StartMoveSlide();
 				mSlidePositionArray[slideNum].z -= FVector(3, 0, 0);
 				mSlideOffset[slideNum]++;
 				index.x = mMatrixSize.x - 1;
 				indexAddition = Int32Vector2(-1, 0);
 				lowerIndexLimit = 1;
 				upperIndexLimit = mMatrixSize.x - 1;
+
 			}
 		}
 
 		else {
 			if (mSlideOffset[slideNum] > -mMaxSlideOffset.x) {
+				StartMoveSlide();
 				mSlidePositionArray[slideNum].z += FVector(3, 0, 0);
 				mSlideOffset[slideNum]--;
 				index.x = 0;
@@ -558,6 +560,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 	else {
 		if (movePositiveDirection) {
 			if (mSlideOffset[slideNum] < mMaxSlideOffset.y) {
+				StartMoveSlide();
 				mSlidePositionArray[slideNum].z += FVector(0, 3, 0);
 				mSlideOffset[slideNum]++;
 				index.y = mMatrixSize.y - 1;
@@ -569,6 +572,7 @@ void AColorPuzzle::ShiftSlide(int32 slideNum, bool movePositiveDirection) {
 
 		else {
 			if (mSlideOffset[slideNum] > -mMaxSlideOffset.y) {
+				StartMoveSlide();
 				mSlidePositionArray[slideNum].z -= FVector(0, 3, 0);
 				mSlideOffset[slideNum]--;
 				index.y = 0;
