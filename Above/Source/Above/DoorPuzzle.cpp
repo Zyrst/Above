@@ -11,6 +11,8 @@ ADoorPuzzle::ADoorPuzzle()
 	PrimaryActorTick.bCanEverTick = true;
 
 	mPointerTarget = nullptr;
+	mDrawLine = false;
+	mContainedLastTrigger = false;
 }
 
 // Called when the game starts or when spawned
@@ -25,20 +27,29 @@ void ADoorPuzzle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	if (mPointerTarget != nullptr) {
+	if (mPointerTarget != nullptr && mDrawLine) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mPointerTarget->ToString()));
-		DrawDebugLine(GetWorld(), this->GetActorLocation(), *mPointerTarget, FColor(0, 0, 255), false, -1, 0, 3);
+		DrawDebugLine(GetWorld(), mLastTriggerLocation, *mPointerTarget, FColor(0, 0, 255), false, -1, 0, 3);
+	}
+
+	for (int32 i = 0; i < mLineArray.Num(); i++) {
+		DrawDebugLine(GetWorld(), mLineArray[i].x, mLineArray[i].y, FColor(0, 0, 255), false, -1, 0, 3);
 	}
 }
  
-void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector& vectorPointer) {
-	//mPointerTarget = &vectorPointer;
+void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector newTriggerPos) {
+	mContainedLastTrigger = true;
 
 	// Check if button is already pressed
 	if (!mButtonOrder.Contains(triggerNum)) {
+		if (mButtonOrder.Num() > 0 && mButtonOrder.Num() < 5) {
+			mLineArray.Add(DuoFVector(mLastTriggerLocation, newTriggerPos));
+		}
 		mButtonOrder.Push(triggerNum);
 		LightButton(triggerNum);
 		SoundEventButtonInteract(mButtonOrder.Num());
+		mDrawLine = true;
+		mContainedLastTrigger = false;
 	}
 
 	// Check if all buttons have been pressed
@@ -59,6 +70,8 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector& vectorPointer) 
 
 		// Empty pressed buttons
 		mButtonOrder.Empty();
+		mLineArray.Empty();
+		mDrawLine = false;
 	}
 }
 
@@ -70,4 +83,12 @@ void ADoorPuzzle::EndHoldButton() {
 	}
 	mButtonOrder.Empty();
 	mPointerTarget = nullptr;
+	mLineArray.Empty();
+	mDrawLine = false;
+}
+
+void ADoorPuzzle::SetLastTriggerPos(FVector pos) {
+	if (!mContainedLastTrigger) {
+		mLastTriggerLocation = pos;
+	}
 }

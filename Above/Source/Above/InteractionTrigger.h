@@ -30,7 +30,7 @@ public:
 		void SetPointerTarget(UPARAM(ref) FVector& vectorPointer);
 
 	UFUNCTION(BlueprintCallable, Category = Interaction)
-		FVector& GetPointerTarget();
+		void GetPointerTarget();
 
 	/** Called on hit by line trace */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
