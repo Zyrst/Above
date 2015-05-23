@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "DuoFVector.h"
 #include "GameFramework/Actor.h"
 #include "DoorPuzzle.generated.h"
 
@@ -22,7 +23,7 @@ public:
 
 	/** Mark numberd trigger as activated */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
-		void InteractWithTrigger(int32 triggerNum, UPARAM(ref) FVector& vectorPointer);
+		void InteractWithTrigger(int32 triggerNum, FVector newTriggerPos);
 
 	/** Empty list of activated triggers */
 	UFUNCTION(BlueprintCallable, Category = Interaction)
@@ -49,9 +50,19 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = fmod)
 		void SoundEventButtonInteract(int32 nActivatedButtons);
 
-	// Pointer to player focus location
-	FVector* mPointerTarget;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = fmod)
 		FVector mSoundLocation;
+
+	// Pointer to player focus location
+	FVector* mPointerTarget;
+	
+	FVector mLastTriggerLocation;
+
+	TArray<DuoFVector> mLineArray;
+
+	bool mDrawLine;
+
+	void SetLastTriggerPos(FVector pos);
+
+	bool mContainedLastTrigger;
 };

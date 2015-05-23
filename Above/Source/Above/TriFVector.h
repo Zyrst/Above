@@ -12,7 +12,7 @@ public:
 	}
 
 	TriFVector::TriFVector(FVector value)
-		: x(value), y(value), z(value){
+		: x(value), y(value), z(value) {
 
 	}
 
