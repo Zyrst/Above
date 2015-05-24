@@ -38,6 +38,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
 		int32 ButtonIndex = 1;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Defaults)
+		int32 StartingMode = 0;
 
 	/** Called when pressing button */
 	UFUNCTION(BlueprintCallable, Category = Puzzle)

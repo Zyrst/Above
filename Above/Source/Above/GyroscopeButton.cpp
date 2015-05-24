@@ -64,6 +64,15 @@ void AGyroscopeButton::OnConstruction(const FTransform& Transform) {
 		for (int32 i = 0; i < mPressMeshes.Num(); i++)
 			mPressMeshes[i]->SetVisibility(true);
 	}
+
+
+	mCurrentMode = StartingMode % NumberOfModes;
+	mCurrentAngle = FVector(0, (360 / NumberOfModes) * StartingMode , 0);
+	
+	FRotator rot = FRotator::ZeroRotator;
+	rot.Add(mCurrentAngle.X, mCurrentAngle.Y, mCurrentAngle.Z);
+
+	mRotateMesh->SetRelativeRotation(rot);
 	
 	//mOverlapBox->AttachParent			= mRootComponent;
 	//mInteractionTrigger->AttachParent	= mRootComponent;
