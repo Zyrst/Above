@@ -27,8 +27,6 @@ void AAboveGameMode::OnConstruction(const FTransform& transform){
 	mSettings = (AAboveSettings*)GetWorld()->GetWorldSettings();
 	if (mSettings != nullptr){
 		mTree = (ATree*)mSettings->mTree;
-		if (mTree != nullptr)
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT(" Able to cast class"));
 	}
 }
 

@@ -68,15 +68,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "fmod")
 		bool BufferSound = true;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Puzzle)
 		bool mPressedButton;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Puzzle)
 		bool PuzzleCompleted = false;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Puzzle)
 		bool mAllSteps = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Debug)
 		bool Debug = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Puzzle)
+		bool mWentRightWay;
 
 private:
 	int32 mSteps;
@@ -89,7 +91,7 @@ private:
 	ALightIndicator* mLightInd;
 
 	bool mDoneOnce = false;
-	bool mWentRightWay;
+	
 
 	TArray<SoundDirection> mSoundBuffer;
 	bool mPlayNextSound = true;
