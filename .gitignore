@@ -59,6 +59,9 @@ Above/DerivedDataCache/*
 Above/Content/Maps/*
 Above/Content/Map/*
 
+#FMOD is too big
+Above/Content/FMOD/*
+
 #Fucking shit emissive that keeps changing for no goddamn reason
 Above\Content\Models_and_textures\Props_interactable\Toy_and_table\Texture_toy\Emissive\*
 
