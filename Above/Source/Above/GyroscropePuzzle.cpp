@@ -90,8 +90,47 @@ void AGyroscropePuzzle::RegularUpdate(float DeltaTime) {
 		//SoundEventEndRotate();
 		mShouldRotateAnything = false;
 
-		if (mLastRotation)
+		if (mInnerCurrentAngle.X >= 360) {
+			mInnerCurrentAngle.X = 0;
+			mInnerTargetAngle.X = 0;
+			FRotator rot = FRotator::ZeroRotator;
+			rot.Add(mInnerMovementBuffer, 0, 0);
+			mInnerSphere->SetRelativeRotation(rot);
+		}
+		
+		if (mMiddleCurrentAngle.Z >= 360) {
+			mMiddleCurrentAngle.Z = 0;
+			mMiddleTargetAngle.Z = 0;
+			FRotator rot = FRotator::ZeroRotator;
+			rot.Add(0, 0, mMiddleMovementBuffer);
+			mMiddleSphere->SetRelativeRotation(rot);
+		}
+
+		if (mOuterCurrentAngle.Y >= 360) {
+			mOuterCurrentAngle.Y = 0;
+			mOuterTargetAngle.Y = 0;
+			FRotator rot = FRotator::ZeroRotator;
+			rot.Add(0, mOuterMovementBuffer, 0);
+			mOuterSphere->SetRelativeRotation(rot);
+		}
+
+		bool solved = true;
+		float d1 = FVector::Dist(mInnerCurrentAngle, FVector(InnerSolveAngle, 0, 0));
+		float d2 = FVector::Dist(mMiddleCurrentAngle, FVector(0, 0, MiddleSolveAngle));
+		float d3 = FVector::Dist(mOuterCurrentAngle, FVector(0, OuterSolveAngle, 0));
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Levels: %f, %f, %f"), d1, d2, d3));
+
+		solved &= (d1 < 0.1f);
+		solved &= (d2 < 0.1f);
+		solved &= (d3 < 0.1f);
+
+		if (solved)
+			OnSolve();
+
+		if (mLastRotation) {
 			mDone = true;
+		}
 	}
 }
 

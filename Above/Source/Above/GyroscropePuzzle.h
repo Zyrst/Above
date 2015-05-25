@@ -130,6 +130,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
 		float OuterAngle;
 
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float InnerSolveAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float MiddleSolveAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
+		float OuterSolveAngle;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cinematic")
 		bool CinematicMode = false;
@@ -142,6 +152,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cinematic")
 		float OuterSpeed = 5;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "puzzle")
+		void OnSolve();
 
 private:
 	FVector mInnerTargetAngle;
