@@ -37,11 +37,11 @@ public:
 	void Activate();
 
 	// Player input combination
-	TArray<int32> DiscIndexArray;
+	TArray<int32> mDiscIndexArray;
 
 	// Correct combination
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Puzzle)
-	TArray<int32> DiscIndexRefrenceArray;
+	TArray<int32> mDiscIndexRefrenceArray;
 
 	/** Movement curve */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Defaults")
