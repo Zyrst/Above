@@ -11,8 +11,8 @@ ADoorPuzzle::ADoorPuzzle()
 	PrimaryActorTick.bCanEverTick = true;
 
 	mPointerTarget = nullptr;
-	mDrawLine = false;
 	mContainedLastTrigger = false;
+	mDrawLine = false;
 }
 
 // Called when the game starts or when spawned
@@ -29,11 +29,8 @@ void ADoorPuzzle::Tick( float DeltaTime )
 
 	if (mPointerTarget != nullptr && mDrawLine) {
 		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mPointerTarget->ToString()));
-		DrawDebugLine(GetWorld(), mLastTriggerLocation, *mPointerTarget, FColor(0, 0, 255), false, -1, 0, 3);
-	}
-
-	for (int32 i = 0; i < mLineArray.Num(); i++) {
-		DrawDebugLine(GetWorld(), mLineArray[i].x, mLineArray[i].y, FColor(0, 0, 255), false, -1, 0, 3);
+		//DrawDebugLine(GetWorld(), mLastTriggerLocation, *mPointerTarget, FColor(0, 0, 255), false, -1, 0, 3);
+		DrawLine(mLastTriggerLocation, *mPointerTarget);
 	}
 }
  
@@ -43,13 +40,13 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector newTriggerPos) {
 	// Check if button is already pressed
 	if (!mButtonOrder.Contains(triggerNum)) {
 		if (mButtonOrder.Num() > 0 && mButtonOrder.Num() < 5) {
-			mLineArray.Add(DuoFVector(mLastTriggerLocation, newTriggerPos));
+			DrawStaticLine(mLastTriggerLocation, newTriggerPos);
 		}
 		mButtonOrder.Push(triggerNum);
 		LightButton(triggerNum);
 		SoundEventButtonInteract(mButtonOrder.Num());
-		mDrawLine = true;
 		mContainedLastTrigger = false;
+		mDrawLine = true;
 	}
 
 	// Check if all buttons have been pressed
@@ -70,7 +67,7 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector newTriggerPos) {
 
 		// Empty pressed buttons
 		mButtonOrder.Empty();
-		mLineArray.Empty();
+		EmptyLines();
 		mDrawLine = false;
 	}
 }
@@ -83,7 +80,7 @@ void ADoorPuzzle::EndHoldButton() {
 	}
 	mButtonOrder.Empty();
 	mPointerTarget = nullptr;
-	mLineArray.Empty();
+	EmptyLines();
 	mDrawLine = false;
 }
 

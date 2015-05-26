@@ -15,12 +15,12 @@ AMusicPuzzle::AMusicPuzzle()
 
 	// Initiate array with zeros
 	for (int32 i = 0; i < mNumberOfDiscs; i++) {
-		DiscIndexArray.Push(0);
+		mDiscIndexArray.Push(0);
 	}
 
 	// Initiate array, no propper initiation of arrays in unreal
 	int32 tableinit[] = { 3, 4, 2 };
-	DiscIndexRefrenceArray.Append(tableinit, ARRAY_COUNT(tableinit));
+	mDiscIndexRefrenceArray.Append(tableinit, ARRAY_COUNT(tableinit));
 
 	mRotationSpeed = 0.5;
 
@@ -71,15 +71,15 @@ void AMusicPuzzle::Tick( float DeltaTime )
 
 void AMusicPuzzle::RotateDisc(int32 discNum) {
 	// Index chosen disc by one
-	if (discNum < DiscIndexArray.Num() && mDiscTargetAngle[discNum] == mDiscCurrentAngle[discNum]) {
-		DiscIndexArray[discNum] = ++DiscIndexArray[discNum] % 5;
+	if (discNum < mDiscIndexArray.Num() && mDiscTargetAngle[discNum] == mDiscCurrentAngle[discNum]) {
+		mDiscIndexArray[discNum] = ++mDiscIndexArray[discNum] % 5;
 		mDiscTargetAngle[discNum] += FVector(0, 72, 0);
 	}
 }
 
 void AMusicPuzzle::Activate() {
 	// Compare with correct combination
-	if (DiscIndexArray == DiscIndexRefrenceArray) {
+	if (mDiscIndexArray == mDiscIndexRefrenceArray) {
 		PlayMusic();
 
 		// Döne
@@ -89,6 +89,6 @@ void AMusicPuzzle::Activate() {
 	}
 
 	else {
-		PlayShortMusic(DiscIndexArray);
+		PlayShortMusic(mDiscIndexArray);
 	}
 }
