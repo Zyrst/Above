@@ -58,11 +58,18 @@ public:
 	
 	FVector mLastTriggerLocation;
 
-	TArray<DuoFVector> mLineArray;
-
-	bool mDrawLine;
-
 	void SetLastTriggerPos(FVector pos);
 
 	bool mContainedLastTrigger;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Laser)
+		void DrawLine(FVector source, FVector target);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Laser)
+		void DrawStaticLine(FVector source, FVector target);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Laser)
+		void EmptyLines();
+
+	bool mDrawLine;
 };
