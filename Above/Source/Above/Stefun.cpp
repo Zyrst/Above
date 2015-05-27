@@ -53,7 +53,6 @@ void AStefun::BeginPlay()
 
 	mController = GetWorld()->GetFirstPlayerController();
 	mPauseWidget = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
-	
 }
 
 // Called every frame
@@ -342,15 +341,16 @@ void AStefun::HoverOverObject() {
 	ECollisionChannel collisionChannel = ECC_Pawn;
 	FCollisionQueryParams traceParamaters(FName(TEXT("InteractionTrace")), true, this);
 
+	//DrawDebugLine(GetWorld(), traceStart, traceEnd, FColor::Red, false, -1.0f, 0, 2);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("HMD: %d | %d | %d"), mHmdRotator.Vector().X, mHmdRotator.Vector().Y, mHmdRotator.Vector().Z));
+
 	// Trace
 	Player->GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
-
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Trigger: %s"), *mTargetPos.ToString()));
-
+	
 	// Hit something
 	if (traceHitResult.bBlockingHit == true) {
 		mTargetPos = traceHitResult.ImpactPoint;
-
+		
 		AInteractionTrigger* tmpTrigger = Cast<AInteractionTrigger>(traceHitResult.GetActor());
 
 		// Hit a trigger
