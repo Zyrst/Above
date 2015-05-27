@@ -89,7 +89,7 @@ void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComp
 	if (!mTrigger){
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("AboveGameMode.cpp: Triggered the end"));
 
-		destComp->ApplyRadiusDamage(500, destComp->GetRelativeTransform().GetLocation(), 100, 0, true);
+		destComp->ApplyRadiusDamage(50, destComp->GetRelativeTransform().GetLocation(), 10, 0, true);
 		//Make debries of old battery fall through platform
 		standPlat->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		//Be able to stand there again
