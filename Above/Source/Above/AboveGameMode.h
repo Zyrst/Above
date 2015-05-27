@@ -7,6 +7,7 @@
 #include "AboveGameMode.generated.h"
 
 class AAboveSettings;
+class AStoryBoard;
 
 /**
  * 
@@ -46,12 +47,15 @@ public:
 		void ActivateTreeEmmisive(AActor* puzzle);
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tree)
 		AActor* Tree_BP;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Story)
+		AActor* StoryBoard_BP;
+
 private:
 	TMap<AActor*, bool> CompletedPuzzleArray;
 	TMap<AActor*, bool> StartedPuzzleArray;
 	bool mTrigger;
 
 	ATree* mTree;
+	AStoryBoard* mStory;
 	AAboveSettings* mSettings;
 };

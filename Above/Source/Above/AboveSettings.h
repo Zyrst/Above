@@ -31,5 +31,6 @@ public:
 		AActor* mLastDoor;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = World)
 		AActor* mTree;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = World)
+		AActor* mStoryBoard;
 };

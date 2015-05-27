@@ -12,7 +12,7 @@ Super(objectInit)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
 }
  
 // Called when the game starts or when spawned
@@ -96,7 +96,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 
 	//Cast to Puzzleslab so we can use functions
 	APuzzzleSlab* tmpSlab = Cast<APuzzzleSlab>(slab->ChildActor);
-
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("Index: %d"), tmpSlab->GetIndex()));
 	//Make sure we don't have a null pointer
 	if (tmpSlab != nullptr && !PuzzleCompleted){
 		if (mSteps < 16 && !mWentRightWay){

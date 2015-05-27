@@ -6,6 +6,7 @@
 #include "AboveSettings.h"
 #include "EndDoor.h"
 #include "Tree.h"
+#include "StoryBoard.h"
 
 AAboveGameMode::AAboveGameMode(const class FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer){
@@ -27,6 +28,7 @@ void AAboveGameMode::OnConstruction(const FTransform& transform){
 	mSettings = (AAboveSettings*)GetWorld()->GetWorldSettings();
 	if (mSettings != nullptr){
 		mTree = (ATree*)mSettings->mTree;
+		mStory = (AStoryBoard*)mSettings->mStoryBoard;
 	}
 }
 
@@ -114,4 +116,6 @@ void AAboveGameMode::ActivateTreeEmmisive(AActor* puzzle){
 	else if (name.Contains("Color")){
 		mTree->UpdateTree(2);
 	}
+
+	mStory->UpdateBoard();
 }
