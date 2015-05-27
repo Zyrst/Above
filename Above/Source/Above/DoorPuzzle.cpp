@@ -69,19 +69,18 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector newTriggerPos) {
 		mButtonOrder.Empty();
 		EmptyLines();
 		mDrawLine = false;
+		UnLight();
 	}
 }
 
 // Empty pressed buttons on let go of mouse button
 void ADoorPuzzle::EndHoldButton() {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Dropped trigger"));
-	for (int32 i = 0; i < mButtonOrder.Num(); i++) {
-		UnLightButton(i);
-	}
 	mButtonOrder.Empty();
 	mPointerTarget = nullptr;
 	EmptyLines();
 	mDrawLine = false;
+	UnLight();
 }
 
 void ADoorPuzzle::SetLastTriggerPos(FVector pos) {

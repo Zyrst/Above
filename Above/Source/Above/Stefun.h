@@ -204,5 +204,4 @@ private:
 	float mSoundSpeedValue = 0;
 
 	bool mThirdPerson = false;
-
 };
