@@ -65,11 +65,14 @@ void ADoorPuzzle::InteractWithTrigger(int32 triggerNum, FVector newTriggerPos) {
 			Unlock();
 		}
 
+		else {
+			UnLight();
+		}
+
 		// Empty pressed buttons
 		mButtonOrder.Empty();
 		EmptyLines();
 		mDrawLine = false;
-		UnLight();
 	}
 }
 
