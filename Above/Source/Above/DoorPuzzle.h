@@ -46,6 +46,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
 		void UnLightButton(int32 buttonNum);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = Interaction)
+		void UnLight();
+
 	/** Is called when button is activated, passes how many lights are activated (for use with fmod) */
 	UFUNCTION(BlueprintImplementableEvent, Category = fmod)
 		void SoundEventButtonInteract(int32 nActivatedButtons);
