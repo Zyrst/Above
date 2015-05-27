@@ -34,11 +34,26 @@ void AStairPlatform::BeginPlay() {
 
 	if (MiddleCollisionBox != nullptr)
 		MiddleCollisionBox->OnComponentBeginOverlap.AddDynamic(this, &AStairPlatform::BeginOverlapMiddle);
+	
+	mStefunCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 }
 
 // Called every frame
 void AStairPlatform::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
+
+	if (mMoveDirection != MoveDirection::Idle) {
+		if (MaximumDistance > 0) {
+
+			float dist = FVector::Dist(GetActorLocation(), mStefunCharacter->GetActorLocation());
+			//FVector asd = mStefunCharacter->GetActorLocation();
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Pööp: %f, %f, %f, %f"), dist, asd.X, asd.Y, asd.Z));
+
+			if (dist > MaximumDistance)
+				MoveToIdle();
+		}
+	}
+
 
 	if (!mMove || !MovementSpeedCurve)
 		return;
@@ -94,30 +109,39 @@ void AStairPlatform::MoveToIdle() {
 
 
 void AStairPlatform::BeginOverlapNext(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	AStefun* s = (AStefun*)OtherActor;
+	/*AStefun* s = (AStefun*)OtherActor;
 	if (NextPlatform == nullptr || s == nullptr)
 		return;
 
 	AStairPlatform* tmp = (AStairPlatform*)NextPlatform;
 	if (tmp != nullptr)
-		tmp->MoveToTarget();
+		tmp->MoveToTarget();*/
 }
 
-void AStairPlatform::BeginOverlapPrevious(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	AStefun* s = (AStefun*)OtherActor;
+void AStairPlatform::BeginOverlapPrevious(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	/*AStefun* s = (AStefun*)OtherActor;
 	if (PreviousPlatform == nullptr || s == nullptr	)
 		return;
 
 	AStairPlatform* tmp = (AStairPlatform*)PreviousPlatform;
 	if (tmp != nullptr)
-		tmp->MoveToTarget();
+		tmp->MoveToTarget();*/
 }
 
-void AStairPlatform::BeginOverlapMiddle(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	AStefun* s = (AStefun*)OtherActor;
-	if (s == nullptr)
+void AStairPlatform::BeginOverlapMiddle(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	AStefun* s = Cast<AStefun>(OtherActor);
+	if (!s)
 		return;
-	
+
+	AStairPlatform* tmp1 = (AStairPlatform*)NextPlatform;
+	if (tmp1 != nullptr)
+		tmp1->MoveToTarget();
+
+	AStairPlatform* tmp2 = (AStairPlatform*)PreviousPlatform;
+	if (tmp2 != nullptr)
+		tmp2->MoveToTarget();
+
+	/*
 	if (PreviousPlatform != nullptr) {
 		AStairPlatform* tmp = (AStairPlatform*)PreviousPlatform;
 		if (tmp != nullptr)
@@ -128,5 +152,5 @@ void AStairPlatform::BeginOverlapMiddle(class AActor* OtherActor, class UPrimiti
 		AStairPlatform* tmp = (AStairPlatform*)NextPlatform;
 		if (tmp != nullptr)
 			tmp->MoveToIdle();
-	}
+	}*/
 }

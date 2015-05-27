@@ -74,13 +74,13 @@ public:
 
 
 	UFUNCTION()
-		void BeginOverlapNext(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void BeginOverlapNext(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-		void BeginOverlapPrevious(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void BeginOverlapPrevious(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-		void BeginOverlapMiddle(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void BeginOverlapMiddle(AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "movement")
 		void OnTargetReached();
@@ -96,6 +96,10 @@ public:
 		void OnHeadingForIdle();
 
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "movement")
+		float MaximumDistance;
+
 private:
 	UENUM()
 	enum class MoveDirection : uint8 {
@@ -109,4 +113,6 @@ private:
 	float mMovementTracker = 0;
 
 	FVector mLerpFrom;
+
+	ACharacter* mStefunCharacter = nullptr;
 };
