@@ -30,7 +30,7 @@ void ATree::BeginPlay()
 	}
 
 	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
-	settings->AddPuzzle(this);
+	settings->SetTree(this);
 }
 
 // Called every frame
