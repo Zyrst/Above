@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "Tree.h"
+#include "AboveSettings.h"
 
 
 // Sets default values
@@ -27,6 +28,9 @@ void ATree::BeginPlay()
 	if (mTreeMesh != nullptr){
 		mTreeMatInst = mTreeMesh->CreateAndSetMaterialInstanceDynamic(0);
 	}
+
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	settings->AddPuzzle(this);
 }
 
 // Called every frame

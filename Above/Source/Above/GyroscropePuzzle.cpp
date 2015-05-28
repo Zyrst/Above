@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "GyroscropePuzzle.h"
+#include "AboveSettings.h"
 
 
 // Sets default values
@@ -68,6 +69,9 @@ void AGyroscropePuzzle::BeginPlay() {
 	mInnerCurrentAngle = mInnerTargetAngle = FVector(InnerAngle, 0, 0);
 	mMiddleCurrentAngle = mMiddleTargetAngle = FVector(0, 0, MiddleAngle);
 	mOuterCurrentAngle = mOuterTargetAngle = FVector(0, OuterAngle, 0);
+
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	settings->AddPuzzle(this);
 }
 
 // Called every frame

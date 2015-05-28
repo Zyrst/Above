@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "EndDoor.h"
+#include "AboveSettings.h"
 
 
 // Sets default values
@@ -13,6 +14,9 @@ AEndDoor::AEndDoor() {
 // Called when the game starts or when spawned
 void AEndDoor::BeginPlay() {
 	Super::BeginPlay();
+
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	settings->SetLastDoor(this);
 }
 
 // Called every frame

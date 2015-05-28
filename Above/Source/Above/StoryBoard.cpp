@@ -2,6 +2,7 @@
 
 #include "Above.h"
 #include "StoryBoard.h"
+#include "AboveSettings.h"
 
 
 // Sets default values
@@ -22,12 +23,15 @@ void AStoryBoard::BeginPlay()
 		UStaticMeshComponent* mesh = Components[i];
 		if (mesh->GetName() == "Board"){
 			mBoardMesh = Components[i];
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Found Board Mesh"));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Found Board Mesh"));
 		}
 	}
 
 	if (mBoardMesh != nullptr)
 		mMat = mBoardMesh->CreateAndSetMaterialInstanceDynamic(0);
+
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	settings->AddPuzzle(this);
 }
 
 // Called every frame

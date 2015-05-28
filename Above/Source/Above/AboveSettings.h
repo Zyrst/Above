@@ -33,4 +33,17 @@ public:
 		AActor* mTree;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = World)
 		AActor* mStoryBoard;
+
+
+	UFUNCTION(BlueprintCallable, Category = World)
+		void AddPuzzle(AActor* puzzle);
+
+	UFUNCTION(BlueprintCallable, Category = World)
+		void SetLastDoor(AActor* door);
+
+	UFUNCTION(BlueprintCallable, Category = World)
+		void SetTree(AActor* tree);
+
+	UFUNCTION(BlueprintCallable, Category = World)
+		void SetStoryBoard(AActor* storyBoard);
 };

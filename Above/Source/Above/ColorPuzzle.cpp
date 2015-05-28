@@ -3,6 +3,7 @@
 #include "Above.h"
 #include "ColorPuzzle.h"
 #include "AboveGameMode.h"
+#include "AboveSettings.h"
 
 
 // Sets default values
@@ -326,6 +327,9 @@ void AColorPuzzle::BeginPlay()
 	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(36);
 
 	multiplyColor();
+
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	settings->AddPuzzle(this);
 }
 
 // Called every frame
