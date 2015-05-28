@@ -31,7 +31,7 @@ void AStoryBoard::BeginPlay()
 		mMat = mBoardMesh->CreateAndSetMaterialInstanceDynamic(0);
 
 	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
-	settings->AddPuzzle(this);
+	settings->SetStoryBoard(this);
 }
 
 // Called every frame
