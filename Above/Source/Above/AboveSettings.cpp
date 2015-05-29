@@ -18,5 +18,6 @@ void AAboveSettings::SetTree(AActor* tree) {
 
 void AAboveSettings::SetStoryBoard(AActor* storyBoard){
 	mStoryBoard = storyBoard;
+	
 }
 
