@@ -27,8 +27,13 @@ void AStoryBoard::BeginPlay()
 		}
 	}
 
-	if (mBoardMesh != nullptr)
+	if (mBoardMesh != nullptr){
 		mMat = mBoardMesh->CreateAndSetMaterialInstanceDynamic(0);
+		mMat->SetTextureParameterValue("Texture1", mBlackTex);
+		mMat->SetTextureParameterValue("Texture2", mBlackTex);
+		mMat->SetTextureParameterValue("Texture3", mBlackTex);
+	}
+		
 
 	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
 	settings->SetStoryBoard(this);
@@ -45,7 +50,6 @@ void AStoryBoard::UpdateBoard(){
 
 	if (mBoardMesh == nullptr)
 		return;
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Magenta, FString::Printf(TEXT("Hello %d"), mProgress));
 
 	switch(mProgress){
 		case 0:

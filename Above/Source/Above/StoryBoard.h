@@ -24,6 +24,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Textures)
 		TArray<UTexture2D*> mTexArray;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Textures)
+		UTexture2D* mBlackTex;
 	
 private:
 	UMaterialInstanceDynamic* mMat; 

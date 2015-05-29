@@ -109,13 +109,16 @@ void AAboveGameMode::ActivateTreeEmmisive(AActor* puzzle){
 
 	if (name.Contains("Sound")){
 		mTree->UpdateTree(0);
+		mStory->UpdateBoard();
 	}
 	else if (name.Contains("Gyro")){
 		mTree->UpdateTree(1);
+		mStory->UpdateBoard();
 	}
 	else if (name.Contains("Color")){
 		mTree->UpdateTree(2);
+		mStory->UpdateBoard();
 	}
 
-	mStory->UpdateBoard();
+	
 }
