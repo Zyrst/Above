@@ -39,8 +39,18 @@ void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 	CompletedPuzzleArray[puzzle] = done;
 	ActivateTreeEmmisive(puzzle);
 
+	mPuzzleFinishedNum++;
+	if (mPuzzleFinishedNum >= 3) {
+		AEndDoor* endDoor = (AEndDoor*)mSettings->mLastDoor;
+
+		// Tell end door that puzzles are done
+		if (endDoor != nullptr)
+			endDoor->PuzzlesDone();
+	}
+
+
 	// Try getting reference array
-	if (mSettings != nullptr) {
+	/*if (mSettings != nullptr) {
 		// Check if same number of finieshed puzzles equals max number of puzzles
 		if (CompletedPuzzleArray.Num() >= mSettings->mPuzzles.Num()) {
 			bool everythingDone = true;
@@ -60,7 +70,7 @@ void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 					endDoor->PuzzlesDone();
 			}
 		}
-	}
+	}*/
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("AboveGameMode.cpp: %s completed"), *puzzle->GetName()));
 }

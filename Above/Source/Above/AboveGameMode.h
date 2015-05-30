@@ -58,4 +58,6 @@ private:
 	ATree* mTree;
 	AStoryBoard* mStory;
 	AAboveSettings* mSettings;
+
+	int32 mPuzzleFinishedNum = 0;
 };
