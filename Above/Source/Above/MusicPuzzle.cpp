@@ -46,9 +46,6 @@ void AMusicPuzzle::BeginPlay()
 	for (int32 i = 0; i < mNumberOfDiscs; i++) {
 		mDiscMoveTracker[i] = 0;
 	}
-
-	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
-	settings->AddPuzzle(this);
 }
 
 // Called every frame
