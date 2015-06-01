@@ -14,6 +14,7 @@ void AAboveSettings::SetLastDoor(AActor* door) {
 
 void AAboveSettings::SetTree(AActor* tree) {
 	mTree = tree;
+	UE_LOG(LogTemp, Error, TEXT("Fuk"));
 }
 
 void AAboveSettings::SetStoryBoard(AActor* storyBoard){

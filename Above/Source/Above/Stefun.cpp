@@ -148,7 +148,7 @@ void AStefun::SetupPlayerInputComponent(class UInputComponent* InputComponent){
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AStefun::InteractButtonPressed);
 	InputComponent->BindAction("Interact", IE_Released, this, &AStefun::InteractButtonRelesased);
 	//Be able to unpause
-	InputComponent->BindAction("Pause", IE_Pressed, this, &AStefun::TogglePause).bExecuteWhenPaused = true;
+	//InputComponent->BindAction("Pause", IE_Pressed, this, &AStefun::TogglePause).bExecuteWhenPaused = true;
 
 }
 

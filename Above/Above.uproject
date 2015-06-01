@@ -15,5 +15,8 @@
 			"Name": "VictoryPlugin",
 			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"WindowsNoEditor"
 	]
 }
