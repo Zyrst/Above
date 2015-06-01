@@ -22,6 +22,9 @@ void ASoundPuzzle::BeginPlay()
 	mSteps = 0;
 	mPressedButton = false;
 	mWentRightWay = false;
+
+	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
+	settings->AddPuzzle(this);
 }
 
 // Called every frame

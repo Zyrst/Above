@@ -50,6 +50,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Story)
 		AActor* StoryBoard_BP;
 
+	/** Debug cheats */
+	UFUNCTION(Exec, BlueprintCallable, Category = "Debug")
+		void FinishSound();
+	UFUNCTION(Exec, BlueprintCallable, Category = "Debug")
+		void FinishSpatial();
+	UFUNCTION(Exec, BlueprintCallable, Category = "Debug")
+		void FinishColor();
+
 private:
 	TMap<AActor*, bool> CompletedPuzzleArray;
 	TMap<AActor*, bool> StartedPuzzleArray;

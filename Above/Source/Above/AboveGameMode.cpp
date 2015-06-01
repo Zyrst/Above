@@ -132,3 +132,37 @@ void AAboveGameMode::ActivateTreeEmmisive(AActor* puzzle){
 
 	
 }
+
+void AAboveGameMode::FinishSound() {
+	if (mSettings == nullptr)
+		return;
+
+	for (int32 i = 0; i < mSettings->mPuzzles.Num(); i++) {
+		FString name = mSettings->mPuzzles[i]->GetName();
+		if (mSettings->mPuzzles[i]->GetName().Contains("Sound")) {
+			SetCompleteStatus(mSettings->mPuzzles[i], true);
+		}
+	}
+}
+
+void AAboveGameMode::FinishSpatial() {
+	if (mSettings == nullptr)
+		return;
+
+	for (int32 i = 0; i < mSettings->mPuzzles.Num(); i++) {
+		if (mSettings->mPuzzles[i]->GetName().Contains("Gyro")) {
+			SetCompleteStatus(mSettings->mPuzzles[i], true);
+		}
+	}
+}
+
+void AAboveGameMode::FinishColor() {
+	if (mSettings == nullptr)
+		return;
+
+	for (int32 i = 0; i < mSettings->mPuzzles.Num(); i++) {
+		if (mSettings->mPuzzles[i]->GetName().Contains("Color")) {
+			SetCompleteStatus(mSettings->mPuzzles[i], true);
+		}
+	}
+}
