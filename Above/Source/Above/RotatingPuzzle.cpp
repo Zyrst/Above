@@ -30,17 +30,26 @@ void ARotatingPuzzle::BeginPlay()
 			mDishMesh = Components[i];
 			
 		}
-		
-		// Get indicator mesh
-		if (mesh->GetName() == mIndicatorParentName) {
-			mIndicatorMesh = Components[i];
-			mIndicatorMeshMaterial = mIndicatorMesh->CreateAndSetMaterialInstanceDynamic(0);
-		}
+
 		//Table material 
 		if (mesh->GetName() == "ModelBase"){
 			mDishMeshMaterial = Components[i]->CreateAndSetMaterialInstanceDynamic(0);
 		}
 	}
+
+
+	TArray<USkeletalMeshComponent*> SkeletalComponents;
+	this->GetComponents<USkeletalMeshComponent>(SkeletalComponents);
+	for (int32 i = 0; i < SkeletalComponents.Num(); i++) {
+		USkeletalMeshComponent* mesh = SkeletalComponents[i];
+
+		// Get indicator mesh
+		if (mesh->GetName() == mIndicatorParentName) {
+			mIndicatorMesh = SkeletalComponents[i];
+			mIndicatorMeshMaterial = mIndicatorMesh->CreateAndSetMaterialInstanceDynamic(0);
+		}
+	}
+
 	mBase = (2 * 3.14) * mDishMesh->StaticMesh->GetBounds().SphereRadius;
 	//60 degrees between each number
 	for (int32 i = 0; i < 6; i++){
