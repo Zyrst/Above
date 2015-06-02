@@ -101,7 +101,7 @@ private:
 	int32 mRandom;
 
 	UStaticMeshComponent* mDishMesh;
-	UStaticMeshComponent* mIndicatorMesh;
+	USkeletalMeshComponent* mIndicatorMesh;
 	UMaterialInstanceDynamic* mIndicatorMeshMaterial;
 	UMaterialInstanceDynamic* mDishMeshMaterial;
 	FVector* mStartPos;
