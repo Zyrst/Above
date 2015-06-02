@@ -102,7 +102,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("Index: %d"), tmpSlab->GetIndex()));
 	//Make sure we don't have a null pointer
 	if (tmpSlab != nullptr && !PuzzleCompleted){
-		if (tmpSlab->mStartSlab == true){
+		if (tmpSlab->mStartSlab == true && !mWentRightWay){
 			mAllSteps = false;
 		}
 			
