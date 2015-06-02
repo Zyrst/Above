@@ -109,6 +109,7 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 		if (mAllSteps && !mWentRightWay){
 			SoundEventBack();
 		}
+
 		if (!mAllSteps && !mWentRightWay){
 			//Make sure we start from the begining of the puzzle
 			
