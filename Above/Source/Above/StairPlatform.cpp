@@ -41,10 +41,12 @@ void AStairPlatform::BeginPlay() {
 // Called every frame
 void AStairPlatform::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
+	if (mStefunCharacter == nullptr)
+		return;
 
 	if (mMoveDirection != MoveDirection::Idle) {
 		if (MaximumDistance > 0) {
-
+			
 			float dist = FVector::Dist(GetActorLocation(), mStefunCharacter->GetActorLocation());
 			//FVector asd = mStefunCharacter->GetActorLocation();
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("Pööp: %f, %f, %f, %f"), dist, asd.X, asd.Y, asd.Z));

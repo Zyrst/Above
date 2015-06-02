@@ -112,22 +112,20 @@ void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComp
 }
 
 void AAboveGameMode::ActivateTreeEmmisive(AActor* puzzle){
-	if (mTree == nullptr)
-		return;
 	
 	FString name= puzzle->GetName();
 
 	if (name.Contains("Sound")){
-		mTree->UpdateTree(0);
-		mStory->UpdateBoard();
+		((ATree*)mSettings->mTree)->UpdateTree(0);
+		((AStoryBoard*)mSettings->mStoryBoard)->UpdateBoard();
 	}
 	else if (name.Contains("Gyro")){
-		mTree->UpdateTree(1);
-		mStory->UpdateBoard();
+		((ATree*)mSettings->mTree)->UpdateTree(1);
+		((AStoryBoard*)mSettings->mStoryBoard)->UpdateBoard();
 	}
 	else if (name.Contains("Color")){
-		mTree->UpdateTree(2);
-		mStory->UpdateBoard();
+		((ATree*)mSettings->mTree)->UpdateTree(2);
+		((AStoryBoard*)mSettings->mStoryBoard)->UpdateBoard();
 	}
 
 	

@@ -41,7 +41,7 @@ void ATree::Tick( float DeltaTime )
 }
 
 void ATree::UpdateTree(int32 value){
-	UE_LOG(LogTemp, Log, TEXT("Value Tree: %d"), value);
+
 	switch (value){
 	case 0:
 		mTreeMatInst->SetTextureParameterValue("Emissive_0", EmissiveTex[value]);

@@ -102,8 +102,17 @@ void ASoundPuzzle::Activate(int32 index, UChildActorComponent* slab){
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("Index: %d"), tmpSlab->GetIndex()));
 	//Make sure we don't have a null pointer
 	if (tmpSlab != nullptr && !PuzzleCompleted){
-		if (mSteps < 16 && !mWentRightWay){
+		if (tmpSlab->mStartSlab == true){
+			mAllSteps = false;
+		}
+			
+		if (mAllSteps && !mWentRightWay){
+			SoundEventBack();
+		}
+
+		if (!mAllSteps && !mWentRightWay){
 			//Make sure we start from the begining of the puzzle
+			
 			if (mSteps == 0 && tmpSlab->mStartSlab){
 				Reset();
 				mSteps++;
