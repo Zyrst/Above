@@ -4,8 +4,8 @@
 #include "DefaultHUD.h"
 
 
-ADefaultHUD::ADefaultHUD(const class FPostConstructInitializeProperties& PCIP):
-Super(PCIP){
+ADefaultHUD::ADefaultHUD(const class FObjectInitializer& FOB):
+Super(FOB){
 	
 }
 

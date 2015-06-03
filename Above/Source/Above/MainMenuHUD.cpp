@@ -4,8 +4,8 @@
 #include "MainMenuHUD.h"
 
 
-AMainMenuHUD::AMainMenuHUD(const class FPostConstructInitializeProperties& PCIP) :
-Super(PCIP){
+AMainMenuHUD::AMainMenuHUD(const class FObjectInitializer& FOB) :
+Super(FOB){
 
 }
 

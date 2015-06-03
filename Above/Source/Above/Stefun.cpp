@@ -91,6 +91,7 @@ GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 	}
 	if (currentSpeed < 50 && currentSpeed > 0 && mMoving)
 		SoundEventEndMove();
+
 	if (currentSpeed == 0 && mMoving) {
 		mMoving = false;
 		
@@ -113,8 +114,8 @@ GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 
 	// Calculate wind level
 	if (mWindLevels.Num() > 0) {
-		int windA = FMath::FloorToFloat(mWindBaseValue);
-		int windB = FMath::CeilToFloat(mWindBaseValue + 0.5f);
+		int32 windA = FMath::FloorToFloat(mWindBaseValue);
+		int32 windB = FMath::CeilToFloat(mWindBaseValue + 0.5f);
 
 		if (windB > mWindLevels.Num() - 1) {
 			windB = mWindLevels.Num() - 1;
