@@ -93,3 +93,7 @@ void AMusicPuzzle::Activate() {
 		PlayShortMusic(mDiscIndexArray);
 	}
 }
+
+bool AMusicPuzzle::GetIsRotatingDiscs(int32 index) {
+	return mDiscTargetAngle[index] != mDiscCurrentAngle[index];
+}

@@ -60,5 +60,8 @@ public:
 	TArray<FVector> mDiscTargetAngle;
 	TArray<FVector> mDiscCurrentAngle;
 	TArray<float> mDiscMoveTracker;
+
+	UFUNCTION(BlueprintCallable, Category = Animation)
+	bool GetIsRotatingDiscs(int32 index);
 	
 };
