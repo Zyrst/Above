@@ -57,7 +57,7 @@ void AStefun::BeginPlay()
 
 // Called every frame
 void AStefun::Tick( float DeltaTime ){
-	Super::Tick( DeltaTime );
+	
 	
 GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 	HoverOverObject();
@@ -81,7 +81,7 @@ GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 	}
 
 
-	if (currentSpeed > 0) {
+	if (currentSpeed > 50) {
 		if (mMoving == false) {
 			SoundEventBeginMove();
 			mMoving = true;
@@ -89,7 +89,9 @@ GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 		
 		SoundEventMove();
 	}
-	else if (currentSpeed == 0 && mMoving) {
+	if (currentSpeed < 50 && currentSpeed > 0 && mMoving)
+		SoundEventEndMove();
+	if (currentSpeed == 0 && mMoving) {
 		mMoving = false;
 		
 		SoundEventEndMove();
@@ -129,6 +131,8 @@ GetCharacterMovement()->ApplyAccumulatedForces(DeltaTime);
 		else if (GetTransform().GetLocation().Z > mWindLevels[windB] && mWindBaseValue < mWindLevels.Num() - 2)
 			mWindBaseValue++;
 	}
+
+	Super::Tick(DeltaTime);
 }
 
 
