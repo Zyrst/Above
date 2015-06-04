@@ -433,7 +433,9 @@ void AStefun::InteractButtonRelesased() {
 void AStefun::TogglePause(){
 	
 	if (mIsPaused == false){
-		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		//UGameplayStatics::SetGamePaused(GetWorld(), true);
+		mController->SetIgnoreLookInput(true);
+		mController->SetIgnoreMoveInput(true);
 		mController->bShowMouseCursor = true;
 		//Make sure we have a widget
 		if (mPauseWidget != nullptr)
@@ -442,7 +444,9 @@ void AStefun::TogglePause(){
 		mIsPaused = true;
 	}
 	else if (mIsPaused == true){
-		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		//UGameplayStatics::SetGamePaused(GetWorld(), false);
+		mController->SetIgnoreLookInput(false);
+		mController->SetIgnoreMoveInput(false);
 		mController->bShowMouseCursor = false;
 		if (mPauseWidget != nullptr)
 			mPauseWidget->RemoveFromViewport();
