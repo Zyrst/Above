@@ -162,8 +162,6 @@ void ALamp::ActivateFirst() {
 
 	// Puzzle is done
 	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
-	if (mode != nullptr)
-		mode->SetCompleteStatus(this, true);
 }
 
 // Release fireflies

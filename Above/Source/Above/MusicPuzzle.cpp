@@ -85,8 +85,6 @@ void AMusicPuzzle::Activate() {
 
 		// Döne
 		AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
-		if (mode != nullptr)
-			mode->SetCompleteStatus(this, true);
 	}
 
 	else {

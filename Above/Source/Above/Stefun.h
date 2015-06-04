@@ -127,6 +127,15 @@ public:
 	/** Called when movement stops */
 	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
 		void SoundEventEndMove();
+	/** Called when jump button is pressed */
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventJump();
+	/**Zoom sound*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventZoom();
+	/**UnZoom sound*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "fmod")
+		void SoundEventUnZoom();
 
 	/** Returns move speed */
 	UFUNCTION(BlueprintCallable, Category = "fmod")

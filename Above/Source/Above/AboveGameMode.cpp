@@ -34,12 +34,14 @@ void AAboveGameMode::OnConstruction(const FTransform& transform){
 
 void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 	
-	if (!CompletedPuzzleArray.Find(puzzle))
+	if (!CompletedPuzzleArray.Find(puzzle)) {
 		CompletedPuzzleArray.Add(puzzle);
+		mPuzzleFinishedNum++;
+	}
 	CompletedPuzzleArray[puzzle] = done;
 	ActivateTreeEmmisive(puzzle);
 
-	mPuzzleFinishedNum++;
+	
 	if (mPuzzleFinishedNum >= 3) {
 		AEndDoor* endDoor = (AEndDoor*)mSettings->mLastDoor;
 
