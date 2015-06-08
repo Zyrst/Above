@@ -438,7 +438,9 @@ void AStefun::TogglePause(){
 		mController->SetIgnoreMoveInput(true);
 		mController->bShowMouseCursor = true;
 		//Make sure we have a widget
-		if (mPauseWidget != nullptr)
+		
+		//if (mPauseWidget != nullptr)
+		if (mPauseWidget->IsValidLowLevel())
 			mPauseWidget->AddToViewport();
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
 		mIsPaused = true;
@@ -448,7 +450,8 @@ void AStefun::TogglePause(){
 		mController->SetIgnoreLookInput(false);
 		mController->SetIgnoreMoveInput(false);
 		mController->bShowMouseCursor = false;
-		if (mPauseWidget != nullptr)
+		//if (mPauseWidget != nullptr)
+		if (mPauseWidget->IsValidLowLevel())
 			mPauseWidget->RemoveFromViewport();
 		mIsPaused = false;
 	}
