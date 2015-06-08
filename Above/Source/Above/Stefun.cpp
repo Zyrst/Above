@@ -295,6 +295,7 @@ void AStefun::MoveRight(float val){
 
 void AStefun::OnStartJump(){
 	if (GetCharacterMovement()->IsMovingOnGround()){ 
+		SoundEventJump();
 		bPressedJump = true; 
 	}	
 }
@@ -304,10 +305,12 @@ void AStefun::OnStopJump(){
 }
 
 void AStefun::SetZoom(){
+	SoundEventZoom();
 	mFaceCam->FieldOfView = ZoomFoV;
 }
 
 void AStefun::UnSetZoom(){
+	SoundEventUnZoom();
 	mFaceCam->FieldOfView = StandardFoV;
 }
 
@@ -442,6 +445,10 @@ void AStefun::TogglePause(){
 		//if (mPauseWidget != nullptr)
 		if (mPauseWidget->IsValidLowLevel())
 			mPauseWidget->AddToViewport();
+		else{
+			mPauseWidget = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
+			mPauseWidget->AddToViewport();
+		}
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Paused!"));		
 		mIsPaused = true;
 	}
@@ -453,6 +460,10 @@ void AStefun::TogglePause(){
 		//if (mPauseWidget != nullptr)
 		if (mPauseWidget->IsValidLowLevel())
 			mPauseWidget->RemoveFromViewport();
+		else{
+			mPauseWidget = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
+			mPauseWidget->RemoveFromViewport();
+		}
 		mIsPaused = false;
 	}
 }
