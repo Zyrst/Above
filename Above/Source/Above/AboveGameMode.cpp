@@ -101,8 +101,6 @@ bool AAboveGameMode::GetStartedStatus(AActor* puzzle) {
 void AAboveGameMode::EndTrigger(UDestructibleComponent* destComp, UPrimitiveComponent* standPlat){
 	//Make sure we have pressed button first
 	if (!mTrigger){
-		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("AboveGameMode.cpp: Triggered the end"));
-
 		destComp->ApplyRadiusDamage(10, destComp->GetRelativeTransform().GetLocation(), 5, 0, true);
 		//Make debries of old battery fall through platform
 		standPlat->SetCollisionEnabled(ECollisionEnabled::NoCollision);
