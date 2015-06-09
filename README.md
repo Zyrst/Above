@@ -16,14 +16,14 @@ Kodstandard
 			
 		}
 		
-		void Player* die(const string & name){
+		void Player::Die(const string & name){
 			if(något)
 			  gör något;
-			  else{
+			else{
 			  	//Kommentar som beskriver om det behövs i koden
 			  	gör något annat;
 			  	som påverkar saker;
-			  }
+			}
 		}
 		
 		//Indenta ufunction, uproperty etc.
