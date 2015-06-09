@@ -160,8 +160,6 @@ void ALamp::ActivateFirst() {
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
 
-	// Puzzle is done
-	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
 }
 
 // Release fireflies
@@ -184,11 +182,6 @@ void ALamp::ActivateSecond() {
 
 	// Apply after calling events
 	mPressedBefore = true;
-
-	// Puzzle is done
-	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
-	if (mode != nullptr)
-		mode->SetCompleteStatus(this, true);
 }
 
 
