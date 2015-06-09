@@ -2,17 +2,17 @@
 Kodstandard 
 
 	class Player {
+		//Medlemsvariabler, med bra namnval
+		int mMember; 
+		
 		//Kod i header fil med en beskrivning av funktionen
 		void OnCollision(int member){
 		
-			//Medlemsvariabler, med bra namnval
-			int mMember; 
-			
-			//Lokala
+			//Lokala variabler
 			int tempVar; 
 			
 			//Kommentarer ovanför kodsnuttar
-			player->die()
+			player->Die()
 			
 		}
 		
