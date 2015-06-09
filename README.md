@@ -2,28 +2,28 @@
 Kodstandard 
 
 	class Player {
+		//Medlemsvariabler, med bra namnval
+		int mMember; 
+		
 		//Kod i header fil med en beskrivning av funktionen
 		void OnCollision(int member){
 		
-			//Medlemsvariabler, med bra namnval
-			int mMember; 
-			
-			//Lokala
+			//Lokala variabler
 			int tempVar; 
 			
 			//Kommentarer ovanför kodsnuttar
-			player->die()
+			player->Die()
 			
 		}
 		
-		void Player* die(const string & name){
+		void Player::Die(const string & name){
 			if(något)
 			  gör något;
-			  else{
+			else{
 			  	//Kommentar som beskriver om det behövs i koden
 			  	gör något annat;
 			  	som påverkar saker;
-			  }
+			}
 		}
 		
 		//Indenta ufunction, uproperty etc.
