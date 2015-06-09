@@ -160,8 +160,6 @@ void ALamp::ActivateFirst() {
 	SoundEventButtonPress();
 	SoundEventIntensityChange();
 
-	// Puzzle is done
-	AAboveGameMode* mode = (AAboveGameMode*)GetWorld()->GetAuthGameMode();
 }
 
 // Release fireflies
