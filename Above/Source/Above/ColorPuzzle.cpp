@@ -17,12 +17,15 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	mMatrixEdgeSize = Int32Vector2(6, 6);
 	mMaxSlideOffset = Int32Vector2(2, 2);
 
+	// Slide movement speed
 	mMovementSpeed = 1.f;
 
+	// Root
 	mRoot = ObjectInitializer.CreateDefaultSubobject<USceneComponent>(this, TEXT("Root"));
 	mRoot->SetMobility(EComponentMobility::Static);
 	RootComponent = mRoot;
 
+	// Connect slides to separate roots
 	mSlide0 = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("Slide 0"));
 	mSlide0->AttachParent = mRoot;
 	mSlide1 = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("Slide 1"));
@@ -48,6 +51,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	mSlide11 = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("Slide 11"));
 	mSlide11->AttachParent = mRoot;
 	
+	// Add slide root to array
 	mSlideRootArray.Add(mSlide0);
 	mSlideRootArray.Add(mSlide1);
 	mSlideRootArray.Add(mSlide2);
@@ -69,6 +73,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	FLinearColor tmpColorPurple = FLinearColor(1, 0, 1);
 	FLinearColor tmpColorGreen = FLinearColor(0, 1, 0);
 
+	// Add colors to array
 	mColorValueReference.Add(20, tmpColorRed);
 	mColorValueReference.Add(400, tmpColorRed);
 	mColorValueReference.Add(30, tmpColorYellow);
@@ -93,17 +98,15 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 		for (int32 y = 0; y < mMatrixSize.y; y++)
 			mIndexMap.Add(ConvertDoubleIndexToSingle(Int32Vector2(x, y), mMatrixSize.x), Int32Vector2(x, y));
 
+	// Number of slides
 	mNumberOfSlides = mBoardSize.x + mBoardSize.y;
 
-	mSlideOffset.Init(mNumberOfSlides);
-
 	// Initiate slide offset
-	for (int32 i = 0; i <mNumberOfSlides; i++) {
+	mSlideOffset.Init(mNumberOfSlides);
+	for (int32 i = 0; i <mNumberOfSlides; i++)
 		mSlideOffset[i] = 0;
-	}
 
 	// Fill matrix
-	//RÖD
 	*GetMatrixValue(Int32Vector2(6, 14)) = Int32Vector3(20, 20, 0);
 	*GetMatrixValue(Int32Vector2(7, 14)) = Int32Vector3(40, 40, 0);
 	*GetMatrixValue(Int32Vector2(8, 14)) = Int32Vector3(20, 20, 0);
@@ -224,7 +227,7 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	*GetMatrixValue(Int32Vector2(10, 3)) = Int32Vector3(20, 20, 0);
 	*GetMatrixValue(Int32Vector2(11, 3)) = Int32Vector3(40, 40, 0);
 
-	// Fill reference board
+	// Fill reference matrix
 	mReferenceBoard.Init(mBoardSlots);
 	for (int32 i = 0; i < mReferenceBoard.Num(); i++) {
 		mReferenceBoard[i] = 0;
@@ -275,8 +278,6 @@ AColorPuzzle::AColorPuzzle(const FObjectInitializer& ObjectInitializer)
 	// Initiate materials
 	mMaterialMatrix.Init(mBoardSlots);
 
-	moveBuffer = 0;
-
 	// Initiate slide movement array
 	mSlidePositionArray.Init(mNumberOfSlides);
 	for (int32 i = 0; i < mSlidePositionArray.Num(); i++) {
@@ -289,6 +290,7 @@ void AColorPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Create instance materials for alla slots
 	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(1);
 	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(3, 2), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(2);
 	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 3), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(3);
@@ -326,8 +328,11 @@ void AColorPuzzle::BeginPlay()
 	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(4, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(35);
 	mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(1, 0), mBoardSize.x)] = mTableMesh->CreateAndSetMaterialInstanceDynamic(36);
 
+	// Update colors
 	multiplyColor();
 
+
+	// Add puzzle to world
 	AAboveSettings* settings = (AAboveSettings*)GetWorld()->GetWorldSettings();
 	settings->AddPuzzle(this);
 }
@@ -337,13 +342,10 @@ void AColorPuzzle::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	//GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Magenta, FString::Printf(TEXT("%f"), DeltaTime));
-
+	// Move slides if start and destination differ
 	for (int32 i = 0; i < mSlidePositionArray.Num(); i++) {
 		if (mSlidePositionArray[i].x != mSlidePositionArray[i].z) {
 			FVector delta;
-
-			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Magenta, FString::Printf(TEXT("Arse")));
 
 			mSlidePositionArray[i].y.X += mMovementSpeed * DeltaTime;
 			mSlidePositionArray[i].y.Y += mMovementSpeed * DeltaTime;
@@ -373,6 +375,7 @@ void AColorPuzzle::Tick( float DeltaTime )
 	}
 
 
+	// Lerp colors
 	if (!mLerp)
 		return;
 
@@ -399,7 +402,6 @@ void AColorPuzzle::Tick( float DeltaTime )
 				mMaterialMatrix[ConvertDoubleIndexToSingle(Int32Vector2(x, y), mBoardSize.x)]->SetScalarParameterValue("ColorBlend", 0);
 			}
 		}
-
 	}
 }
 
@@ -436,24 +438,6 @@ void AColorPuzzle::SetReferenceBoardValue(int32 indexX, int32 indexY, int32 valu
 	*GetReferenceBoardValue(Int32Vector2(indexX, indexY)) = value;
 }
 
-UMaterialInterface* AColorPuzzle::GetMaterialPointer(Int32Vector2 index) {
-	int32 realIndex = ConvertDoubleIndexToSingle(index, mBoardSize.x);
-
-	if (realIndex >= 0 && realIndex < mMaterialMatrix.Num()) {
-		return mMaterialMatrix[realIndex];
-	}
-
-	else {
-		return nullptr;
-	}
-}
-
-void AColorPuzzle::Int32Flip(int32* x, int32* y) {
-	moveBuffer = *x;
-	*x = *y;
-	*x = moveBuffer;
-}
-
 void AColorPuzzle::multiplyColor() {
 	for (int32 x = 0; x < mMatrixSize.x; x++) {
 		for (int32 y = 0; y < mMatrixSize.y; y++) {
@@ -471,9 +455,6 @@ void AColorPuzzle::multiplyColor() {
 
 	mLerp = true;
 	mLerpTime = 0;
-
-	//GEngine->ClearOnScreenDebugMessages();
-	//PrintMatrix(Int32Vector2(6, 3), Int32Vector2(6, 14));
 }
 
 void AColorPuzzle::CheckCombination() {
@@ -487,8 +468,6 @@ void AColorPuzzle::CheckCombination() {
 }
 
 void AColorPuzzle::ActivateSlide(int32 slideNum, bool movePositiveDirection) {
-	//GEngine->AddOnScreenDebugMessage(-1, 60.f, FColor::Red, FString::Printf(TEXT("%d"), movePositiveDirection));
-
 	if (slideNum >= 0 && slideNum <= mNumberOfSlides) {
 		if (mSlidePositionArray[slideNum].x == mSlidePositionArray[slideNum].z) {
 			ShiftSlide(slideNum, movePositiveDirection);
