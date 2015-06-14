@@ -34,11 +34,11 @@ public:
 		UCurveFloat* mMovementCurve;
 
 	/** Color curve */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Color)
 		UCurveFloat* mColorCurve;
 
 	/** Color curve */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Color)
 		float mBlendSpeed = 0.5f;
 
 	/** When slide starts to move */
