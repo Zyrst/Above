@@ -95,26 +95,26 @@ void AGyroscropePuzzle::RegularUpdate(float DeltaTime) {
 		mShouldRotateAnything = false;
 
 		if (mInnerCurrentAngle.X >= 360) {
-			mInnerCurrentAngle.X = 0;
-			mInnerTargetAngle.X = 0;
+			mInnerCurrentAngle.X -= 360;
+			mInnerTargetAngle.X -= 360;
 			FRotator rot = FRotator::ZeroRotator;
-			rot.Add(mInnerMovementBuffer, 0, 0);
+			rot.Add(mInnerTargetAngle.X, 0, 0);
 			mInnerSphere->SetRelativeRotation(rot);
 		}
 		
 		if (mMiddleCurrentAngle.Z >= 360) {
-			mMiddleCurrentAngle.Z = 0;
-			mMiddleTargetAngle.Z = 0;
+			mMiddleCurrentAngle.Z -= 360;
+			mMiddleTargetAngle.Z -= 360;
 			FRotator rot = FRotator::ZeroRotator;
-			rot.Add(0, 0, mMiddleMovementBuffer);
+			rot.Add(0, 0, mMiddleTargetAngle.Z);
 			mMiddleSphere->SetRelativeRotation(rot);
 		}
 
 		if (mOuterCurrentAngle.Y >= 360) {
-			mOuterCurrentAngle.Y = 0;
-			mOuterTargetAngle.Y = 0;
+			mOuterCurrentAngle.Y -= 360;
+			mOuterTargetAngle.Y -= 360;
 			FRotator rot = FRotator::ZeroRotator;
-			rot.Add(0, mOuterMovementBuffer, 0);
+			rot.Add(0, mOuterTargetAngle.Y, 0);
 			mOuterSphere->SetRelativeRotation(rot);
 		}
 
@@ -217,7 +217,7 @@ void AGyroscropePuzzle::AddOuterRotation() {
 		return;
 	
 	mOuterMovementBuffer += mMoveAmount;
-	if (mOuterMovementBuffer >= 360)
+	while (mOuterMovementBuffer >= 360)
 		mOuterMovementBuffer -= 360;
 }
 void AGyroscropePuzzle::AddMiddleRotation() {
@@ -225,7 +225,7 @@ void AGyroscropePuzzle::AddMiddleRotation() {
 		return;
 
 	mMiddleMovementBuffer += mMoveAmount;
-	if (mMiddleMovementBuffer >= 360)
+	while (mMiddleMovementBuffer >= 360)
 		mMiddleMovementBuffer -= 360;
 }
 void AGyroscropePuzzle::AddInnerRotation() {
@@ -233,7 +233,7 @@ void AGyroscropePuzzle::AddInnerRotation() {
 		return;
 
 	mInnerMovementBuffer += mMoveAmount;
-	if (mInnerMovementBuffer >= 360)
+	while (mInnerMovementBuffer >= 360)
 		mInnerMovementBuffer -= 360;
 }
 
