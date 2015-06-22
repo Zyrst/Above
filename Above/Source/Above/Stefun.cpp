@@ -436,7 +436,7 @@ void AStefun::InteractButtonRelesased() {
 void AStefun::TogglePause(){
 	
 	if (mIsPaused == false){
-		//UGameplayStatics::SetGamePaused(GetWorld(), true);
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
 		mController->SetIgnoreLookInput(true);
 		mController->SetIgnoreMoveInput(true);
 		mController->bShowMouseCursor = true;
