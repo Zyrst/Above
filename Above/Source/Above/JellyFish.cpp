@@ -58,7 +58,7 @@ void AJellyFish::Move(float deltaTime)
 	if (centerDistanceFloat > mMaxCenterDistance)
 		OutOfBounds();
 
-	this->AddActorWorldOffset(mDelta * deltaTime, true);
+	this->AddActorWorldOffset(mDelta * deltaTime);
 }
 
 void AJellyFish::RayTrace()
@@ -73,7 +73,6 @@ void AJellyFish::RayTrace()
 	// Trace
 	GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
 
-
 	if (traceHitResult.bBlockingHit == true)
 	{
 		ChangeTarget();
@@ -82,8 +81,27 @@ void AJellyFish::RayTrace()
 
 void AJellyFish::ChangeTarget()
 {
+	FVector oldTarget = mTargetLocation;
 	mTargetLocation += FVector(FMath::FRandRange(-mRandomDistance, mRandomDistance), FMath::FRandRange(-mRandomDistance, mRandomDistance), FMath::FRandRange(-mRandomDistance, mRandomDistance));
+
+	FVector traceStart = this->GetActorLocation();
+	FVector traceEnd = traceStart + (mTargetRotation * mTraceDistance);
+
+	FHitResult traceHitResult;
+	ECollisionChannel collisionChannel = ECC_Pawn;
+	FCollisionQueryParams traceParamaters(FName(TEXT("InteractionTrace")), true, this);
+
+	// Trace
+	GetWorld()->LineTraceSingle(traceHitResult, traceStart, traceEnd, collisionChannel, traceParamaters);
+
 	mDelta = mTargetLocation - this->GetActorLocation();
+
+	if (traceHitResult.bBlockingHit == true) {
+		mTargetLocation = this->GetActorLocation() - mDelta;
+	}
+
+	mDelta = mTargetLocation - this->GetActorLocation();
+
 	mDelta.Normalize();
 	mTargetRotation = mDelta;
 	mDelta = mDelta * mMovementSpeed;
