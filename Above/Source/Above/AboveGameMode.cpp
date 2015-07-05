@@ -38,10 +38,8 @@ void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
 	if (!CompletedPuzzleArray.Find(puzzle)) {
 		CompletedPuzzleArray.Add(puzzle);
 		mPuzzleFinishedNum++;
-		return;
+		ActivateTreeEmmisive(puzzle);
 	}
-	ActivateTreeEmmisive(puzzle);
-
 	
 	if (mPuzzleFinishedNum >= 3) {
 		AEndDoor* endDoor = (AEndDoor*)mSettings->mLastDoor;
