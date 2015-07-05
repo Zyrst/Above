@@ -33,12 +33,13 @@ void AAboveGameMode::OnConstruction(const FTransform& transform){
 }
 
 void AAboveGameMode::SetCompleteStatus(AActor* puzzle, bool done) {
+	CompletedPuzzleArray[puzzle] = done;
 	
 	if (!CompletedPuzzleArray.Find(puzzle)) {
 		CompletedPuzzleArray.Add(puzzle);
 		mPuzzleFinishedNum++;
+		return;
 	}
-	CompletedPuzzleArray[puzzle] = done;
 	ActivateTreeEmmisive(puzzle);
 
 	
